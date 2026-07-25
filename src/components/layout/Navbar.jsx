@@ -44,9 +44,9 @@ export default function Navbar() {
       <nav className="glass-surface rounded-full px-2.5 sm:px-6 py-2 flex items-center justify-between shadow-sm min-h-[50px] sm:min-h-[60px] overflow-hidden">
         {/* Brand Logo */}
         <NavLink to="/" className="flex items-center gap-1.5 sm:gap-2.5 font-bold tracking-tight text-current hover:opacity-80 transition-opacity flex-shrink-0">
-          <img src="/assets/logo.png" alt="Bunnies Universe Logo" className="w-6 h-6 sm:w-8 sm:h-8 object-contain rounded-md shadow-xs flex-shrink-0" />
+          <img src="/assets/logo.png" alt="Bunnies World Logo" className="w-6 h-6 sm:w-8 sm:h-8 object-contain rounded-md shadow-xs flex-shrink-0" />
           <span className="font-extrabold text-[11px] xs:text-xs sm:text-base tracking-normal sm:tracking-wider uppercase whitespace-nowrap">
-            BUNNIES UNIVERSE
+            BUNNIES WORLD
           </span>
         </NavLink>
 

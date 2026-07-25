@@ -17,15 +17,15 @@ export default function Footer() {
     <footer className="mt-auto border-t border-black/10 dark:border-white/10 glass-surface rounded-none border-x-0 border-b-0 py-8 text-xs text-gray-600 dark:text-gray-400 z-10 relative pb-24 sm:pb-8">
       <div className="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
         <div className="flex items-center gap-2.5">
-          <img src="/assets/logo.png" alt="Bunnies Universe Logo" className="w-6 h-6 object-contain rounded-md" />
+          <img src="/assets/logo.png" alt="Bunnies World Logo" className="w-6 h-6 object-contain rounded-md" />
           <span className="font-bold text-gray-900 dark:text-white tracking-wider text-sm uppercase">
-            BUNNIES UNIVERSE
+            BUNNIES WORLD
           </span>
         </div>
 
 
         <p className="text-gray-500 dark:text-gray-400 text-center">
-          © 2026 BUNNIES UNIVERSE — Interactive Fan Portal
+          © 2026 BUNNIES WORLD — Interactive Fan Portal
         </p>
 
         {/* Social Links */}

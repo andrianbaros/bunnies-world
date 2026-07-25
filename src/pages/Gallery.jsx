@@ -207,7 +207,7 @@ export default function Gallery() {
                     <span className="text-xs text-gray-500 font-semibold">{selectedImage.date}</span>
                   </div>
                   <div className="text-right">
-                    <span className="text-[10px] font-bold text-gray-400 tracking-widest block uppercase">BUNNIES UNIVERSE</span>
+                    <span className="text-[10px] font-bold text-gray-400 tracking-widest block uppercase">BUNNIES WORLD</span>
                   </div>
                 </div>
               </div>

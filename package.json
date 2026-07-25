@@ -1,7 +1,7 @@
 {
-  "name": "bunnies-universe",
+  "name": "bunnies-world",
   "version": "1.0.0",
-  "description": "BUNNIES UNIVERSE - Premium Interactive Fan Portal for NewJeans",
+  "description": "BUNNIES WORLD - Premium Interactive Fan Portal for NewJeans",
   "type": "module",
   "main": "index.html",
   "scripts": {

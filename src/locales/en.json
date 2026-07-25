@@ -14,7 +14,7 @@
   "nav_more": "MORE",
 
   "hero_tag": "OFFICIAL BUNNIES FAN UNIVERSE",
-  "hero_title": "BUNNIES UNIVERSE",
+  "hero_title": "BUNNIES WORLD",
   "hero_subtitle": "The Official Interactive World for NewJeans & Bunnies",
   "btn_explore": "Explore Universe",
   "btn_calc_affinity": "Calculate Bunny Affinity",
@@ -53,7 +53,7 @@
 
   "news_tag": "OFFICIAL PRESS & ANNOUNCEMENTS",
   "news_title": "LATEST NEWS",
-  "news_sub": "Stay updated with official awards, comeback news, and Bunnies Universe updates.",
+  "news_sub": "Stay updated with official awards, comeback news, and Bunnies World updates.",
   "news_search_ph": "Search news...",
 
   "search_tag": "REALTIME DISCOVERY",
@@ -95,7 +95,7 @@
   "affinity_sub": "Calculate your mathematical attraction force using physics equations",
 
   "settings_title": "SETTINGS",
-  "settings_sub": "Customize your Bunnies Universe experience",
+  "settings_sub": "Customize your Bunnies World experience",
   "theme_mode": "Theme Mode",
   "theme_dark": "Dark",
   "theme_light": "Light",
@@ -127,5 +127,5 @@
   "member_nationality": "Nationality",
   "member_fav_songs": "Favorite Songs",
 
-  "footer_text": "© 2026 BUNNIES UNIVERSE - Designed with Love for NewJeans"
+  "footer_text": "© 2026 BUNNIES WORLD - Designed with Love for NewJeans"
 }

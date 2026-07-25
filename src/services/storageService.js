@@ -1,4 +1,4 @@
-const STORAGE_PREFIX = 'bunnies_universe_';
+const STORAGE_PREFIX = 'bunnies_world_';
 const CURRENT_SCHEMA_VERSION = 1;
 
 const DEFAULT_SETTINGS = {
@@ -42,7 +42,7 @@ const DEFAULT_SETTINGS = {
       id: 'post-1',
       author: 'BunniesLeader',
       avatar: '🐰',
-      content: 'Welcome to BUNNIES UNIVERSE! Super Shy is on repeat forever ✨',
+      content: 'Welcome to BUNNIES WORLD! Super Shy is on repeat forever ✨',
       date: '2026-07-25',
       likes: 42
     },

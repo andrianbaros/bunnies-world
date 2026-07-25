@@ -32,7 +32,7 @@ export default function LoadingScreen({ onFinish }) {
           <div className="flex items-center gap-3">
             <img src="/assets/logo.png" alt="Logo" className="w-10 h-10 object-contain" />
             <h1 className="text-xl font-black uppercase tracking-widest text-white">
-              BUNNIES UNIVERSE
+              BUNNIES WORLD
             </h1>
           </div>
 

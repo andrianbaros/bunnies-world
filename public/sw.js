@@ -1,4 +1,4 @@
-const CACHE_NAME = 'bunnies-universe-v1';
+const CACHE_NAME = 'bunnies-world-v1';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',

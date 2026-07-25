@@ -70,10 +70,10 @@ export default function About() {
         </p>
       </div>
 
-      {/* 2. About Bunnies Universe Web Portal with Official Logo */}
+      {/* 2. About Bunnies World Web Portal with Official Logo */}
       <section className="glass-surface p-6 sm:p-8 rounded-2xl border flex flex-col md:flex-row items-center gap-6">
         <div className="w-24 h-24 sm:w-28 sm:h-28 flex-shrink-0 bg-black/5 dark:bg-black/40 p-3.5 rounded-2xl border border-black/10 dark:border-white/10 flex items-center justify-center shadow-xs">
-          <img src="/assets/logo.png" alt="Bunnies Universe Official Logo" className="w-full h-full object-contain" />
+          <img src="/assets/logo.png" alt="Bunnies World Official Logo" className="w-full h-full object-contain" />
         </div>
         <div className="flex flex-col gap-2.5 text-center md:text-left">
           <span className="text-[10px] font-bold text-pink-600 dark:text-pink-400 uppercase tracking-widest">
