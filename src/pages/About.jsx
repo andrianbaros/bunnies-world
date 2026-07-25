@@ -50,8 +50,8 @@ export default function About() {
       a: 'The active lineup consists of 4 members: Minji, Hanni, Haerin, and Hyein. Danielle is preserved separately in the Former Member Archive.'
     },
     {
-      q: 'Where are my preferences stored?',
-      a: '100% of your quiz scores, fan notes, and bookmarks are saved securely in your local browser LocalStorage.'
+      q: 'Where are community posts stored?',
+      a: 'Community fan posts are stored in a live Supabase database, synced globally in real time. Your personal preferences (theme, language) are saved in local browser storage.'
     }
   ];
 
