@@ -41,15 +41,15 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-2 sm:top-3 z-40 w-[96%] max-w-6xl mx-auto mb-4 sm:mb-6">
-      <nav className="glass-surface rounded-full px-4 sm:px-6 py-2.5 flex items-center justify-between shadow-sm min-h-[54px] sm:min-h-[60px]">
+      <nav className="glass-surface rounded-full px-3 sm:px-6 py-2 flex items-center justify-between shadow-sm min-h-[50px] sm:min-h-[60px] overflow-hidden">
         {/* Brand Logo */}
-        <NavLink to="/" className="flex items-center gap-2.5 font-bold tracking-tight text-current hover:opacity-80 transition-opacity flex-shrink-0">
-          <img src="/assets/logo.png" alt="Bunnies Universe Logo" className="w-7 h-7 sm:w-8 sm:h-8 object-contain rounded-md shadow-xs" />
-          <span className="font-extrabold text-sm sm:text-base tracking-wider uppercase">
-            BUNNIES UNIVERSE
+        <NavLink to="/" className="flex items-center gap-2 font-bold tracking-tight text-current hover:opacity-80 transition-opacity min-w-0 flex-shrink">
+          <img src="/assets/logo.png" alt="Bunnies Universe Logo" className="w-7 h-7 sm:w-8 sm:h-8 object-contain rounded-md shadow-xs flex-shrink-0" />
+          <span className="font-extrabold text-xs sm:text-base tracking-wider uppercase truncate">
+            <span className="inline sm:hidden">BUNNIES</span>
+            <span className="hidden sm:inline">BUNNIES UNIVERSE</span>
           </span>
         </NavLink>
-
 
         {/* Primary Desktop Nav Links */}
         <div className="hidden md:flex items-center gap-1">
@@ -114,30 +114,30 @@ export default function Navbar() {
         </div>
 
         {/* Controls: Theme & Language Switcher */}
-        <div className="flex items-center gap-1.5 sm:gap-2">
+        <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
           <NavLink
             to="/search"
-            className="p-2 rounded-full text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
+            className="p-1.5 sm:p-2 rounded-full text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
             title="Search"
           >
-            <Search className="w-4 h-4" />
+            <Search className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
           </NavLink>
 
           <button
             onClick={toggleTheme}
-            className="p-2 rounded-full text-gray-600 dark:text-gray-300 hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
+            className="p-1.5 sm:p-2 rounded-full text-gray-600 dark:text-gray-300 hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
             title="Toggle Theme"
           >
-            {settings.theme === 'light' ? <Sun className="w-4 h-4 text-amber-500" /> : <Moon className="w-4 h-4 text-indigo-300" />}
+            {settings.theme === 'light' ? <Sun className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-500" /> : <Moon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-indigo-300" />}
           </button>
 
           {/* Multi-Language Selector */}
-          <div className="flex items-center bg-black/5 dark:bg-black/40 rounded-full p-1 border border-black/10 dark:border-white/10">
+          <div className="flex items-center bg-black/5 dark:bg-black/40 rounded-full p-0.5 sm:p-1 border border-black/10 dark:border-white/10 flex-shrink-0">
             {['en', 'id', 'ko', 'ja'].map((lang) => (
               <button
                 key={lang}
                 onClick={() => updateSetting('language', lang)}
-                className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase transition-all ${
+                className={`px-1.5 sm:px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] font-bold uppercase transition-all ${
                   settings.language === lang
                     ? 'bg-pink-500 text-white shadow-sm'
                     : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
