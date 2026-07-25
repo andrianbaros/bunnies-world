@@ -11,22 +11,43 @@ import PageTransition from './components/common/PageTransition';
 import { SkeletonCard } from './components/common/Skeleton';
 import { useSettings } from './contexts/SettingsContext';
 
+// Helper for dynamic imports with auto-retry on Vercel redeployment chunk hashing
+const lazyWithRetry = (componentImport) =>
+  lazy(async () => {
+    const pageHasBeenRefreshed = JSON.parse(
+      sessionStorage.getItem('page_has_been_refreshed') || 'false'
+    );
+
+    try {
+      const component = await componentImport();
+      sessionStorage.setItem('page_has_been_refreshed', 'false');
+      return component;
+    } catch (error) {
+      if (!pageHasBeenRefreshed) {
+        sessionStorage.setItem('page_has_been_refreshed', 'true');
+        window.location.reload();
+        return { default: () => null };
+      }
+      throw error;
+    }
+  });
+
 // Lazy loading route pages for code splitting & optimal LCP
-const Home = lazy(() => import('./pages/Home'));
-const Members = lazy(() => import('./pages/Members'));
-const MemberDetail = lazy(() => import('./pages/MemberDetail'));
-const Discography = lazy(() => import('./pages/Discography'));
-const Timeline = lazy(() => import('./pages/Timeline'));
-const Universe = lazy(() => import('./pages/Universe'));
-const Gallery = lazy(() => import('./pages/Gallery'));
-const Community = lazy(() => import('./pages/Community'));
-const News = lazy(() => import('./pages/News'));
-const SearchPage = lazy(() => import('./pages/SearchPage'));
-const Favorites = lazy(() => import('./pages/Favorites'));
-const Settings = lazy(() => import('./pages/Settings'));
-const About = lazy(() => import('./pages/About'));
-const Admin = lazy(() => import('./pages/Admin'));
-const NotFound = lazy(() => import('./pages/NotFound'));
+const Home = lazyWithRetry(() => import('./pages/Home'));
+const Members = lazyWithRetry(() => import('./pages/Members'));
+const MemberDetail = lazyWithRetry(() => import('./pages/MemberDetail'));
+const Discography = lazyWithRetry(() => import('./pages/Discography'));
+const Timeline = lazyWithRetry(() => import('./pages/Timeline'));
+const Universe = lazyWithRetry(() => import('./pages/Universe'));
+const Gallery = lazyWithRetry(() => import('./pages/Gallery'));
+const Community = lazyWithRetry(() => import('./pages/Community'));
+const News = lazyWithRetry(() => import('./pages/News'));
+const SearchPage = lazyWithRetry(() => import('./pages/SearchPage'));
+const Favorites = lazyWithRetry(() => import('./pages/Favorites'));
+const Settings = lazyWithRetry(() => import('./pages/Settings'));
+const About = lazyWithRetry(() => import('./pages/About'));
+const Admin = lazyWithRetry(() => import('./pages/Admin'));
+const NotFound = lazyWithRetry(() => import('./pages/NotFound'));
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
