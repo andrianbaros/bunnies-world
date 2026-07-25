@@ -14,17 +14,21 @@ export default function News() {
   const categories = ['All', 'Award', 'Comeback', 'Announcement'];
 
   const filteredNews = newsData.filter((n) => {
+    const localizedTitle = t(`${n.id}_title`, { defaultValue: n.title });
+    const localizedSummary = t(`${n.id}_summary`, { defaultValue: n.summary });
     const matchesSearch =
-      n.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      n.summary.toLowerCase().includes(searchTerm.toLowerCase());
+      localizedTitle.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      localizedSummary.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCat = categoryFilter === 'All' || n.category === categoryFilter;
     return matchesSearch && matchesCat;
   });
 
   const handleShare = (e, item) => {
     e.stopPropagation();
+    const title = t(`${item.id}_title`, { defaultValue: item.title });
+    const summary = t(`${item.id}_summary`, { defaultValue: item.summary });
     if (navigator.share) {
-      navigator.share({ title: item.title, text: item.summary, url: window.location.href });
+      navigator.share({ title, text: summary, url: window.location.href });
     } else {
       navigator.clipboard.writeText(window.location.href);
       showToast('info', 'Copied news link!');
@@ -78,6 +82,10 @@ export default function News() {
       <div className="flex flex-col gap-5">
         {filteredNews.map((item, idx) => {
           const isFav = settings.favorites?.news?.some((n) => n.id === item.id);
+          const itemTitle = t(`${item.id}_title`, { defaultValue: item.title });
+          const itemSummary = t(`${item.id}_summary`, { defaultValue: item.summary });
+          const itemCat = t(`${item.id}_cat`, { defaultValue: item.category });
+
           return (
             <motion.div
               key={item.id}
@@ -86,16 +94,16 @@ export default function News() {
               transition={{ duration: 0.3, delay: idx * 0.08 }}
               className="glass-surface p-6 rounded-2xl flex flex-col sm:flex-row gap-6 items-center border hover:border-pink-500/30 transition-all"
             >
-              <img src={item.image} alt={item.title} className="w-full sm:w-48 h-36 object-cover rounded-xl flex-shrink-0" />
+              <img src={item.image} alt={itemTitle} className="w-full sm:w-48 h-36 object-cover rounded-xl flex-shrink-0" />
               <div className="flex flex-col gap-2 text-left flex-grow">
                 <div className="flex items-center justify-between">
                   <span className="px-2.5 py-0.5 rounded-full bg-pink-500/10 text-pink-600 dark:text-pink-400 text-[10px] font-bold border border-pink-500/20">
-                    {item.category}
+                    {itemCat}
                   </span>
                   <span className="text-[11px] text-gray-500 dark:text-gray-400 font-medium">{item.date}</span>
                 </div>
-                <h3 className="font-bold text-base text-gray-900 dark:text-white">{item.title}</h3>
-                <p className="text-xs text-gray-600 dark:text-gray-300 leading-relaxed">{item.summary}</p>
+                <h3 className="font-bold text-base text-gray-900 dark:text-white">{itemTitle}</h3>
+                <p className="text-xs text-gray-600 dark:text-gray-300 leading-relaxed">{itemSummary}</p>
                 <div className="flex items-center gap-2 mt-2">
                   <button
                     onClick={() => toggleFavorite('news', item)}

@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { HelpCircle, Globe, BookOpen, Scale, ExternalLink, Info } from 'lucide-react';
+import { HelpCircle, Globe, BookOpen, Scale, ExternalLink } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 export default function About() {
@@ -8,50 +8,50 @@ export default function About() {
 
   const historyMilestones = [
     {
-      era: '2019–2021: Formation & Pre-Debut',
-      desc: 'Preparation began with global auditions directed by Min Hee-jin under Big Hit & Source Music, leading to the launch of ADOR.'
+      era: t('about_milestone_1_era'),
+      desc: t('about_milestone_1_desc')
     },
     {
-      era: '2022–2023: Debut, "Ditto" & "Get Up"',
-      desc: 'Surprise release of debut singles "Attention" & "Hype Boy". Followed by historic 13-week Korean #1 "Ditto" and 2nd EP "Get Up" debuting at #1 on Billboard 200.'
+      era: t('about_milestone_2_era'),
+      desc: t('about_milestone_2_desc')
     },
     {
-      era: '2024–2026: Japan Debut & Contract Evolution',
-      desc: 'Japanese debut with "Supernatural". Legal contract disputes concluded with Danielle\'s profile officially preserved in the Former Member Archive.'
+      era: t('about_milestone_3_era'),
+      desc: t('about_milestone_3_desc')
     },
     {
-      era: '2026–Present: 4-Member Active Lineup',
-      desc: 'NewJeans continues activities as a 4-member active lineup (Minji, Hanni, Haerin, Hyein) launching their latest global campaign.'
+      era: t('about_milestone_4_era'),
+      desc: t('about_milestone_4_desc')
     }
   ];
 
   const controversies = [
     {
-      title: '"Bubble Gum" Copyright Inquiry',
-      detail: 'UK band Shakatak raised inquiry regarding melodic similarities with 1981 track "Easier Said Than Done". ADOR requested an independent musicological report.'
+      title: t('about_record_1_title'),
+      detail: t('about_record_1_detail')
     },
     {
-      title: '"How Sweet" Demo Inquiries',
-      detail: 'Four composers raised claims regarding "One of a Kind" demo elements. ADOR confirmed track acquisition via BANA and reviewed internal records.'
+      title: t('about_record_2_title'),
+      detail: t('about_record_2_detail')
     },
     {
-      title: '"ETA" Instrumental Review',
-      detail: 'All Surface Publishing filed a US lawsuit regarding horn samples in "Samir\'s Theme". Legally reviewed under standard production records.'
+      title: t('about_record_3_title'),
+      detail: t('about_record_3_detail')
     }
   ];
 
   const faqs = [
     {
-      q: 'What is the meaning behind NewJeans?',
-      a: 'Jeans are timeless garments that never go out of style. The name is also a play on "new genes", symbolizing pioneering a brand new generation of pop music.'
+      q: t('about_faq_1_q'),
+      a: t('about_faq_1_a')
     },
     {
-      q: 'Who are the active members of NewJeans?',
-      a: 'The active lineup consists of 4 members: Minji, Hanni, Haerin, and Hyein. Danielle is preserved separately in the Former Member Archive.'
+      q: t('about_faq_2_q'),
+      a: t('about_faq_2_a')
     },
     {
-      q: 'Where are community posts stored?',
-      a: 'Community fan posts are stored in a live Supabase database, synced globally in real time. Your personal preferences (theme, language) are saved in local browser storage.'
+      q: t('about_faq_3_q'),
+      a: t('about_faq_3_a')
     }
   ];
 
@@ -80,10 +80,10 @@ export default function About() {
             OFFICIAL FAN PLATFORM
           </span>
           <h2 className="text-xl font-black text-gray-900 dark:text-white uppercase tracking-wider">
-            ABOUT BUNNIES UNIVERSE WEB PORTAL
+            {t('about_portal_title')}
           </h2>
           <p className="text-xs text-gray-600 dark:text-gray-300 leading-relaxed">
-            <strong>Bunnies Universe</strong> (Unofficial NewJeans Fans Universe) is a high-performance, interactive digital portal built for global Bunnies. It features complete discography stream previews for every track, live community message boards synced with Supabase, member profiles, responsive Polaroid download studio, and clean dark/light theme switching.
+            {t('about_portal_desc')}
           </p>
           <div className="flex flex-wrap justify-center md:justify-start gap-2 pt-1">
             <span className="px-3 py-1 rounded-full bg-black/5 dark:bg-white/5 text-gray-700 dark:text-gray-300 text-[11px] font-semibold border border-black/10 dark:border-white/10">
@@ -107,7 +107,7 @@ export default function About() {
               {t('about_naming')}
             </h2>
             <p className="text-xs text-gray-600 dark:text-gray-300 leading-relaxed">
-              <strong>NewJeans</strong> carries a dual meaning: jeans are timeless everyday wear that people never tire of wearing, symbolizing an everlasting artistic image. It is also a play on <em>"new genes"</em>—signifying a new era in global pop.
+              {t('about_naming_desc')}
             </p>
           </div>
           <div className="bg-black/5 dark:bg-black/40 p-3 rounded-xl border border-black/5 dark:border-white/5 text-[11px] text-gray-500 dark:text-gray-400">
@@ -121,7 +121,7 @@ export default function About() {
               {t('about_membership')}
             </h2>
             <p className="text-xs text-gray-600 dark:text-gray-300 leading-relaxed">
-              NewJeans operates organically without an official leader. The active lineup comprises <strong>Minji, Hanni, Haerin, and Hyein</strong>. Danielle is archived as a Former Member.
+              {t('about_membership_desc')}
             </p>
           </div>
           <div className="flex flex-wrap gap-2 pt-1">
