@@ -5,7 +5,7 @@ const DEFAULT_SETTINGS = {
   version: CURRENT_SCHEMA_VERSION,
   theme: 'dark', // 'dark', 'light', 'system'
   language: 'en',
-  reducedMotion: false,
+  reducedMotion: true,
   soundEffects: true,
   musicVolume: 0.7,
   particleQuality: 'high',
