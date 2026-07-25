@@ -45,8 +45,8 @@ export default function SEOManager() {
       title = 'BUNNIES GALLERY | NewJeans Y2K Photocards & Download Studio';
       description = 'Browse high-res Polaroid photocards, concept photos, and fan artwork of NewJeans. Filter by member & download original quality wallpapers.';
     } else if (path === '/community') {
-      title = 'BUNNIES FAN WALL | Live Supabase Community Message Board';
-      description = 'Join global Bunnies sharing live fan messages for NewJeans. Multi-language profanity filtered, live likes, and real-time Supabase sync.';
+      title = 'BUNNIES FAN WALL | Live Community Message Board';
+      description = 'Join global Bunnies sharing live fan messages for NewJeans. Multi-language profanity filtered, live likes, and real-time sync.';
     } else if (path === '/news') {
       title = 'LATEST NEWS | Official NewJeans Comebacks, Awards & Press Releases';
       description = 'Stay updated with official NewJeans press releases, music production records, chart milestones, awards, and Bunnies World platform updates.';
