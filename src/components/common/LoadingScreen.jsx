@@ -29,12 +29,13 @@ export default function LoadingScreen({ onFinish }) {
         className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-zinc-950 text-white p-6"
       >
         <div className="flex flex-col items-center gap-6 z-10">
-          <div className="flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-pink-500 animate-ping" />
+          <div className="flex items-center gap-3">
+            <img src="/assets/logo.png" alt="Logo" className="w-10 h-10 object-contain" />
             <h1 className="text-xl font-black uppercase tracking-widest text-white">
               BUNNIES UNIVERSE
             </h1>
           </div>
+
 
           {/* Minimal Progress Bar */}
           <div className="w-48 h-1 bg-zinc-800 rounded-full overflow-hidden">

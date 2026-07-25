@@ -16,12 +16,13 @@ export default function Footer() {
   return (
     <footer className="mt-auto border-t border-black/10 dark:border-white/10 glass-surface rounded-none border-x-0 border-b-0 py-8 text-xs text-gray-600 dark:text-gray-400 z-10 relative pb-24 sm:pb-8">
       <div className="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <div className="flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-pink-500" />
+        <div className="flex items-center gap-2.5">
+          <img src="/assets/logo.png" alt="Bunnies Universe Logo" className="w-6 h-6 object-contain rounded-md" />
           <span className="font-bold text-gray-900 dark:text-white tracking-wider text-sm uppercase">
             BUNNIES UNIVERSE
           </span>
         </div>
+
 
         <p className="text-gray-500 dark:text-gray-400 text-center">
           © 2026 BUNNIES UNIVERSE — Interactive Fan Portal

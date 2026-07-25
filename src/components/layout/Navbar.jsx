@@ -43,12 +43,13 @@ export default function Navbar() {
     <header className="sticky top-2 sm:top-3 z-40 w-[96%] max-w-6xl mx-auto mb-4 sm:mb-6">
       <nav className="glass-surface rounded-full px-4 sm:px-6 py-2.5 flex items-center justify-between shadow-sm min-h-[54px] sm:min-h-[60px]">
         {/* Brand Logo */}
-        <NavLink to="/" className="flex items-center gap-2 font-bold tracking-tight text-current hover:opacity-80 transition-opacity flex-shrink-0">
-          <span className="w-2 h-2 rounded-full bg-pink-500 animate-pulse" />
+        <NavLink to="/" className="flex items-center gap-2.5 font-bold tracking-tight text-current hover:opacity-80 transition-opacity flex-shrink-0">
+          <img src="/assets/logo.png" alt="Bunnies Universe Logo" className="w-7 h-7 sm:w-8 sm:h-8 object-contain rounded-md shadow-xs" />
           <span className="font-extrabold text-sm sm:text-base tracking-wider uppercase">
             BUNNIES UNIVERSE
           </span>
         </NavLink>
+
 
         {/* Primary Desktop Nav Links */}
         <div className="hidden md:flex items-center gap-1">
