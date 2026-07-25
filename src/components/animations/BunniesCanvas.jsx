@@ -13,23 +13,23 @@ export default function BunniesCanvas() {
 
     const ctx = canvas.getContext('2d');
     let animationFrameId;
+    let isTabVisible = !document.hidden;
 
     const mouse = { x: null, y: null, radius: 150 };
 
-    // Floating Object Classes
     class FloatingItem {
       constructor(type) {
-        this.type = type; // 'star', 'bubble', 'sparkle', 'bunny'
+        this.type = type;
         this.reset();
       }
 
       reset() {
         this.x = Math.random() * canvas.width;
         this.y = Math.random() * canvas.height;
-        this.size = Math.random() * 12 + 6;
-        this.vx = (Math.random() - 0.5) * 0.6;
-        this.vy = (Math.random() - 0.5) * 0.6;
-        this.alpha = Math.random() * 0.4 + 0.2;
+        this.size = Math.random() * 10 + 5;
+        this.vx = (Math.random() - 0.5) * 0.5;
+        this.vy = (Math.random() - 0.5) * 0.5;
+        this.alpha = Math.random() * 0.35 + 0.15;
         this.color = ['#ffeaf5', '#bfeaff', '#dccbff', '#fff8e8'][Math.floor(Math.random() * 4)];
         this.angle = Math.random() * Math.PI * 2;
         this.angularSpeed = (Math.random() - 0.5) * 0.02;
@@ -40,7 +40,6 @@ export default function BunniesCanvas() {
         this.y += this.vy;
         this.angle += this.angularSpeed;
 
-        // Push away from mouse
         if (mouse.x !== null && mouse.y !== null) {
           const dx = mouse.x - this.x;
           const dy = mouse.y - this.y;
@@ -48,8 +47,8 @@ export default function BunniesCanvas() {
 
           if (dist < mouse.radius) {
             const force = (mouse.radius - dist) / mouse.radius;
-            this.x -= (dx / dist) * force * 3;
-            this.y -= (dy / dist) * force * 3;
+            this.x -= (dx / dist) * force * 2.5;
+            this.y -= (dy / dist) * force * 2.5;
           }
         }
 
@@ -69,10 +68,9 @@ export default function BunniesCanvas() {
           ctx.beginPath();
           ctx.arc(0, 0, this.size, 0, Math.PI * 2);
           ctx.strokeStyle = this.color;
-          ctx.lineWidth = 1.5;
+          ctx.lineWidth = 1.2;
           ctx.stroke();
 
-          // Bubble highlight
           ctx.beginPath();
           ctx.arc(-this.size * 0.3, -this.size * 0.3, this.size * 0.2, 0, Math.PI * 2);
           ctx.fillStyle = '#ffffff';
@@ -87,7 +85,6 @@ export default function BunniesCanvas() {
           ctx.closePath();
           ctx.fill();
         } else {
-          // Bunny / Star dot
           ctx.beginPath();
           ctx.arc(0, 0, this.size / 2, 0, Math.PI * 2);
           ctx.fillStyle = this.color;
@@ -99,10 +96,11 @@ export default function BunniesCanvas() {
     }
 
     const items = [];
-    const count = 45;
 
     const init = () => {
       items.length = 0;
+      const isSmallScreen = window.innerWidth < 768;
+      const count = isSmallScreen ? 18 : 35; // Reduced particle count for performance
       const types = ['bubble', 'sparkle', 'star'];
       for (let i = 0; i < count; i++) {
         items.push(new FloatingItem(types[i % types.length]));
@@ -110,22 +108,31 @@ export default function BunniesCanvas() {
     };
 
     const animate = () => {
+      if (!isTabVisible) {
+        animationFrameId = requestAnimationFrame(animate);
+        return;
+      }
+
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // Draw subtle connecting lines
-      for (let a = 0; a < items.length; a++) {
-        for (let b = a + 1; b < items.length; b++) {
-          const dx = items[a].x - items[b].x;
-          const dy = items[a].y - items[b].y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
+      const isSmallScreen = window.innerWidth < 768;
 
-          if (dist < 100) {
-            ctx.strokeStyle = `rgba(255, 234, 245, ${(100 - dist) / 100 * 0.12})`;
-            ctx.lineWidth = 0.8;
-            ctx.beginPath();
-            ctx.moveTo(items[a].x, items[a].y);
-            ctx.lineTo(items[b].x, items[b].y);
-            ctx.stroke();
+      // Only draw connecting lines on desktop to keep mobile performance smooth
+      if (!isSmallScreen) {
+        for (let a = 0; a < items.length; a++) {
+          for (let b = a + 1; b < items.length; b++) {
+            const dx = items[a].x - items[b].x;
+            const dy = items[a].y - items[b].y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+
+            if (dist < 90) {
+              ctx.strokeStyle = `rgba(255, 234, 245, ${(90 - dist) / 90 * 0.1})`;
+              ctx.lineWidth = 0.7;
+              ctx.beginPath();
+              ctx.moveTo(items[a].x, items[a].y);
+              ctx.lineTo(items[b].x, items[b].y);
+              ctx.stroke();
+            }
           }
         }
       }
@@ -142,6 +149,10 @@ export default function BunniesCanvas() {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
       init();
+    };
+
+    const handleVisibilityChange = () => {
+      isTabVisible = !document.hidden;
     };
 
     const isTouchDevice = () => {
@@ -162,6 +173,7 @@ export default function BunniesCanvas() {
     };
 
     window.addEventListener('resize', handleResize);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
     if (!isMobileDevice) {
       window.addEventListener('mousemove', handleMouseMove);
       window.addEventListener('mouseleave', handleMouseLeave);
@@ -172,6 +184,7 @@ export default function BunniesCanvas() {
 
     return () => {
       window.removeEventListener('resize', handleResize);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
       if (!isMobileDevice) {
         window.removeEventListener('mousemove', handleMouseMove);
         window.removeEventListener('mouseleave', handleMouseLeave);

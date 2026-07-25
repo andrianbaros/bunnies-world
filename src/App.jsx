@@ -8,6 +8,7 @@ import BunniesCanvas from './components/animations/BunniesCanvas';
 import CustomCursor from './components/common/CustomCursor';
 import LoadingScreen from './components/common/LoadingScreen';
 import PageTransition from './components/common/PageTransition';
+import SEOManager from './components/common/SEOManager';
 import { SkeletonCard } from './components/common/Skeleton';
 import { useSettings } from './contexts/SettingsContext';
 
@@ -83,6 +84,9 @@ export default function App() {
 
   return (
     <>
+      {/* Dynamic SEO & Meta Manager per route */}
+      <SEOManager />
+
       {/* Y2K Loading Screen */}
       {isLoading ? (
         <LoadingScreen onFinish={() => setIsLoading(false)} />

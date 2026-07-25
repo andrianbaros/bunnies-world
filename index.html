@@ -3,12 +3,89 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/png" href="/assets/logo.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
     <meta name="theme-color" content="#0d0b14" />
-    <meta name="description" content="BUNNIES UNIVERSE - Official Premium Interactive Fan Portal for NewJeans" />
+
+    <!-- Primary Meta Tags -->
+    <title>BUNNIES UNIVERSE | Unofficial NewJeans Interactive World & Fan Portal</title>
+    <meta name="title" content="BUNNIES UNIVERSE | Unofficial NewJeans Interactive World & Fan Portal" />
+    <meta name="description" content="The ultimate interactive digital portal for NewJeans & Bunnies. Stream official music previews (Ditto, Super Shy, How Sweet, Attention), explore member profiles (Minji, Hanni, Haerin, Hyein, Danielle), Polaroid gallery, Y2K aesthetic & live fan community." />
+    <meta name="keywords" content="NewJeans, Bunnies, NJZ, Minji, Hanni, Haerin, Hyein, Danielle, NewJeans music, NewJeans songs, Ditto, Super Shy, How Sweet, Attention, Kpop, ADOR, Bunnies Universe, NewJeans discography, NewJeans gallery, K-pop fan portal" />
+    <meta name="author" content="Bunnies Universe Community" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="googlebot" content="index, follow" />
+    <link rel="canonical" href="https://bunnies-world.vercel.app/" />
+
+    <!-- Performance Preconnect & Preload -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://audio-ssl.itunes.apple.com" />
+    <link rel="preconnect" href="https://www.youtube.com" />
+    <link rel="dns-prefetch" href="https://audio-ssl.itunes.apple.com" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://bunnies-world.vercel.app/" />
+    <meta property="og:site_name" content="BUNNIES UNIVERSE" />
+    <meta property="og:title" content="BUNNIES UNIVERSE | Unofficial NewJeans World & Fan Portal" />
+    <meta property="og:description" content="Explore NewJeans' official discography stream previews, member profiles (Minji, Hanni, Haerin, Hyein, Danielle), Y2K Polaroid gallery, career timeline, and live community wall." />
+    <meta property="og:image" content="https://bunnies-world.vercel.app/assets/logo.png" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://bunnies-world.vercel.app/" />
+    <meta name="twitter:title" content="BUNNIES UNIVERSE | Unofficial NewJeans World & Fan Portal" />
+    <meta name="twitter:description" content="Interactive digital portal for global Bunnies. Stream NewJeans songs, view member profiles, Y2K photocards, career timeline & live fan messages." />
+    <meta name="twitter:image" content="https://bunnies-world.vercel.app/assets/logo.png" />
+
     <link rel="manifest" href="/manifest.json" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css" />
-    <title>BUNNIES UNIVERSE | NewJeans World</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css" media="print" onload="this.media='all'" />
+
+    <!-- JSON-LD Structured Data for Google, Bing & AI Search Engines (GEO/AEO) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "MusicGroup",
+          "@id": "https://bunnies-world.vercel.app/#newjeans",
+          "name": "NewJeans",
+          "alternateName": ["뉴진스", "NJZ"],
+          "genre": ["K-pop", "R&B", "Pop", "Miami Bass", "2-Step"],
+          "foundingDate": "2022-07-22",
+          "sameAs": [
+            "https://newjeans.kr",
+            "https://weverse.io/newjeans",
+            "https://www.youtube.com/@NewJeans_official",
+            "https://www.instagram.com/newjeans_official"
+          ],
+          "member": [
+            { "@type": "OrganizationRole", "member": { "@type": "Person", "name": "Minji", "alternateName": "김민지" }, "roleName": "Leader & Vocalist" },
+            { "@type": "OrganizationRole", "member": { "@type": "Person", "name": "Hanni", "alternateName": "하니" }, "roleName": "Vocalist & Dancer" },
+            { "@type": "OrganizationRole", "member": { "@type": "Person", "name": "Haerin", "alternateName": "강해린" }, "roleName": "Vocalist & Main Dancer" },
+            { "@type": "OrganizationRole", "member": { "@type": "Person", "name": "Hyein", "alternateName": "이혜인" }, "roleName": "Vocalist" }
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://bunnies-world.vercel.app/#website",
+          "url": "https://bunnies-world.vercel.app/",
+          "name": "BUNNIES UNIVERSE",
+          "description": "Unofficial NewJeans Fans Universe & Interactive Digital Portal",
+          "publisher": {
+            "@type": "Organization",
+            "name": "BUNNIES UNIVERSE"
+          },
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://bunnies-world.vercel.app/search?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+          }
+        }
+      ]
+    }
+    </script>
   </head>
   <body>
     <div id="root"></div>
