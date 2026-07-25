@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Newspaper, Search, Heart, Share2, Calendar, Tag } from 'lucide-react';
+import { Newspaper, Search, Heart, Share2 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import newsData from '../data/json/news.json';
 import { useSettings } from '../contexts/SettingsContext';
 
 export default function News() {
+  const { t } = useTranslation();
   const [searchTerm, setSearchTerm] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('All');
   const { settings, toggleFavorite } = useSettings();
@@ -22,14 +24,9 @@ export default function News() {
   const handleShare = (e, item) => {
     e.stopPropagation();
     if (navigator.share) {
-      navigator.share({
-        title: item.title,
-        text: item.summary,
-        url: window.location.href
-      });
+      navigator.share({ title: item.title, text: item.summary, url: window.location.href });
     } else {
       navigator.clipboard.writeText(window.location.href);
-      alert(`Copied article link!`);
     }
   };
 
@@ -37,13 +34,13 @@ export default function News() {
     <div className="flex flex-col gap-10 py-8 px-4 max-w-5xl mx-auto z-10 relative">
       <div className="text-center flex flex-col items-center gap-3">
         <span className="px-4 py-1 rounded-full bg-pink-400/10 border border-pink-300/30 text-pink-300 text-xs font-bold tracking-widest uppercase">
-          OFFICIAL PRESS & ANNOUNCEMENTS
+          {t('news_tag')}
         </span>
         <h1 className="text-hero font-extrabold bg-gradient-to-r from-pink-300 via-purple-300 to-cyan-300 bg-clip-text text-transparent">
-          LATEST NEWS
+          {t('news_title')}
         </h1>
         <p className="text-body-custom text-gray-300 max-w-md">
-          Stay updated with official awards, comeback news, and Bunnies Universe updates.
+          {t('news_sub')}
         </p>
       </div>
 
@@ -53,13 +50,12 @@ export default function News() {
           <Search className="w-4 h-4 text-pink-300" />
           <input
             type="text"
-            placeholder="Search news..."
+            placeholder={t('news_search_ph')}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="bg-transparent text-xs font-bold text-white outline-none w-full"
           />
         </div>
-
         <div className="flex justify-center flex-wrap gap-2">
           {categories.map((cat) => (
             <button
@@ -99,13 +95,10 @@ export default function News() {
                 </div>
                 <h3 className="font-extrabold text-base text-white">{item.title}</h3>
                 <p className="text-xs text-gray-300 leading-relaxed">{item.summary}</p>
-
                 <div className="flex items-center gap-3 mt-2">
                   <button
                     onClick={() => toggleFavorite('news', item)}
-                    className={`p-2 rounded-full border transition-colors ${
-                      isFav ? 'bg-pink-400/20 border-pink-300 text-pink-300' : 'bg-white/5 border-white/10 text-gray-400 hover:text-white'
-                    }`}
+                    className={`p-2 rounded-full border transition-colors ${isFav ? 'bg-pink-400/20 border-pink-300 text-pink-300' : 'bg-white/5 border-white/10 text-gray-400 hover:text-white'}`}
                   >
                     <Heart className={`w-3.5 h-3.5 ${isFav ? 'fill-pink-300' : ''}`} />
                   </button>

@@ -95,7 +95,7 @@ export default function Settings() {
         <div className="flex items-center justify-between pt-2 border-t border-white/10">
           <div>
             <h4 className="font-bold text-sm text-white">{t('reduced_motion')}</h4>
-            <p className="text-xs text-gray-400">Disable particle background FX for reduced motion preferences.</p>
+            <p className="text-xs text-gray-400">{t('reduced_motion_sub')}</p>
           </div>
           <button
             onClick={() => updateSetting('reducedMotion', !settings.reducedMotion)}
@@ -111,7 +111,7 @@ export default function Settings() {
         <div className="flex items-center justify-between pt-2 border-t border-white/10">
           <div>
             <h4 className="font-bold text-sm text-white">{t('reset_data')}</h4>
-            <p className="text-xs text-gray-400">Reset all stored settings and local fan notes to factory defaults.</p>
+            <p className="text-xs text-gray-400">{t('reset_data_sub')}</p>
           </div>
           <button
             onClick={resetAllSettings}

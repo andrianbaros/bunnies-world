@@ -63,15 +63,14 @@ export default function About() {
           <img src="/assets/fanart collage.png" alt="Fanart Collage" className="w-full h-full object-cover opacity-20 filter blur-[1px]" />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0d0b14] via-[#0d0b14]/80 to-transparent" />
         </div>
-
         <span className="px-4 py-1 rounded-full bg-pink-400/10 border border-pink-300/30 text-pink-300 text-xs font-bold tracking-widest uppercase z-10">
-          ENCYCLOPEDIA & DIGITAL SANCTUARY
+          {t('about_tag')}
         </span>
         <h1 className="text-2xl sm:text-4xl md:text-5xl font-black bg-gradient-to-r from-pink-300 via-purple-300 to-cyan-300 bg-clip-text text-transparent z-10">
-          NEWJEANS (NJZ) ENCYCLOPEDIA
+          {t('about_title')}
         </h1>
         <p className="text-xs sm:text-sm text-gray-300 max-w-2xl leading-relaxed z-10">
-          Official history, group naming philosophy, active membership, former member archives, and complete career milestones.
+          {t('about_sub')}
         </p>
       </section>
 
@@ -81,7 +80,7 @@ export default function About() {
           <div className="flex flex-col gap-3">
             <h2 className="text-lg sm:text-xl font-extrabold text-white flex items-center gap-2">
               <Sparkles className="w-5 h-5 text-pink-300 flex-shrink-0" />
-              <span>Naming Philosophy</span>
+              <span>{t('about_naming')}</span>
             </h2>
             <p className="text-xs text-gray-300 leading-relaxed">
               <strong>NewJeans</strong> carries a dual meaning: jeans are timeless everyday wear that people never tire of wearing, symbolizing an everlasting artistic image. It is also a play on <em>"new genes"</em>—signifying a new era in global pop.
@@ -96,7 +95,7 @@ export default function About() {
           <div className="flex flex-col gap-3">
             <h2 className="text-lg sm:text-xl font-extrabold text-white flex items-center gap-2">
               <Heart className="w-5 h-5 text-cyan-300 flex-shrink-0" />
-              <span>Membership Structure</span>
+              <span>{t('about_membership')}</span>
             </h2>
             <p className="text-xs text-gray-300 leading-relaxed">
               NewJeans operates organically without an official leader. The active lineup comprises <strong>Minji, Hanni, Haerin, and Hyein</strong>. Danielle is archived as a Former Member.
@@ -115,7 +114,7 @@ export default function About() {
       <section className="flex flex-col gap-6">
         <h2 className="text-xl sm:text-2xl font-extrabold text-white flex items-center gap-2">
           <BookOpen className="w-5 h-5 sm:w-6 sm:h-6 text-purple-300 flex-shrink-0" />
-          <span>FULL CAREER CHRONOLOGY</span>
+          <span>{t('about_chronology')}</span>
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
           {historyMilestones.map((m, idx) => (
@@ -131,7 +130,7 @@ export default function About() {
       <section className="glass-surface p-6 sm:p-8 rounded-3xl flex flex-col gap-6 border border-yellow-500/30 bg-yellow-500/5">
         <div className="flex items-center gap-2">
           <Scale className="w-5 h-5 text-yellow-400 flex-shrink-0" />
-          <h2 className="text-lg sm:text-xl font-extrabold text-white">Music Production & Industry Records</h2>
+          <h2 className="text-lg sm:text-xl font-extrabold text-white">{t('about_records')}</h2>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {controversies.map((c, i) => (
@@ -147,7 +146,7 @@ export default function About() {
       <section className="flex flex-col gap-6">
         <h2 className="text-xl sm:text-2xl font-extrabold text-white flex items-center gap-2">
           <HelpCircle className="w-5 h-5 sm:w-6 sm:h-6 text-purple-300 flex-shrink-0" />
-          <span>FREQUENTLY ASKED QUESTIONS</span>
+          <span>{t('about_faq')}</span>
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
           {faqs.map((faq, idx) => (
@@ -161,14 +160,14 @@ export default function About() {
 
       {/* 6. External Links & Weverse */}
       <section className="glass-surface-pink p-6 sm:p-8 rounded-3xl text-center flex flex-col items-center gap-3 border border-pink-300/30">
-        <h3 className="text-lg sm:text-xl font-extrabold text-white">Official NewJeans & Bunnies Portal</h3>
-        <p className="text-xs text-gray-300 max-w-md">Updated regularly from official press releases & global encyclopedia data.</p>
+        <h3 className="text-lg sm:text-xl font-extrabold text-white">{t('about_portal')}</h3>
+        <p className="text-xs text-gray-300 max-w-md">{t('about_portal_sub')}</p>
         <div className="flex flex-wrap items-center justify-center gap-3 mt-2">
           <a href="https://newjeans.kr" target="_blank" rel="noopener noreferrer" className="px-6 py-2.5 rounded-full bg-gradient-to-r from-pink-400 to-purple-400 text-white font-bold text-xs hover:scale-105 transition-transform">
-            Official Website (newjeans.kr)
+            {t('about_official_web')}
           </a>
           <a href="https://weverse.io/newjeans" target="_blank" rel="noopener noreferrer" className="px-6 py-2.5 rounded-full bg-black/40 border border-white/20 text-white font-bold text-xs hover:scale-105 transition-transform">
-            Official Weverse Community
+            {t('about_weverse')}
           </a>
         </div>
       </section>

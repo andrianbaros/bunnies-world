@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Heart, Share2, ArrowLeft, ArrowRight, Sparkles, Music, ShieldAlert, ChevronLeft, ChevronRight } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import membersData from '../data/json/members.json';
 import { useSettings } from '../contexts/SettingsContext';
 
 export default function MemberDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const { settings, toggleFavorite, addRecentlyViewed } = useSettings();
 
   const currentIdx = membersData.findIndex((m) => m.id === id);
@@ -71,7 +73,7 @@ export default function MemberDetail() {
           className="flex items-center gap-2 text-xs font-bold text-gray-400 hover:text-pink-300 transition-colors glass-surface px-4 py-2 rounded-full border border-white/10"
         >
           <ArrowLeft className="w-4 h-4" />
-          <span>Back to Members</span>
+          <span>{t('member_back')}</span>
         </button>
 
         <div className="flex items-center gap-3">
@@ -99,7 +101,7 @@ export default function MemberDetail() {
         <div className="glass-surface p-4 rounded-2xl border border-yellow-400/40 bg-yellow-400/10 flex items-center gap-3 text-yellow-300 text-xs font-bold">
           <ShieldAlert className="w-5 h-5 flex-shrink-0" />
           <span>
-            OFFICIAL ARCHIVE NOTICE: This profile represents Danielle as a former member of NewJeans. Content is preserved as a historical fandom archive.
+            {t('member_archive_notice')}
           </span>
         </div>
       )}
@@ -204,15 +206,15 @@ export default function MemberDetail() {
           {/* Biodata Grid */}
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
             <div className="bg-white/5 p-3 rounded-xl border border-white/5">
-              <span className="text-[10px] text-gray-400 block font-bold">Full Name</span>
+              <span className="text-[10px] text-gray-400 block font-bold">{t('member_full_name')}</span>
               <span className="text-xs font-bold text-white truncate block">{member.fullName}</span>
             </div>
             <div className="bg-white/5 p-3 rounded-xl border border-white/5">
-              <span className="text-[10px] text-gray-400 block font-bold">Birth Date</span>
+              <span className="text-[10px] text-gray-400 block font-bold">{t('member_birth')}</span>
               <span className="text-xs font-bold text-white block">{member.birthDate}</span>
             </div>
             <div className="bg-white/5 p-3 rounded-xl border border-white/5">
-              <span className="text-[10px] text-gray-400 block font-bold">Nationality</span>
+              <span className="text-[10px] text-gray-400 block font-bold">{t('member_nationality')}</span>
               <span className="text-xs font-bold text-cyan-300 block">{member.nationality}</span>
             </div>
             <div className="bg-white/5 p-3 rounded-xl border border-white/5">
@@ -229,7 +231,7 @@ export default function MemberDetail() {
           <div className="flex flex-col gap-2">
             <span className="text-xs font-bold text-gray-400 flex items-center gap-1.5">
               <Music className="w-3.5 h-3.5 text-cyan-300" />
-              <span>Favorite Songs</span>
+              <span>{t('member_fav_songs')}</span>
             </span>
             <div className="flex flex-wrap gap-2">
               {member.favoriteSongs?.map((song, i) => (
@@ -250,7 +252,7 @@ export default function MemberDetail() {
         >
           <ArrowLeft className="w-5 h-5 text-pink-300" />
           <div>
-            <span className="text-[10px] text-gray-400 block font-bold">PREVIOUS MEMBER</span>
+            <span className="text-[10px] text-gray-400 block font-bold">{t('member_prev')}</span>
             <span className="text-xs font-extrabold text-white">{prevMember.name}</span>
           </div>
         </Link>
@@ -260,7 +262,7 @@ export default function MemberDetail() {
           className="flex items-center gap-3 glass-surface px-5 py-3 rounded-2xl hover:border-pink-300/40 transition-all text-right"
         >
           <div>
-            <span className="text-[10px] text-gray-400 block font-bold">NEXT MEMBER</span>
+            <span className="text-[10px] text-gray-400 block font-bold">{t('member_next')}</span>
             <span className="text-xs font-extrabold text-white">{nextMember.name}</span>
           </div>
           <ArrowRight className="w-5 h-5 text-pink-300" />

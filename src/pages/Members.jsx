@@ -63,7 +63,7 @@ export default function Members() {
           <Search className="w-4 h-4 text-pink-300" />
           <input
             type="text"
-            placeholder="Search member by name or MBTI..."
+            placeholder={t('members_search_ph')}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="bg-transparent text-xs font-bold text-white outline-none w-full"
@@ -148,7 +148,7 @@ export default function Members() {
                     to={`/members/${member.id}`}
                     className="px-4 py-1.5 rounded-full bg-gradient-to-r from-pink-400 to-purple-400 text-white font-bold text-xs hover:scale-105 transition-transform"
                   >
-                    Details
+                    {t('members_details')}
                   </Link>
                 </div>
               </motion.div>

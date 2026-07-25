@@ -25,7 +25,6 @@ export default function Home() {
 
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  // Auto-play hero slideshow every 4.5 seconds
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % heroImages.length);
@@ -34,9 +33,8 @@ export default function Home() {
   }, [heroImages.length]);
 
   const activeMembers = membersData.filter((m) => m.status === 'active');
-  const featuredAlbum = albumsData[2] || albumsData[0]; // Get Up EP
+  const featuredAlbum = albumsData[2] || albumsData[0];
   const wallpaperOfDay = galleryData.find(g => g.image.includes('supershy')) || galleryData[0];
-  const communityPosts = settings.communityPosts || [];
 
   const quotes = [
     { text: "I want NewJeans to be like a pair of classic jeans that you never get tired of wearing.", author: "Minji" },
@@ -46,9 +44,8 @@ export default function Home() {
 
   return (
     <div className="flex flex-col gap-16 py-8 px-4 max-w-6xl mx-auto z-10 relative">
-      {/* 1. Fullscreen Hero Section with Interactive Auto Slideshow */}
+      {/* 1. Hero Slideshow */}
       <section className="min-h-[70vh] flex flex-col items-center justify-center text-center gap-6 relative my-auto rounded-3xl p-8 overflow-hidden shadow-2xl group">
-        {/* Background Slideshow Overlay with AnimatePresence */}
         <div className="absolute inset-0 z-0">
           <AnimatePresence mode="wait">
             <motion.img
@@ -65,11 +62,9 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-t from-[#0d0b14] via-[#0d0b14]/75 to-transparent" />
         </div>
 
-        {/* Hero Manual Controls (Chevron Chevrons) */}
         <button
           onClick={() => setCurrentSlide((prev) => (prev - 1 + heroImages.length) % heroImages.length)}
           className="absolute left-4 top-1/2 -translate-y-1/2 z-20 p-2.5 rounded-full bg-black/40 text-white/80 hover:text-white border border-white/10 hover:border-pink-300 opacity-0 group-hover:opacity-100 transition-all duration-300"
-          title="Previous Slide"
         >
           <ChevronLeft className="w-5 h-5" />
         </button>
@@ -77,12 +72,10 @@ export default function Home() {
         <button
           onClick={() => setCurrentSlide((prev) => (prev + 1) % heroImages.length)}
           className="absolute right-4 top-1/2 -translate-y-1/2 z-20 p-2.5 rounded-full bg-black/40 text-white/80 hover:text-white border border-white/10 hover:border-pink-300 opacity-0 group-hover:opacity-100 transition-all duration-300"
-          title="Next Slide"
         >
           <ChevronRight className="w-5 h-5" />
         </button>
 
-        {/* Slideshow Indicators Dots */}
         <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2 bg-black/50 px-3 py-1.5 rounded-full border border-white/10">
           {heroImages.map((_, idx) => (
             <button
@@ -147,7 +140,7 @@ export default function Home() {
         </motion.div>
       </section>
 
-      {/* 2. Quote of the Day Section */}
+      {/* 2. Quote of the Day */}
       <section className="glass-surface-pink p-8 rounded-3xl text-center flex flex-col items-center gap-3 border border-pink-300/30">
         <Quote className="w-8 h-8 text-pink-300 opacity-60" />
         <p className="text-base sm:text-lg italic text-white font-serif max-w-2xl">
@@ -156,15 +149,15 @@ export default function Home() {
         <span className="text-xs font-bold text-pink-300 tracking-widest uppercase">— {quotes[0].author} (NewJeans)</span>
       </section>
 
-      {/* 3. Featured Members (Minji, Hanni, Haerin, Hyein) */}
+      {/* 3. Active Members */}
       <section className="flex flex-col gap-6">
         <div className="flex items-center justify-between">
           <h2 className="text-xl font-extrabold text-white flex items-center gap-2">
             <Sparkles className="w-5 h-5 text-pink-300" />
-            <span>ACTIVE MEMBERS</span>
+            <span>{t('home_active_members')}</span>
           </h2>
           <Link to="/members" className="text-xs font-bold text-pink-300 hover:underline flex items-center gap-1">
-            <span>View All</span>
+            <span>{t('home_view_all')}</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>
@@ -189,39 +182,39 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 4. Featured Album Spotlight */}
+      {/* 4. Featured Album */}
       <section className="glass-surface-blue p-8 rounded-3xl flex flex-col sm:flex-row items-center gap-8 border border-cyan-300/30">
         <div className="w-48 h-48 rounded-2xl overflow-hidden shadow-2xl flex-shrink-0 border-2 border-cyan-300/40">
           <img src={featuredAlbum.cover} alt={featuredAlbum.title} className="w-full h-full object-cover" />
         </div>
         <div className="flex flex-col gap-3 text-center sm:text-left">
           <span className="px-3 py-1 rounded-full bg-cyan-400/20 text-cyan-300 text-[10px] font-bold tracking-widest uppercase w-fit mx-auto sm:mx-0">
-            FEATURED DISCOGRAPHY
+            {t('home_featured_disc')}
           </span>
           <h2 className="text-2xl font-extrabold text-white">{featuredAlbum.title}</h2>
           <p className="text-xs text-gray-300 leading-relaxed max-w-lg">
-            Concept: {featuredAlbum.concept}. Released on {featuredAlbum.releaseDate} with hit title tracks.
+            {featuredAlbum.concept} — {featuredAlbum.releaseDate}
           </p>
           <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3 mt-2">
             <Link
               to="/discography"
               className="px-6 py-2.5 rounded-full bg-gradient-to-r from-cyan-400 to-purple-400 text-white font-bold text-xs hover:scale-105 transition-transform"
             >
-              Explore EP & Tracklists
+              {t('home_explore_ep')}
             </Link>
           </div>
         </div>
       </section>
 
-      {/* 5. Wallpaper of the Day & Quick Music Player */}
+      {/* 5. Wallpaper + Audio */}
       <section className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div className="glass-surface p-6 rounded-3xl flex flex-col gap-4 border border-white/10">
           <div className="flex items-center justify-between">
             <h3 className="font-extrabold text-sm text-white flex items-center gap-2">
               <ImageIcon className="w-4 h-4 text-purple-300" />
-              <span>WALLPAPER OF THE DAY</span>
+              <span>{t('home_wallpaper')}</span>
             </h3>
-            <Link to="/gallery" className="text-xs font-bold text-purple-300 hover:underline">Gallery →</Link>
+            <Link to="/gallery" className="text-xs font-bold text-purple-300 hover:underline">{t('nav_gallery')} →</Link>
           </div>
           <div className="relative aspect-video rounded-2xl overflow-hidden shadow-xl border border-white/10">
             <img src={wallpaperOfDay.image} alt={wallpaperOfDay.title} className="w-full h-full object-cover" />
@@ -235,11 +228,10 @@ export default function Home() {
           <div className="flex items-center justify-between">
             <h3 className="font-extrabold text-sm text-white flex items-center gap-2">
               <Music className="w-4 h-4 text-pink-300" />
-              <span>TOP AUDIO PREVIEWS</span>
+              <span>{t('home_top_audio')}</span>
             </h3>
-            <Link to="/discography" className="text-xs font-bold text-pink-300 hover:underline">All Songs →</Link>
+            <Link to="/discography" className="text-xs font-bold text-pink-300 hover:underline">{t('home_all_songs')} →</Link>
           </div>
-
           <div className="flex flex-col gap-2">
             {musicData.slice(0, 3).map((track) => (
               <div
