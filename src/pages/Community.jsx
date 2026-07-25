@@ -227,7 +227,7 @@ export default function Community() {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <div className="w-8 h-8 rounded-full bg-gradient-to-r from-pink-400 to-purple-400 flex items-center justify-center font-bold text-xs text-white">
-                    {post.author_name[0]?.toUpperCase() || 'B'}
+                    {(post.author_name || 'B')[0].toUpperCase()}
                   </div>
                   <div>
                     <h4 className="font-bold text-xs text-white flex items-center gap-1.5">
@@ -251,15 +251,15 @@ export default function Community() {
                 </div>
               </div>
 
-              <p className="text-xs text-gray-200 leading-relaxed font-sans">{post.content}</p>
+              <p className="text-xs text-gray-200 leading-relaxed font-sans">{post.content || ''}</p>
 
               <div className="flex items-center justify-between pt-2 border-t border-white/10 text-xs">
                 <button
-                  onClick={() => handleLike(post.id, post.likes)}
+                  onClick={() => handleLike(post.id, post.likes || 0)}
                   className="flex items-center gap-1.5 text-xs text-gray-300 hover:text-pink-300 transition-colors"
                 >
                   <Heart className="w-4 h-4 text-pink-300 fill-pink-300/30 hover:fill-pink-300" />
-                  <span>{post.likes} {t('community_likes')}</span>
+                  <span>{post.likes || 0} {t('community_likes')}</span>
                 </button>
               </div>
             </motion.div>
