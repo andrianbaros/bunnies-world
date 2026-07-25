@@ -17,6 +17,11 @@ export default function BunniesCanvas() {
 
     const mouse = { x: null, y: null, radius: 150 };
 
+    const isLightMode = settings.theme === 'light' || (settings.theme === 'system' && !window.matchMedia('(prefers-color-scheme: dark)').matches);
+    const colorPalette = isLightMode
+      ? ['#f472b6', '#38bdf8', '#c084fc', '#fbbf24']
+      : ['#ffeaf5', '#bfeaff', '#dccbff', '#fff8e8'];
+
     class FloatingItem {
       constructor(type) {
         this.type = type;
@@ -29,8 +34,8 @@ export default function BunniesCanvas() {
         this.size = Math.random() * 10 + 5;
         this.vx = (Math.random() - 0.5) * 0.5;
         this.vy = (Math.random() - 0.5) * 0.5;
-        this.alpha = Math.random() * 0.35 + 0.15;
-        this.color = ['#ffeaf5', '#bfeaff', '#dccbff', '#fff8e8'][Math.floor(Math.random() * 4)];
+        this.alpha = isLightMode ? Math.random() * 0.35 + 0.2 : Math.random() * 0.35 + 0.15;
+        this.color = colorPalette[Math.floor(Math.random() * colorPalette.length)];
         this.angle = Math.random() * Math.PI * 2;
         this.angularSpeed = (Math.random() - 0.5) * 0.02;
       }
@@ -73,7 +78,7 @@ export default function BunniesCanvas() {
 
           ctx.beginPath();
           ctx.arc(-this.size * 0.3, -this.size * 0.3, this.size * 0.2, 0, Math.PI * 2);
-          ctx.fillStyle = '#ffffff';
+          ctx.fillStyle = isLightMode ? 'rgba(255,255,255,0.8)' : '#ffffff';
           ctx.fill();
         } else if (this.type === 'sparkle') {
           ctx.fillStyle = this.color;
@@ -100,7 +105,7 @@ export default function BunniesCanvas() {
     const init = () => {
       items.length = 0;
       const isSmallScreen = window.innerWidth < 768;
-      const count = isSmallScreen ? 18 : 35; // Reduced particle count for performance
+      const count = isSmallScreen ? 18 : 35;
       const types = ['bubble', 'sparkle', 'star'];
       for (let i = 0; i < count; i++) {
         items.push(new FloatingItem(types[i % types.length]));
@@ -117,7 +122,6 @@ export default function BunniesCanvas() {
 
       const isSmallScreen = window.innerWidth < 768;
 
-      // Only draw connecting lines on desktop to keep mobile performance smooth
       if (!isSmallScreen) {
         for (let a = 0; a < items.length; a++) {
           for (let b = a + 1; b < items.length; b++) {
@@ -126,7 +130,9 @@ export default function BunniesCanvas() {
             const dist = Math.sqrt(dx * dx + dy * dy);
 
             if (dist < 90) {
-              ctx.strokeStyle = `rgba(255, 234, 245, ${(90 - dist) / 90 * 0.1})`;
+              ctx.strokeStyle = isLightMode
+                ? `rgba(236, 72, 153, ${(90 - dist) / 90 * 0.08})`
+                : `rgba(255, 234, 245, ${(90 - dist) / 90 * 0.1})`;
               ctx.lineWidth = 0.7;
               ctx.beginPath();
               ctx.moveTo(items[a].x, items[a].y);
@@ -191,7 +197,7 @@ export default function BunniesCanvas() {
       }
       cancelAnimationFrame(animationFrameId);
     };
-  }, [settings.reducedMotion]);
+  }, [settings.reducedMotion, settings.theme]);
 
   if (settings.reducedMotion) return null;
 

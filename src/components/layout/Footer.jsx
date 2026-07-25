@@ -39,7 +39,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 title={social.name}
-                className="p-2 rounded-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 text-gray-600 dark:text-gray-300 hover:text-pink-500 dark:hover:text-pink-400 hover:border-pink-500/30 transition-all"
+                className="p-2 rounded-full bg-slate-100/80 dark:bg-white/5 border border-black/10 dark:border-white/10 text-gray-600 dark:text-gray-300 hover:text-pink-500 dark:hover:text-pink-400 hover:border-pink-500/30 transition-all"
               >
                 <Icon className="w-4 h-4" />
               </a>
@@ -48,7 +48,7 @@ export default function Footer() {
 
           <button
             onClick={scrollToTop}
-            className="ml-1 p-2 rounded-full bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 text-gray-600 dark:text-gray-300 hover:text-pink-500 dark:hover:text-pink-400 transition-all"
+            className="ml-1 p-2 rounded-full bg-slate-100/80 dark:bg-white/5 border border-black/10 dark:border-white/10 text-gray-600 dark:text-gray-300 hover:text-pink-500 dark:hover:text-pink-400 transition-all"
             title="Back To Top"
           >
             <ArrowUp className="w-4 h-4" />

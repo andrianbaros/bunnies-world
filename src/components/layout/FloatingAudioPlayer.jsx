@@ -171,7 +171,7 @@ export default function FloatingAudioPlayer() {
 
           {/* Playlist Queue Drawer */}
           {isPlaylistOpen && (
-            <div className="max-h-40 overflow-y-auto bg-black/5 dark:bg-black/40 rounded-xl p-1.5 flex flex-col gap-1 border border-black/5 dark:border-white/10">
+            <div className="max-h-40 overflow-y-auto bg-slate-100/80 dark:bg-black/40 rounded-xl p-1.5 flex flex-col gap-1 border border-black/5 dark:border-white/10">
               {playlist.map((track) => (
                 <button
                   key={track.id}

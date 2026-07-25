@@ -193,7 +193,7 @@ export default function Gallery() {
 
       {/* Search & Filter Bar */}
       <div className="glass-surface p-4 flex flex-wrap items-center justify-between gap-4 border">
-        <div className="flex items-center gap-2.5 bg-black/5 dark:bg-black/40 px-4 py-2.5 rounded-xl border border-black/10 dark:border-white/10 flex-grow max-w-md">
+        <div className="flex items-center gap-2.5 bg-slate-100/80 dark:bg-black/40 px-4 py-2.5 rounded-xl border border-black/10 dark:border-white/10 flex-grow max-w-md">
           <Search className="w-4 h-4 text-gray-400" />
           <input
             type="text"
@@ -211,7 +211,7 @@ export default function Gallery() {
               className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all ${
                 categoryFilter === cat
                   ? 'bg-pink-500 text-white shadow-sm'
-                  : 'bg-black/5 dark:bg-white/5 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white border border-transparent'
+                  : 'bg-slate-100/80 dark:bg-white/5 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white border border-transparent'
               }`}
             >
               {cat === 'All' ? t('gallery_cat_all') : cat}
@@ -329,7 +329,7 @@ export default function Gallery() {
               <div className="flex items-center justify-between glass-surface p-4 rounded-2xl border">
                 <button
                   onClick={() => toggleFavorite('gallery', selectedImage)}
-                  className="px-4 py-2 rounded-full bg-black/5 dark:bg-white/10 text-gray-900 dark:text-white font-semibold text-xs flex items-center gap-2 hover:bg-pink-500 hover:text-white transition-colors"
+                  className="px-4 py-2 rounded-full bg-slate-100/80 dark:bg-white/10 text-gray-900 dark:text-white font-semibold text-xs flex items-center gap-2 hover:bg-pink-500 hover:text-white transition-colors"
                 >
                   <Heart className={`w-4 h-4 ${settings.favorites?.gallery?.some((g) => g.id === selectedImage.id) ? 'fill-current text-pink-500' : ''}`} />
                   <span>Bookmark</span>

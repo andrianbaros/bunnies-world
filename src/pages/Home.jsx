@@ -57,7 +57,7 @@ export default function Home() {
               className="w-full h-full object-cover filter contrast-105"
             />
           </AnimatePresence>
-          <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/80 via-transparent to-transparent dark:from-zinc-950/90" />
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 via-transparent to-transparent dark:from-zinc-950/90" />
         </div>
 
         <button
@@ -131,7 +131,7 @@ export default function Home() {
 
           <Link
             to="/universe"
-            className="px-6 py-3 rounded-full bg-black/5 dark:bg-white/10 text-gray-900 dark:text-white font-bold text-xs tracking-wider border border-black/10 dark:border-white/10 hover:bg-black/10 dark:hover:bg-white/20 transition-colors flex items-center gap-2"
+            className="px-6 py-3 rounded-full bg-slate-100/80 dark:bg-white/10 text-gray-900 dark:text-white font-bold text-xs tracking-wider border border-black/10 dark:border-white/10 hover:bg-black/10 dark:hover:bg-white/20 transition-colors flex items-center gap-2"
           >
             <span>{t('btn_calc_affinity')}</span>
           </Link>
@@ -234,7 +234,7 @@ export default function Home() {
               <div
                 key={track.id}
                 onClick={() => playSongById(track.id)}
-                className="flex items-center justify-between p-3 rounded-xl bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 transition-all cursor-pointer border border-transparent hover:border-black/10 dark:hover:border-white/10"
+                className="flex items-center justify-between p-3 rounded-xl bg-slate-100/80 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 transition-all cursor-pointer border border-transparent hover:border-black/10 dark:hover:border-white/10"
               >
                 <div className="flex items-center gap-3">
                   <img src={track.cover} alt={track.title} className="w-9 h-9 rounded-lg object-cover" />

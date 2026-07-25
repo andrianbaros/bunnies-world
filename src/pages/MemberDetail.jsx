@@ -88,14 +88,14 @@ export default function MemberDetail() {
             className={`p-2.5 rounded-full border transition-colors ${
               isFav
                 ? 'bg-pink-500 text-white border-pink-500'
-                : 'bg-black/5 dark:bg-white/10 border-black/10 dark:border-white/10 text-gray-500 dark:text-gray-400 hover:text-pink-500'
+                : 'bg-slate-100/80 dark:bg-white/10 border-black/10 dark:border-white/10 text-gray-500 dark:text-gray-400 hover:text-pink-500'
             }`}
           >
             <Heart className={`w-4 h-4 ${isFav ? 'fill-current' : ''}`} />
           </button>
           <button
             onClick={handleShare}
-            className="p-2.5 rounded-full bg-black/5 dark:bg-white/10 border border-black/10 dark:border-white/10 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+            className="p-2.5 rounded-full bg-slate-100/80 dark:bg-white/10 border border-black/10 dark:border-white/10 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
           >
             <Share2 className="w-4 h-4" />
           </button>
@@ -192,34 +192,34 @@ export default function MemberDetail() {
           </div>
 
           {/* Quote Block */}
-          <blockquote className="bg-black/5 dark:bg-white/5 p-4 rounded-xl border-l-4 border-pink-500 text-xs italic text-gray-700 dark:text-gray-300">
+          <blockquote className="bg-slate-100/80 dark:bg-white/5 p-4 rounded-xl border-l-4 border-pink-500 text-xs italic text-gray-700 dark:text-gray-300">
             "{memberQuote}"
           </blockquote>
 
           {/* Biography Text */}
-          <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 leading-relaxed bg-black/5 dark:bg-white/5 p-4 rounded-xl border border-black/5 dark:border-white/5">
+          <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 leading-relaxed bg-slate-100/80 dark:bg-white/5 p-4 rounded-xl border border-black/5 dark:border-white/5">
             {memberBio}
           </p>
 
           {/* Biodata Grid */}
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
-            <div className="bg-black/5 dark:bg-white/5 p-3 rounded-xl border border-black/5 dark:border-white/5">
+            <div className="bg-slate-100/80 dark:bg-white/5 p-3 rounded-xl border border-black/5 dark:border-white/5">
               <span className="text-[10px] text-gray-500 dark:text-gray-400 block font-semibold">{t('member_full_name')}</span>
               <span className="text-xs font-bold text-gray-900 dark:text-white truncate block">{member.fullName}</span>
             </div>
-            <div className="bg-black/5 dark:bg-white/5 p-3 rounded-xl border border-black/5 dark:border-white/5">
+            <div className="bg-slate-100/80 dark:bg-white/5 p-3 rounded-xl border border-black/5 dark:border-white/5">
               <span className="text-[10px] text-gray-500 dark:text-gray-400 block font-semibold">{t('member_birth')}</span>
               <span className="text-xs font-bold text-gray-900 dark:text-white block">{memberBirth}</span>
             </div>
-            <div className="bg-black/5 dark:bg-white/5 p-3 rounded-xl border border-black/5 dark:border-white/5">
+            <div className="bg-slate-100/80 dark:bg-white/5 p-3 rounded-xl border border-black/5 dark:border-white/5">
               <span className="text-[10px] text-gray-500 dark:text-gray-400 block font-semibold">{t('member_nationality')}</span>
               <span className="text-xs font-bold text-pink-600 dark:text-pink-400 block">{memberNationality}</span>
             </div>
-            <div className="bg-black/5 dark:bg-white/5 p-3 rounded-xl border border-black/5 dark:border-white/5">
+            <div className="bg-slate-100/80 dark:bg-white/5 p-3 rounded-xl border border-black/5 dark:border-white/5">
               <span className="text-[10px] text-gray-500 dark:text-gray-400 block font-semibold">MBTI</span>
               <span className="text-xs font-bold text-pink-600 dark:text-pink-400 block">{member.mbti}</span>
             </div>
-            <div className="col-span-2 bg-black/5 dark:bg-white/5 p-3 rounded-xl border border-black/5 dark:border-white/5">
+            <div className="col-span-2 bg-slate-100/80 dark:bg-white/5 p-3 rounded-xl border border-black/5 dark:border-white/5">
               <span className="text-[10px] text-gray-500 dark:text-gray-400 block font-semibold">{signatureLabel}</span>
               <span className="text-xs font-bold text-gray-900 dark:text-white block">{memberSignature}</span>
             </div>

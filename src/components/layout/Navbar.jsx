@@ -131,7 +131,7 @@ export default function Navbar() {
           </button>
 
           {/* Multi-Language Selector */}
-          <div className="flex items-center bg-black/5 dark:bg-black/40 rounded-full p-0.5 sm:p-1 border border-black/10 dark:border-white/10 flex-shrink-0">
+          <div className="flex items-center bg-slate-100/80 dark:bg-black/40 rounded-full p-0.5 sm:p-1 border border-black/10 dark:border-white/10 flex-shrink-0">
             {['en', 'id', 'ko', 'ja'].map((lang) => (
               <button
                 key={lang}

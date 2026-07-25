@@ -72,7 +72,7 @@ export default function About() {
 
       {/* 2. About Bunnies World Web Portal with Official Logo */}
       <section className="glass-surface p-6 sm:p-8 rounded-2xl border flex flex-col md:flex-row items-center gap-6">
-        <div className="w-24 h-24 sm:w-28 sm:h-28 flex-shrink-0 bg-black/5 dark:bg-black/40 p-3.5 rounded-2xl border border-black/10 dark:border-white/10 flex items-center justify-center shadow-xs">
+        <div className="w-24 h-24 sm:w-28 sm:h-28 flex-shrink-0 bg-slate-100/80 dark:bg-black/40 p-3.5 rounded-2xl border border-black/10 dark:border-white/10 flex items-center justify-center shadow-xs">
           <img src="/assets/logo.png" alt="Bunnies World Official Logo" className="w-full h-full object-contain" />
         </div>
         <div className="flex flex-col gap-2.5 text-center md:text-left">
@@ -86,13 +86,13 @@ export default function About() {
             {t('about_portal_desc')}
           </p>
           <div className="flex flex-wrap justify-center md:justify-start gap-2 pt-1">
-            <span className="px-3 py-1 rounded-full bg-black/5 dark:bg-white/5 text-gray-700 dark:text-gray-300 text-[11px] font-semibold border border-black/10 dark:border-white/10">
+            <span className="px-3 py-1 rounded-full bg-slate-100/80 dark:bg-white/5 text-gray-700 dark:text-gray-300 text-[11px] font-semibold border border-black/10 dark:border-white/10">
               Version 2.5 Pro
             </span>
-            <span className="px-3 py-1 rounded-full bg-black/5 dark:bg-white/5 text-gray-700 dark:text-gray-300 text-[11px] font-semibold border border-black/10 dark:border-white/10">
+            <span className="px-3 py-1 rounded-full bg-slate-100/80 dark:bg-white/5 text-gray-700 dark:text-gray-300 text-[11px] font-semibold border border-black/10 dark:border-white/10">
               Live Audio Previews
             </span>
-            <span className="px-3 py-1 rounded-full bg-black/5 dark:bg-white/5 text-gray-700 dark:text-gray-300 text-[11px] font-semibold border border-black/10 dark:border-white/10">
+            <span className="px-3 py-1 rounded-full bg-slate-100/80 dark:bg-white/5 text-gray-700 dark:text-gray-300 text-[11px] font-semibold border border-black/10 dark:border-white/10">
               Supabase Realtime
             </span>
           </div>
@@ -110,7 +110,7 @@ export default function About() {
               {t('about_naming_desc')}
             </p>
           </div>
-          <div className="bg-black/5 dark:bg-black/40 p-3 rounded-xl border border-black/5 dark:border-white/5 text-[11px] text-gray-500 dark:text-gray-400">
+          <div className="bg-slate-100/80 dark:bg-black/40 p-3 rounded-xl border border-black/5 dark:border-white/5 text-[11px] text-gray-500 dark:text-gray-400">
             <strong>Hangul:</strong> 뉴진스 | <strong>Alternative:</strong> NJZ | <strong>Label:</strong> ADOR / Hybe Corporation
           </div>
         </div>
@@ -157,7 +157,7 @@ export default function About() {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {controversies.map((c, i) => (
-            <div key={i} className="bg-black/5 dark:bg-black/40 p-4 rounded-xl border border-black/5 dark:border-white/5 flex flex-col gap-1.5">
+            <div key={i} className="bg-slate-100/80 dark:bg-black/40 p-4 rounded-xl border border-black/5 dark:border-white/5 flex flex-col gap-1.5">
               <h4 className="font-bold text-xs text-gray-900 dark:text-white">{c.title}</h4>
               <p className="text-[11px] text-gray-600 dark:text-gray-400 leading-relaxed">{c.detail}</p>
             </div>
@@ -199,7 +199,7 @@ export default function About() {
             href="https://weverse.io/newjeans"
             target="_blank"
             rel="noopener noreferrer"
-            className="px-5 py-2.5 rounded-full bg-black/5 dark:bg-white/10 border border-black/10 dark:border-white/10 text-gray-900 dark:text-white font-semibold text-xs hover:bg-black/10 dark:hover:bg-white/20 transition-colors flex items-center gap-1.5"
+            className="px-5 py-2.5 rounded-full bg-slate-100/80 dark:bg-white/10 border border-black/10 dark:border-white/10 text-gray-900 dark:text-white font-semibold text-xs hover:bg-black/10 dark:hover:bg-white/20 transition-colors flex items-center gap-1.5"
           >
             <span>{t('about_weverse')}</span>
             <ExternalLink className="w-3.5 h-3.5" />

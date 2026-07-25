@@ -144,13 +144,13 @@ export default function Community() {
             placeholder={t('community_nickname_ph')}
             value={authorName}
             onChange={(e) => setAuthorName(e.target.value)}
-            className="bg-black/5 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl px-4 py-2.5 text-xs text-gray-900 dark:text-white placeholder-gray-400 outline-none focus:border-pink-500"
+            className="bg-slate-100/80 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl px-4 py-2.5 text-xs text-gray-900 dark:text-white placeholder-gray-400 outline-none focus:border-pink-500"
           />
 
           <select
             value={memberTag}
             onChange={(e) => setMemberTag(e.target.value)}
-            className="bg-black/5 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl px-4 py-2.5 text-xs text-gray-900 dark:text-white outline-none cursor-pointer focus:border-pink-500"
+            className="bg-slate-100/80 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl px-4 py-2.5 text-xs text-gray-900 dark:text-white outline-none cursor-pointer focus:border-pink-500"
           >
             <option value="NewJeans" className="dark:bg-zinc-900">NewJeans Overall</option>
             <option value="Minji" className="dark:bg-zinc-900">Minji</option>
@@ -168,7 +168,7 @@ export default function Community() {
             value={content}
             onChange={handleContentChange}
             required
-            className="w-full bg-black/5 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl p-4 text-xs text-gray-900 dark:text-white placeholder-gray-400 outline-none focus:border-pink-500 resize-none"
+            className="w-full bg-slate-100/80 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl p-4 text-xs text-gray-900 dark:text-white placeholder-gray-400 outline-none focus:border-pink-500 resize-none"
           />
           {profanityWarning && (
             <span className="absolute right-3 bottom-3 text-[10px] text-pink-600 dark:text-pink-400 font-semibold bg-pink-500/10 px-2.5 py-1 rounded-full border border-pink-500/20 flex items-center gap-1">
@@ -203,7 +203,7 @@ export default function Community() {
             <span>{t('community_fan_posts')} ({posts.length})</span>
           </h3>
 
-          <button onClick={fetchPosts} className="p-2 rounded-full bg-black/5 dark:bg-white/5 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors" title="Refresh Feed">
+          <button onClick={fetchPosts} className="p-2 rounded-full bg-slate-100/80 dark:bg-white/5 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors" title="Refresh Feed">
             <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
           </button>
         </div>
