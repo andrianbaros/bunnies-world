@@ -15,12 +15,15 @@ export function SettingsProvider({ children }) {
     const root = document.documentElement;
     if (settings.theme === 'light') {
       root.setAttribute('data-theme', 'light');
+      root.classList.remove('dark');
     } else if (settings.theme === 'dark') {
       root.setAttribute('data-theme', 'dark');
+      root.classList.add('dark');
     } else {
-      // System mode
       const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
       root.setAttribute('data-theme', isDark ? 'dark' : 'light');
+      if (isDark) root.classList.add('dark');
+      else root.classList.remove('dark');
     }
 
     if (settings.language) {
@@ -32,13 +35,13 @@ export function SettingsProvider({ children }) {
   useEffect(() => {
     const { rewarded, streak } = storageService.checkDailyReward();
     if (rewarded) {
-      showToast('info', `🎁 Daily Check-in! Streak: ${streak} Days!`);
+      showToast('info', `Daily Check-in! Streak: ${streak} Days!`);
     }
   }, []);
 
   const showToast = (type, message) => {
     setToast({ type, message });
-    setTimeout(() => setToast(null), 3500);
+    setTimeout(() => setToast(null), 3000);
   };
 
   const updateSetting = (key, value) => {
@@ -54,7 +57,7 @@ export function SettingsProvider({ children }) {
     if (!current.achievements[key]) {
       const updatedAch = storageService.unlockAchievement(key);
       setSettings((prev) => ({ ...prev, achievements: updatedAch }));
-      showToast('success', `🏆 Achievement Unlocked: ${title}!`);
+      showToast('success', `Achievement Unlocked: ${title}!`);
     }
   };
 
@@ -113,8 +116,8 @@ export function SettingsProvider({ children }) {
 
       {/* Global Toast Display */}
       {toast && (
-        <div className="fixed top-20 right-6 z-50 glass-surface-pink px-4 py-3 rounded-2xl border border-pink-300/40 text-xs font-bold text-white shadow-2xl flex items-center gap-2 animate-bounce">
-          <span>✨</span>
+        <div className="fixed top-20 right-6 z-50 glass-surface px-4 py-2.5 rounded-xl border border-pink-500/30 text-xs font-semibold text-gray-900 dark:text-white shadow-lg flex items-center gap-2">
+          <span className="w-2 h-2 rounded-full bg-pink-500" />
           <span>{toast.message}</span>
         </div>
       )}

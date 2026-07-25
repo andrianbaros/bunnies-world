@@ -9,12 +9,12 @@ export default function LoadingScreen({ onFinish }) {
       setProgress((prev) => {
         if (prev >= 100) {
           clearInterval(timer);
-          setTimeout(onFinish, 400);
+          setTimeout(onFinish, 300);
           return 100;
         }
-        return prev + 5;
+        return prev + 10;
       });
-    }, 40);
+    }, 30);
 
     return () => clearInterval(timer);
   }, [onFinish]);
@@ -24,38 +24,27 @@ export default function LoadingScreen({ onFinish }) {
       <motion.div
         key="loading"
         initial={{ opacity: 1 }}
-        exit={{ opacity: 0, scale: 1.05 }}
-        transition={{ duration: 0.5 }}
-        className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#0d0b14] text-white p-6"
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.4 }}
+        className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-zinc-950 text-white p-6"
       >
-        {/* Grain / Noise Overlay Effect */}
-        <div className="absolute inset-0 bg-radial from-pink-500/10 via-purple-500/5 to-transparent pointer-events-none" />
-
         <div className="flex flex-col items-center gap-6 z-10">
-          <motion.div
-            animate={{ scale: [1, 1.15, 1], rotate: [0, 5, -5, 0] }}
-            transition={{ repeat: Infinity, duration: 2 }}
-            className="text-7xl filter drop-shadow-[0_0_20px_rgba(255,234,245,0.8)]"
-          >
-            🐰
-          </motion.div>
-
-          <div className="text-center flex flex-col gap-1">
-            <h1 className="text-3xl font-extrabold bg-gradient-to-r from-pink-300 via-purple-300 to-cyan-300 bg-clip-text text-transparent tracking-widest">
+          <div className="flex items-center gap-2">
+            <span className="w-2.5 h-2.5 rounded-full bg-pink-500 animate-ping" />
+            <h1 className="text-xl font-black uppercase tracking-widest text-white">
               BUNNIES UNIVERSE
             </h1>
-            <p className="text-xs text-gray-400 font-medium tracking-wider">ENTERING NEWJEANS WORLD...</p>
           </div>
 
-          {/* Progress Bar */}
-          <div className="w-64 h-2 bg-white/10 rounded-full overflow-hidden border border-pink-300/30 p-0.5">
+          {/* Minimal Progress Bar */}
+          <div className="w-48 h-1 bg-zinc-800 rounded-full overflow-hidden">
             <motion.div
-              className="h-full bg-gradient-to-r from-pink-400 via-purple-400 to-cyan-400 rounded-full shadow-[0_0_12px_rgba(255,234,245,0.9)]"
+              className="h-full bg-pink-500 rounded-full"
               style={{ width: `${progress}%` }}
             />
           </div>
 
-          <span className="text-xs font-extrabold text-pink-300 tracking-widest">{progress}%</span>
+          <span className="text-[11px] font-mono text-zinc-500 tracking-wider">{progress}%</span>
         </div>
       </motion.div>
     </AnimatePresence>

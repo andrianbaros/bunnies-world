@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Image as ImageIcon, Search, Filter, Heart, Download, X } from 'lucide-react';
+import { Search, Heart, Download, X, Loader2 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import html2canvas from 'html2canvas';
 import galleryData from '../data/json/gallery.json';
 import { useSettings } from '../contexts/SettingsContext';
 
@@ -10,7 +11,9 @@ export default function Gallery() {
   const [searchTerm, setSearchTerm] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('All');
   const [selectedImage, setSelectedImage] = useState(null);
-  const { settings, toggleFavorite, addRecentlyViewed } = useSettings();
+  const [isDownloading, setIsDownloading] = useState(false);
+  const { settings, toggleFavorite, addRecentlyViewed, showToast } = useSettings();
+  const polaroidRef = useRef(null);
 
   const categories = ['All', 'Photocard', 'Concept Photo', 'Behind The Scenes', 'Fan Art', 'Magazine', 'Performance'];
 
@@ -25,46 +28,76 @@ export default function Gallery() {
     addRecentlyViewed('gallery', item);
   };
 
+  const handleDownloadFrame = async () => {
+    if (!polaroidRef.current || !selectedImage) return;
+    try {
+      setIsDownloading(true);
+      showToast('info', 'Generating framed download...');
+      
+      const canvas = await html2canvas(polaroidRef.current, {
+        scale: 2.5,
+        useCORS: true,
+        allowTaint: true,
+        backgroundColor: '#ffffff',
+        logging: false
+      });
+      
+      const dataUrl = canvas.toDataURL('image/png');
+      const link = document.createElement('a');
+      link.href = dataUrl;
+      link.download = `${selectedImage.title.toLowerCase().replace(/[^a-z0-9]/g, '_')}_polaroid.png`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      showToast('success', 'Framed polaroid downloaded!');
+    } catch (err) {
+      console.error('Download frame error:', err);
+      showToast('info', 'Downloading raw image fallback...');
+      const link = document.createElement('a');
+      link.href = selectedImage.image;
+      link.download = `${selectedImage.title}.jpg`;
+      link.click();
+    } finally {
+      setIsDownloading(false);
+    }
+  };
+
   return (
-    <div className="flex flex-col gap-10 py-8 px-4 max-w-6xl mx-auto z-10 relative">
-      {/* Hero Banner */}
-      <div className="text-center flex flex-col items-center gap-3 relative rounded-3xl p-8 overflow-hidden shadow-2xl">
-        <div className="absolute inset-0 z-0">
-          <img src="/assets/how sweet shoot.jpg" alt="Gallery Hero" className="w-full h-full object-cover opacity-25 filter blur-[1px]" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0d0b14] via-[#0d0b14]/75 to-transparent" />
-        </div>
-        <span className="px-4 py-1 rounded-full bg-purple-400/10 border border-purple-300/30 text-purple-300 text-xs font-bold tracking-widest uppercase z-10">
+    <div className="flex flex-col gap-8 py-8 px-4 max-w-6xl mx-auto z-10 relative">
+      {/* Hero Header */}
+      <div className="text-center flex flex-col items-center gap-3">
+        <span className="px-3.5 py-1 rounded-full bg-pink-500/10 border border-pink-500/20 text-pink-600 dark:text-pink-400 text-xs font-bold tracking-widest uppercase">
           {t('gallery_tag')}
         </span>
-        <h1 className="text-hero font-black bg-gradient-to-r from-pink-300 via-purple-300 to-cyan-300 bg-clip-text text-transparent z-10">
+        <h1 className="text-hero">
           {t('gallery_title')}
         </h1>
-        <p className="text-body-custom text-gray-300 max-w-md z-10">
+        <p className="text-sm text-gray-600 dark:text-gray-400 max-w-md">
           {t('gallery_sub')}
         </p>
       </div>
 
-      {/* Search & Filter */}
-      <div className="glass-surface-purple p-4 rounded-3xl flex flex-wrap items-center justify-between gap-4 border border-purple-300/30">
-        <div className="flex items-center gap-2 bg-black/40 px-4 py-2.5 rounded-2xl border border-white/10 flex-grow max-w-md">
-          <Search className="w-4 h-4 text-purple-300" />
+      {/* Search & Filter Bar */}
+      <div className="glass-surface p-4 flex flex-wrap items-center justify-between gap-4 border">
+        <div className="flex items-center gap-2.5 bg-black/5 dark:bg-black/40 px-4 py-2.5 rounded-xl border border-black/10 dark:border-white/10 flex-grow max-w-md">
+          <Search className="w-4 h-4 text-gray-400" />
           <input
             type="text"
             placeholder={t('gallery_search_ph')}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="bg-transparent text-xs font-bold text-white outline-none w-full"
+            className="bg-transparent text-xs font-medium text-gray-900 dark:text-white placeholder-gray-400 outline-none w-full"
           />
         </div>
-        <div className="flex justify-center flex-wrap gap-2">
+        <div className="flex justify-center flex-wrap gap-1.5">
           {categories.map((cat) => (
             <button
               key={cat}
               onClick={() => setCategoryFilter(cat)}
-              className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all ${
+              className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all ${
                 categoryFilter === cat
-                  ? 'bg-gradient-to-r from-purple-400 to-pink-400 text-white shadow-md'
-                  : 'bg-black/30 text-gray-400 hover:text-white border border-white/10'
+                  ? 'bg-pink-500 text-white shadow-sm'
+                  : 'bg-black/5 dark:bg-white/5 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white border border-transparent'
               }`}
             >
               {cat === 'All' ? t('gallery_cat_all') : cat}
@@ -73,7 +106,7 @@ export default function Gallery() {
         </div>
       </div>
 
-      {/* Masonry Grid */}
+      {/* Masonry Polaroid Grid */}
       {filteredItems.length > 0 ? (
         <div className="columns-1 sm:columns-2 md:columns-3 gap-6 space-y-6">
           {filteredItems.map((item, idx) => {
@@ -81,76 +114,126 @@ export default function Gallery() {
             return (
               <motion.div
                 key={item.id}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.4, delay: idx * 0.08 }}
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: idx * 0.05 }}
                 onClick={() => openLightbox(item)}
-                className="bg-white/95 text-gray-900 p-4 rounded-2xl shadow-2xl rotate-1 hover:rotate-0 transition-all duration-300 border-8 border-white flex flex-col gap-3 group cursor-pointer break-inside-avoid"
+                className="bg-white text-gray-900 p-4 rounded-2xl shadow-md border border-gray-200 hover:shadow-xl transition-all duration-300 flex flex-col gap-3 group cursor-pointer break-inside-avoid"
               >
-                <div className="aspect-square rounded-xl overflow-hidden relative">
-                  <img src={item.image} alt={item.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                <div className="aspect-square rounded-xl overflow-hidden relative bg-gray-100">
+                  <img
+                    src={item.image}
+                    alt={item.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    loading="lazy"
+                  />
                   <div className="absolute top-2 right-2 flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
                     <button
                       onClick={(e) => { e.stopPropagation(); toggleFavorite('gallery', item); }}
-                      className={`p-2 rounded-full backdrop-blur-md transition-colors ${isFav ? 'bg-pink-500 text-white' : 'bg-black/50 text-white hover:bg-pink-500'}`}
+                      className={`p-2 rounded-full backdrop-blur-md transition-colors ${
+                        isFav ? 'bg-pink-500 text-white' : 'bg-black/50 text-white hover:bg-pink-500'
+                      }`}
                     >
-                      <Heart className={`w-3.5 h-3.5 ${isFav ? 'fill-white' : ''}`} />
+                      <Heart className={`w-3.5 h-3.5 ${isFav ? 'fill-current' : ''}`} />
                     </button>
                   </div>
                 </div>
-                <div className="flex flex-col text-left">
-                  <span className="text-[10px] font-extrabold text-pink-500 uppercase tracking-wider">{item.category}</span>
-                  <h3 className="font-extrabold text-sm text-gray-900 leading-snug">{item.title}</h3>
-                  <span className="text-[10px] text-gray-500 font-bold mt-1">{item.date}</span>
+                <div className="flex flex-col text-left px-1">
+                  <span className="text-[10px] font-bold text-pink-600 uppercase tracking-wider">{item.category}</span>
+                  <h3 className="font-bold text-sm text-gray-900 leading-snug">{item.title}</h3>
+                  <span className="text-[10px] text-gray-500 font-semibold mt-0.5">{item.date}</span>
                 </div>
               </motion.div>
             );
           })}
         </div>
       ) : (
-        <div className="glass-surface p-12 rounded-3xl text-center flex flex-col items-center gap-4">
-          <span className="text-5xl">🖼️🔍</span>
-          <h3 className="text-xl font-bold text-white">{t('gallery_no_photo')}</h3>
-          <p className="text-xs text-gray-400">{t('gallery_no_photo_sub')}</p>
+        <div className="glass-surface p-12 rounded-3xl text-center flex flex-col items-center gap-3">
+          <h3 className="text-lg font-bold text-gray-900 dark:text-white">{t('gallery_no_photo')}</h3>
+          <p className="text-xs text-gray-500 dark:text-gray-400">{t('gallery_no_photo_sub')}</p>
           <button
             onClick={() => { setSearchTerm(''); setCategoryFilter('All'); }}
-            className="px-5 py-2 rounded-full bg-gradient-to-r from-purple-400 to-pink-400 text-white text-xs font-bold"
+            className="px-5 py-2 rounded-full bg-pink-500 text-white text-xs font-semibold"
           >
             {t('gallery_reset')}
           </button>
         </div>
       )}
 
-      {/* Lightbox */}
+      {/* Lightbox Modal & Full Frame Download */}
       <AnimatePresence>
         {selectedImage && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
             <motion.div
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
               onClick={() => setSelectedImage(null)}
-              className="absolute inset-0 bg-black/80 backdrop-blur-md"
+              className="fixed inset-0 bg-black/80 backdrop-blur-sm"
             />
+            
             <motion.div
-              initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }}
-              className="relative max-w-2xl w-full bg-white text-gray-900 p-6 rounded-3xl z-10 flex flex-col gap-4 shadow-2xl border-8 border-white"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              className="relative max-w-xl w-full z-10 flex flex-col gap-4 my-auto"
             >
-              <button onClick={() => setSelectedImage(null)} className="absolute top-4 right-4 p-2 rounded-full bg-gray-200 text-gray-800 hover:bg-gray-300 transition-colors">
+              {/* Close Button */}
+              <button
+                onClick={() => setSelectedImage(null)}
+                className="absolute -top-12 right-0 p-2 rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors z-20"
+                title="Close"
+              >
                 <X className="w-5 h-5" />
               </button>
-              <div className="w-full max-h-[60vh] rounded-2xl overflow-hidden">
-                <img src={selectedImage.image} alt={selectedImage.title} className="w-full h-full object-cover" />
-              </div>
-              <div className="flex items-center justify-between">
-                <div>
-                  <span className="text-xs font-bold text-pink-500 uppercase">{selectedImage.category}</span>
-                  <h3 className="text-xl font-extrabold text-gray-900">{selectedImage.title}</h3>
-                  <span className="text-xs text-gray-500 font-bold">{selectedImage.date}</span>
+
+              {/* Rendered Polaroid Card (Captured by html2canvas for Download) */}
+              <div
+                ref={polaroidRef}
+                className="bg-white text-gray-900 p-5 sm:p-6 rounded-3xl shadow-2xl flex flex-col gap-4 border-8 border-white"
+              >
+                <div className="w-full max-h-[60vh] rounded-2xl overflow-hidden bg-gray-100 flex items-center justify-center">
+                  <img
+                    src={selectedImage.image}
+                    alt={selectedImage.title}
+                    className="w-full h-full object-contain max-h-[60vh] rounded-2xl"
+                    crossOrigin="anonymous"
+                  />
                 </div>
-                <a href={selectedImage.image} download target="_blank" rel="noopener noreferrer"
-                  className="px-4 py-2 rounded-full bg-gradient-to-r from-pink-400 to-purple-400 text-white font-bold text-xs flex items-center gap-1.5 hover:scale-105 transition-transform">
-                  <Download className="w-4 h-4" />
-                  <span>{t('gallery_download')}</span>
-                </a>
+                <div className="flex items-center justify-between pt-1">
+                  <div>
+                    <span className="text-[11px] font-extrabold text-pink-600 uppercase tracking-wider">{selectedImage.category}</span>
+                    <h3 className="text-lg font-black text-gray-900 leading-snug">{selectedImage.title}</h3>
+                    <span className="text-xs text-gray-500 font-semibold">{selectedImage.date}</span>
+                  </div>
+                  <div className="text-right">
+                    <span className="text-[10px] font-bold text-gray-400 tracking-widest block uppercase">BUNNIES UNIVERSE</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Action Toolbar */}
+              <div className="flex items-center justify-between glass-surface p-4 rounded-2xl border">
+                <button
+                  onClick={() => toggleFavorite('gallery', selectedImage)}
+                  className="px-4 py-2 rounded-full bg-black/5 dark:bg-white/10 text-gray-900 dark:text-white font-semibold text-xs flex items-center gap-2 hover:bg-pink-500 hover:text-white transition-colors"
+                >
+                  <Heart className={`w-4 h-4 ${settings.favorites?.gallery?.some((g) => g.id === selectedImage.id) ? 'fill-current text-pink-500' : ''}`} />
+                  <span>Bookmark</span>
+                </button>
+
+                <button
+                  onClick={handleDownloadFrame}
+                  disabled={isDownloading}
+                  className="px-5 py-2.5 rounded-full bg-pink-500 text-white font-bold text-xs flex items-center gap-2 hover:bg-pink-600 transition-colors shadow-md disabled:opacity-50"
+                >
+                  {isDownloading ? (
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                  ) : (
+                    <Download className="w-4 h-4" />
+                  )}
+                  <span>{isDownloading ? 'Generating...' : `${t('gallery_download')} Full Frame`}</span>
+                </button>
               </div>
             </motion.div>
           </div>

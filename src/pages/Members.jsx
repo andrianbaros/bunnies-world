@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Search, Heart, Share2, Filter, ArrowUpDown } from 'lucide-react';
+import { Search, Heart, Share2, Filter } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import membersData from '../data/json/members.json';
@@ -10,7 +10,7 @@ export default function Members() {
   const { t } = useTranslation();
   const [searchTerm, setSearchTerm] = useState('');
   const [mbtiFilter, setMbtiFilter] = useState('All');
-  const { settings, toggleFavorite } = useSettings();
+  const { settings, toggleFavorite, showToast } = useSettings();
 
   const activeMembers = membersData.filter((m) => m.status === 'active');
   const formerMembers = membersData.filter((m) => m.status === 'former');
@@ -38,62 +38,63 @@ export default function Members() {
       });
     } else {
       navigator.clipboard.writeText(window.location.href);
-      alert(`Copied link for ${member.name}!`);
+      showToast('info', `Copied link for ${member.name}!`);
     }
   };
 
   return (
-    <div className="flex flex-col gap-12 py-8 px-4 max-w-6xl mx-auto z-10 relative">
-      {/* Section Header */}
+    <div className="flex flex-col gap-10 py-6 px-4 max-w-6xl mx-auto z-10 relative">
+      {/* Header Banner */}
       <div className="text-center flex flex-col items-center gap-3">
-        <span className="px-4 py-1 rounded-full bg-pink-400/10 border border-pink-300/30 text-pink-300 text-xs font-bold tracking-widest uppercase">
+        <span className="px-3.5 py-1 rounded-full bg-pink-500/10 border border-pink-500/20 text-pink-600 dark:text-pink-400 text-xs font-bold tracking-widest uppercase">
           {t('members_title')}
         </span>
-        <h1 className="text-hero font-black bg-gradient-to-r from-pink-300 via-purple-300 to-cyan-300 bg-clip-text text-transparent">
+        <h1 className="text-hero">
           NEWJEANS PROFILE
         </h1>
-        <p className="text-body-custom text-gray-300 max-w-md">
+        <p className="text-sm text-gray-600 dark:text-gray-400 max-w-md">
           {t('members_sub')}
         </p>
       </div>
 
       {/* Search & Filter Bar */}
-      <div className="glass-surface-pink p-4 rounded-3xl flex flex-wrap items-center justify-between gap-4 border border-pink-300/30">
-        <div className="flex items-center gap-2 bg-black/30 px-4 py-2 rounded-2xl border border-white/10 flex-grow max-w-md">
-          <Search className="w-4 h-4 text-pink-300" />
+      <div className="glass-surface p-4 rounded-2xl flex flex-wrap items-center justify-between gap-4 border">
+        <div className="flex items-center gap-2.5 bg-black/5 dark:bg-black/40 px-4 py-2 rounded-xl border border-black/10 dark:border-white/10 flex-grow max-w-md">
+          <Search className="w-4 h-4 text-gray-400" />
           <input
             type="text"
             placeholder={t('members_search_ph')}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="bg-transparent text-xs font-bold text-white outline-none w-full"
+            className="bg-transparent text-xs font-medium text-gray-900 dark:text-white placeholder-gray-400 outline-none w-full"
           />
         </div>
 
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-1.5 bg-black/30 px-3 py-1.5 rounded-2xl border border-white/10 text-xs">
-            <Filter className="w-3.5 h-3.5 text-purple-300" />
+        <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 bg-black/5 dark:bg-black/40 px-3 py-1.5 rounded-xl border border-black/10 dark:border-white/10 text-xs">
+            <Filter className="w-3.5 h-3.5 text-gray-400" />
             <select
               value={mbtiFilter}
               onChange={(e) => setMbtiFilter(e.target.value)}
-              className="bg-transparent text-xs font-bold text-white outline-none cursor-pointer"
+              className="bg-transparent text-xs font-semibold text-gray-900 dark:text-white outline-none cursor-pointer"
             >
-              <option value="All" className="bg-gray-900">All MBTI</option>
-              <option value="ESTJ" className="bg-gray-900">ESTJ</option>
-              <option value="INFP" className="bg-gray-900">INFP</option>
-              <option value="ISTP" className="bg-gray-900">ISTP</option>
-              <option value="ENFP" className="bg-gray-900">ENFP</option>
+              <option value="All" className="dark:bg-zinc-900">All MBTI</option>
+              <option value="ESTJ" className="dark:bg-zinc-900">ESTJ</option>
+              <option value="INFP" className="dark:bg-zinc-900">INFP</option>
+              <option value="ISTP" className="dark:bg-zinc-900">ISTP</option>
+              <option value="ENFP" className="dark:bg-zinc-900">ENFP</option>
             </select>
           </div>
         </div>
       </div>
 
       {/* Active Members Grid */}
-      <div className="flex flex-col gap-6">
-        <h2 className="text-lg font-bold text-pink-300 flex items-center gap-2 border-b border-white/10 pb-2">
-          <span>✨</span>
-          <span>{t('active_members')} ({filteredActive.length})</span>
-        </h2>
+      <div className="flex flex-col gap-5">
+        <div className="flex items-center justify-between border-b border-black/10 dark:border-white/10 pb-3">
+          <h2 className="text-sm font-bold text-gray-900 dark:text-white tracking-wider uppercase">
+            {t('active_members')} ({filteredActive.length})
+          </h2>
+        </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {filteredActive.map((member, idx) => {
@@ -101,52 +102,53 @@ export default function Members() {
             return (
               <motion.div
                 key={member.id}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: idx * 0.1 }}
-                whileHover={{ y: -8, scale: 1.02 }}
-                className="glass-surface p-6 rounded-3xl flex flex-col items-center text-center gap-4 border border-white/10 hover:border-pink-300/40 transition-all cursor-pointer relative group"
+                transition={{ duration: 0.3, delay: idx * 0.08 }}
+                className="glass-surface p-6 rounded-2xl flex flex-col items-center text-center gap-4 border hover:border-pink-500/30 transition-all group relative"
               >
-                <Link to={`/members/${member.id}`} className="w-full flex flex-col items-center gap-4">
-                  <div className="relative w-36 h-36 rounded-full overflow-hidden border-4 border-pink-300/30 p-1 group-hover:border-pink-300 transition-colors shadow-2xl">
+                <Link to={`/members/${member.id}`} className="w-full flex flex-col items-center gap-3">
+                  <div className="relative w-32 h-32 rounded-full overflow-hidden border-2 border-pink-500/20 p-1 group-hover:border-pink-500 transition-colors shadow-sm">
                     <img
                       src={member.image}
                       alt={member.name}
-                      className="w-full h-full object-cover rounded-full group-hover:scale-110 transition-transform duration-500"
+                      className="w-full h-full object-cover rounded-full group-hover:scale-105 transition-transform duration-300"
                     />
                   </div>
                   <div>
-                    <h3 className="text-card-title font-extrabold text-white tracking-wide">{member.name}</h3>
-                    <span className="text-xs text-pink-300 font-bold">{member.koreanName}</span>
+                    <h3 className="font-bold text-base text-gray-900 dark:text-white">{member.name}</h3>
+                    <span className="text-xs text-pink-600 dark:text-pink-400 font-semibold">{member.koreanName}</span>
                   </div>
-                  <p className="text-caption-custom text-gray-300 line-clamp-2">{member.position}</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 line-clamp-2">{member.position}</p>
                 </Link>
 
-                <div className="flex items-center gap-3 mt-auto pt-2 border-t border-white/10 w-full justify-center">
+                <div className="flex items-center gap-2 mt-auto pt-3 border-t border-black/5 dark:border-white/10 w-full justify-center">
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
                       toggleFavorite('members', member);
                     }}
-                    className={`p-2 rounded-full border transition-all ${
+                    className={`p-2 rounded-full transition-colors ${
                       isFav
-                        ? 'bg-pink-400/20 border-pink-300 text-pink-300'
-                        : 'bg-white/5 border-white/10 text-gray-400 hover:text-white'
+                        ? 'bg-pink-500 text-white'
+                        : 'bg-black/5 dark:bg-white/10 text-gray-500 dark:text-gray-400 hover:text-pink-500'
                     }`}
+                    title="Bookmark Member"
                   >
-                    <Heart className={`w-4 h-4 ${isFav ? 'fill-pink-300' : ''}`} />
+                    <Heart className={`w-4 h-4 ${isFav ? 'fill-current' : ''}`} />
                   </button>
 
                   <button
                     onClick={(e) => handleShare(e, member)}
-                    className="p-2 rounded-full bg-white/5 border border-white/10 text-gray-400 hover:text-white transition-colors"
+                    className="p-2 rounded-full bg-black/5 dark:bg-white/10 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+                    title="Share Profile"
                   >
                     <Share2 className="w-4 h-4" />
                   </button>
 
                   <Link
                     to={`/members/${member.id}`}
-                    className="px-4 py-1.5 rounded-full bg-gradient-to-r from-pink-400 to-purple-400 text-white font-bold text-xs hover:scale-105 transition-transform"
+                    className="px-4 py-1.5 rounded-full bg-pink-500 text-white font-semibold text-xs hover:bg-pink-600 transition-colors ml-auto"
                   >
                     {t('members_details')}
                   </Link>
@@ -157,35 +159,34 @@ export default function Members() {
         </div>
       </div>
 
-      {/* Former Member Section (Danielle) */}
+      {/* Former Member Section */}
       {filteredFormer.length > 0 && (
-        <div className="flex flex-col gap-6 mt-6">
-          <h2 className="text-lg font-bold text-purple-300 flex items-center gap-2 border-b border-white/10 pb-2">
-            <span>🌸</span>
-            <span>{t('former_members')} ({filteredFormer.length})</span>
-          </h2>
+        <div className="flex flex-col gap-5 mt-4">
+          <div className="flex items-center justify-between border-b border-black/10 dark:border-white/10 pb-3">
+            <h2 className="text-sm font-bold text-gray-900 dark:text-white tracking-wider uppercase">
+              {t('former_members')} ({filteredFormer.length})
+            </h2>
+          </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {filteredFormer.map((member) => (
               <motion.div
                 key={member.id}
-                whileHover={{ y: -6 }}
-                className="glass-surface p-6 rounded-3xl flex flex-col items-center text-center gap-4 border border-yellow-300/30 relative"
+                className="glass-surface p-6 rounded-2xl flex flex-col items-center text-center gap-4 border relative"
               >
-                {/* Former Member Badge */}
-                <div className="absolute top-4 right-4 bg-yellow-400/20 border border-yellow-400/50 text-yellow-300 text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+                <div className="absolute top-4 right-4 bg-amber-500/10 border border-amber-500/30 text-amber-600 dark:text-amber-400 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">
                   {t('former_member_badge')}
                 </div>
 
-                <Link to={`/members/${member.id}`} className="w-full flex flex-col items-center gap-4">
-                  <div className="relative w-36 h-36 rounded-full overflow-hidden border-4 border-yellow-300/40 p-1 shadow-2xl">
+                <Link to={`/members/${member.id}`} className="w-full flex flex-col items-center gap-3">
+                  <div className="relative w-32 h-32 rounded-full overflow-hidden border-2 border-amber-500/30 p-1 shadow-sm">
                     <img src={member.image} alt={member.name} className="w-full h-full object-cover rounded-full" />
                   </div>
                   <div>
-                    <h3 className="text-card-title font-extrabold text-white tracking-wide">{member.name}</h3>
-                    <span className="text-xs text-yellow-300 font-bold">{member.koreanName}</span>
+                    <h3 className="font-bold text-base text-gray-900 dark:text-white">{member.name}</h3>
+                    <span className="text-xs text-amber-600 dark:text-amber-400 font-semibold">{member.koreanName}</span>
                   </div>
-                  <p className="text-caption-custom text-gray-300 line-clamp-2">{member.position}</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 line-clamp-2">{member.position}</p>
                 </Link>
               </motion.div>
             ))}

@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { ShieldCheck, Lock, Trash2, Pin, RefreshCw, AlertCircle, CheckCircle, Database } from 'lucide-react';
+import React, { useState } from 'react';
+import { ShieldCheck, Lock, Trash2, Pin, RefreshCw, Database } from 'lucide-react';
 import { supabase, isSupabaseConfigured } from '../services/supabase';
 import { storageService } from '../services/storageService';
 import { useSettings } from '../contexts/SettingsContext';
@@ -18,10 +17,10 @@ export default function Admin() {
     e.preventDefault();
     if (passcode === ADMIN_PASSCODE) {
       setIsAuthenticated(true);
-      showToast('info', '🔓 Admin Access Granted!');
+      showToast('info', 'Admin Access Granted');
       fetchAdminPosts();
     } else {
-      showToast('info', '❌ Incorrect Admin Passcode!');
+      showToast('info', 'Incorrect Admin Passcode');
     }
   };
 
@@ -53,17 +52,16 @@ export default function Admin() {
         const { error } = await supabase.from('community_posts').delete().eq('id', postId);
         if (error) throw error;
         setPosts(posts.filter((p) => p.id !== postId));
-        showToast('info', '🗑️ Post deleted from Supabase live database!');
+        showToast('info', 'Post deleted from database!');
       } catch (err) {
         console.error('Error deleting post:', err.message);
-        showToast('info', `❌ Delete error: ${err.message}`);
+        showToast('info', `Delete error: ${err.message}`);
       }
     } else {
-      // Local storage delete
       const updated = posts.filter((p) => p.id !== postId);
       setPosts(updated);
       storageService.saveCommunityPosts(updated);
-      showToast('info', '🗑️ Post deleted locally!');
+      showToast('info', 'Post deleted locally!');
     }
   };
 
@@ -74,7 +72,7 @@ export default function Admin() {
     if (isSupabaseConfigured() && typeof postId === 'string' && !postId.startsWith('local-')) {
       try {
         await supabase.from('community_posts').update({ is_pinned: nextState }).eq('id', postId);
-        showToast('info', `📌 Post ${nextState ? 'Pinned' : 'Unpinned'}!`);
+        showToast('info', `Post ${nextState ? 'Pinned' : 'Unpinned'}`);
       } catch (err) {
         console.error('Error toggling pin:', err.message);
       }
@@ -84,13 +82,13 @@ export default function Admin() {
   if (!isAuthenticated) {
     return (
       <div className="min-h-[60vh] flex flex-col items-center justify-center py-10 px-4 max-w-md mx-auto z-10 relative">
-        <form onSubmit={handleLogin} className="w-full glass-surface-pink p-8 rounded-3xl border border-pink-300/30 flex flex-col items-center gap-5 shadow-2xl text-center">
-          <div className="w-12 h-12 rounded-full bg-pink-400/20 flex items-center justify-center text-pink-300 border border-pink-300/30">
+        <form onSubmit={handleLogin} className="w-full glass-surface p-8 rounded-2xl border flex flex-col items-center gap-5 text-center shadow-lg">
+          <div className="w-12 h-12 rounded-full bg-pink-500/10 flex items-center justify-center text-pink-500 border border-pink-500/20">
             <Lock className="w-6 h-6" />
           </div>
           <div>
-            <h1 className="text-xl font-extrabold text-white">ADMIN MANAGEMENT PORTAL</h1>
-            <p className="text-xs text-gray-300 mt-1">Enter your admin passcode to moderate community posts.</p>
+            <h1 className="text-lg font-bold text-gray-900 dark:text-white uppercase tracking-wider">ADMIN MANAGEMENT PORTAL</h1>
+            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Enter admin passcode to moderate community posts.</p>
           </div>
 
           <input
@@ -99,12 +97,12 @@ export default function Admin() {
             value={passcode}
             onChange={(e) => setPasscode(e.target.value)}
             required
-            className="w-full bg-black/40 border border-white/10 rounded-2xl px-4 py-3 text-xs text-white placeholder-gray-400 outline-none focus:border-pink-300 text-center"
+            className="w-full bg-black/5 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl px-4 py-3 text-xs text-gray-900 dark:text-white placeholder-gray-400 outline-none focus:border-pink-500 text-center font-medium"
           />
 
           <button
             type="submit"
-            className="w-full py-3 rounded-full bg-gradient-to-r from-pink-400 to-purple-400 text-white font-extrabold text-xs shadow-lg hover:scale-105 transition-transform"
+            className="w-full py-3 rounded-full bg-pink-500 text-white font-bold text-xs hover:bg-pink-600 transition-colors shadow-sm"
           >
             Authenticate Admin
           </button>
@@ -114,57 +112,63 @@ export default function Admin() {
   }
 
   return (
-    <div className="flex flex-col gap-8 py-8 px-4 max-w-5xl mx-auto z-10 relative">
+    <div className="flex flex-col gap-6 py-6 px-4 max-w-5xl mx-auto z-10 relative">
       {/* Admin Header */}
-      <div className="glass-surface p-6 rounded-3xl border border-cyan-300/30 flex flex-wrap items-center justify-between gap-4">
+      <div className="glass-surface p-6 rounded-2xl border flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-3">
-          <ShieldCheck className="w-8 h-8 text-cyan-300" />
+          <ShieldCheck className="w-7 h-7 text-pink-500" />
           <div>
-            <h1 className="text-xl font-extrabold text-white">SUPABASE ADMIN MODERATION CONTROL</h1>
-            <p className="text-xs text-gray-300">You have full admin privileges to delete or pin community posts.</p>
+            <h1 className="text-lg font-bold text-gray-900 dark:text-white uppercase tracking-wider">ADMIN MODERATION CONTROL</h1>
+            <p className="text-xs text-gray-500 dark:text-gray-400">Full admin privileges to delete or pin community posts.</p>
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
-          <button onClick={fetchAdminPosts} className="px-4 py-2 rounded-full bg-black/40 border border-white/10 text-xs text-white hover:bg-white/10 flex items-center gap-1.5 font-bold">
+        <div className="flex items-center gap-2">
+          <button
+            onClick={fetchAdminPosts}
+            className="px-4 py-2 rounded-full bg-black/5 dark:bg-white/10 border border-black/10 dark:border-white/10 text-xs text-gray-900 dark:text-white hover:bg-black/10 dark:hover:bg-white/20 transition-colors flex items-center gap-1.5 font-semibold"
+          >
             <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
             <span>Refresh</span>
           </button>
-          <button onClick={() => setIsAuthenticated(false)} className="px-4 py-2 rounded-full bg-red-500/20 border border-red-500/40 text-xs text-red-300 font-bold hover:bg-red-500/30">
+          <button
+            onClick={() => setIsAuthenticated(false)}
+            className="px-4 py-2 rounded-full bg-red-500/10 border border-red-500/20 text-xs text-red-600 dark:text-red-400 font-semibold hover:bg-red-500 hover:text-white transition-colors"
+          >
             Lock Portal
           </button>
         </div>
       </div>
 
-      {/* Database Connection Status Card */}
-      <div className="glass-surface p-4 rounded-2xl border border-white/10 flex items-center justify-between text-xs">
+      {/* Connection Status */}
+      <div className="glass-surface p-4 rounded-xl border flex items-center justify-between text-xs">
         <div className="flex items-center gap-2">
-          <Database className="w-4 h-4 text-purple-300" />
-          <span className="text-gray-300">Database Driver:</span>
-          <span className="font-bold text-pink-300">{isSupabaseConfigured() ? 'Supabase Live PostgreSQL' : 'LocalStorage Offline Fallback'}</span>
+          <Database className="w-4 h-4 text-pink-500" />
+          <span className="text-gray-500 dark:text-gray-400">Database Driver:</span>
+          <span className="font-bold text-gray-900 dark:text-white">{isSupabaseConfigured() ? 'Supabase Live PostgreSQL' : 'LocalStorage Offline Fallback'}</span>
         </div>
-        <span className="text-[10px] text-gray-400">Total Posts: {posts.length}</span>
+        <span className="text-[11px] text-gray-500 dark:text-gray-400 font-medium">Total Posts: {posts.length}</span>
       </div>
 
-      {/* Admin Posts Moderation Table / Cards */}
+      {/* Admin Posts Moderation Cards */}
       <div className="flex flex-col gap-3">
         {posts.map((post) => (
-          <div key={post.id} className="glass-surface p-5 rounded-2xl border border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div key={post.id} className="glass-surface p-4 sm:p-5 rounded-xl border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div className="flex flex-col gap-1 overflow-hidden">
               <div className="flex items-center gap-2">
-                <span className="font-bold text-xs text-white">{post.author_name}</span>
-                <span className="text-[10px] px-2 py-0.5 rounded-full bg-white/10 text-cyan-300 font-bold">{post.member_tag}</span>
-                {post.is_pinned && <span className="text-[10px] px-2 py-0.5 rounded-full bg-pink-400/20 text-pink-300 font-bold">PINNED</span>}
+                <span className="font-bold text-xs text-gray-900 dark:text-white">{post.author_name}</span>
+                <span className="text-[10px] px-2 py-0.5 rounded-full bg-pink-500/10 text-pink-600 dark:text-pink-400 font-semibold">{post.member_tag}</span>
+                {post.is_pinned && <span className="text-[10px] px-2 py-0.5 rounded-full bg-pink-500 text-white font-bold">PINNED</span>}
               </div>
-              <p className="text-xs text-gray-300 truncate max-w-xl">{post.content}</p>
-              <span className="text-[10px] text-gray-500">{new Date(post.created_at).toLocaleString()} • {post.likes} Likes</span>
+              <p className="text-xs text-gray-600 dark:text-gray-300 truncate max-w-xl">{post.content}</p>
+              <span className="text-[10px] text-gray-500 dark:text-gray-400 font-medium">{new Date(post.created_at).toLocaleString()} • {post.likes} Likes</span>
             </div>
 
             <div className="flex items-center gap-2 flex-shrink-0">
               <button
                 onClick={() => handleTogglePin(post.id, post.is_pinned)}
-                className={`p-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1 ${
-                  post.is_pinned ? 'bg-pink-400/20 text-pink-300 border border-pink-300/30' : 'bg-white/5 text-gray-300 hover:text-white'
+                className={`p-2 rounded-lg text-xs font-semibold transition-all flex items-center gap-1 border ${
+                  post.is_pinned ? 'bg-pink-500 text-white border-pink-500' : 'bg-black/5 dark:bg-white/10 text-gray-700 dark:text-gray-300 border-transparent hover:border-black/10'
                 }`}
                 title="Toggle Pin"
               >
@@ -174,8 +178,8 @@ export default function Admin() {
 
               <button
                 onClick={() => handleDeletePost(post.id)}
-                className="p-2 rounded-xl bg-red-500/20 border border-red-500/40 text-red-300 text-xs font-bold hover:bg-red-500/30 transition-all flex items-center gap-1"
-                title="Delete Post (Admin Only)"
+                className="p-2 rounded-lg bg-red-500/10 border border-red-500/20 text-red-600 dark:text-red-400 text-xs font-semibold hover:bg-red-500 hover:text-white transition-colors flex items-center gap-1"
+                title="Delete Post"
               >
                 <Trash2 className="w-3.5 h-3.5" />
                 <span>Delete</span>
