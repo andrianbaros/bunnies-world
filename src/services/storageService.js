@@ -63,18 +63,34 @@ export const storageService = {
       const data = localStorage.getItem(`${STORAGE_PREFIX}data`);
       if (!data) {
         this.saveSettings(DEFAULT_SETTINGS);
-        return DEFAULT_SETTINGS;
+        return { ...DEFAULT_SETTINGS };
       }
       const parsed = JSON.parse(data);
       if (!parsed.version || parsed.version < CURRENT_SCHEMA_VERSION) {
-        const migrated = { ...DEFAULT_SETTINGS, ...parsed, version: CURRENT_SCHEMA_VERSION };
+        // Deep merge: keep defaults for nested objects to avoid stale schema
+        const migrated = {
+          ...DEFAULT_SETTINGS,
+          ...parsed,
+          version: CURRENT_SCHEMA_VERSION,
+          achievements: { ...DEFAULT_SETTINGS.achievements, ...(parsed.achievements || {}) },
+          favorites: { ...DEFAULT_SETTINGS.favorites, ...(parsed.favorites || {}) },
+          recentlyViewed: { ...DEFAULT_SETTINGS.recentlyViewed, ...(parsed.recentlyViewed || {}) },
+          // Don't carry over old communityPosts from localStorage — Supabase is source of truth
+          communityPosts: []
+        };
         this.saveSettings(migrated);
         return migrated;
       }
-      return parsed;
+      // Ensure critical nested objects always exist even for current version
+      return {
+        ...DEFAULT_SETTINGS,
+        ...parsed,
+        achievements: { ...DEFAULT_SETTINGS.achievements, ...(parsed.achievements || {}) },
+        favorites: { ...DEFAULT_SETTINGS.favorites, ...(parsed.favorites || {}) },
+      };
     } catch (e) {
       console.error('LocalStorage fallback error:', e);
-      return DEFAULT_SETTINGS;
+      return { ...DEFAULT_SETTINGS };
     }
   },
 
