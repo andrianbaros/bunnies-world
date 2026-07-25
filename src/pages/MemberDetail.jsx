@@ -48,10 +48,11 @@ export default function MemberDetail() {
   };
 
   const handleShare = () => {
+    const bioText = t(`member_${member.id}_bio`, { defaultValue: member.bio });
     if (navigator.share) {
       navigator.share({
         title: `NewJeans ${member.name}`,
-        text: member.bio,
+        text: bioText,
         url: window.location.href
       });
     } else {
@@ -59,6 +60,15 @@ export default function MemberDetail() {
       showToast('info', `Copied profile link for ${member.name}!`);
     }
   };
+
+  const memberAnimal = t(`member_${member.id}_animal`, { defaultValue: member.animalRepresentation });
+  const memberPosition = t(`member_${member.id}_position`, { defaultValue: member.position });
+  const memberQuote = t(`member_${member.id}_quote`, { defaultValue: member.quote });
+  const memberBio = t(`member_${member.id}_bio`, { defaultValue: member.bio });
+  const memberBirth = t(`member_${member.id}_birth`, { defaultValue: member.birthDate });
+  const memberNationality = t(`member_${member.id}_nationality`, { defaultValue: member.nationality });
+  const memberSignature = t(`member_${member.id}_signature`, { defaultValue: member.signature });
+  const signatureLabel = t('member_signature_label', { defaultValue: 'Signature' });
 
   return (
     <div className="flex flex-col gap-8 py-6 px-4 max-w-5xl mx-auto z-10 relative">
@@ -125,12 +135,12 @@ export default function MemberDetail() {
             </AnimatePresence>
 
             <div className="absolute top-3 left-3 bg-black/70 backdrop-blur-md px-3 py-1 rounded-full text-xs font-semibold text-white border border-white/20 z-10">
-              <span>{member.animalRepresentation}</span>
+              <span>{memberAnimal}</span>
             </div>
 
             {isFormer && (
               <div className="absolute top-3 right-3 bg-amber-500 text-black font-bold text-[10px] px-2.5 py-0.5 rounded-full uppercase tracking-wider z-10">
-                Former Member
+                {t('former_member_badge', { defaultValue: 'ARCHIVE' })}
               </div>
             )}
 
@@ -178,17 +188,17 @@ export default function MemberDetail() {
               <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white tracking-tight">{member.name}</h1>
               <span className="text-xl text-pink-600 dark:text-pink-400 font-bold">{member.koreanName}</span>
             </div>
-            <p className="text-xs text-gray-500 dark:text-gray-400 font-semibold mt-1 uppercase tracking-wider">{member.position}</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400 font-semibold mt-1 uppercase tracking-wider">{memberPosition}</p>
           </div>
 
           {/* Quote Block */}
           <blockquote className="bg-black/5 dark:bg-white/5 p-4 rounded-xl border-l-4 border-pink-500 text-xs italic text-gray-700 dark:text-gray-300">
-            "{member.quote}"
+            "{memberQuote}"
           </blockquote>
 
           {/* Biography Text */}
           <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 leading-relaxed bg-black/5 dark:bg-white/5 p-4 rounded-xl border border-black/5 dark:border-white/5">
-            {member.bio}
+            {memberBio}
           </p>
 
           {/* Biodata Grid */}
@@ -199,19 +209,19 @@ export default function MemberDetail() {
             </div>
             <div className="bg-black/5 dark:bg-white/5 p-3 rounded-xl border border-black/5 dark:border-white/5">
               <span className="text-[10px] text-gray-500 dark:text-gray-400 block font-semibold">{t('member_birth')}</span>
-              <span className="text-xs font-bold text-gray-900 dark:text-white block">{member.birthDate}</span>
+              <span className="text-xs font-bold text-gray-900 dark:text-white block">{memberBirth}</span>
             </div>
             <div className="bg-black/5 dark:bg-white/5 p-3 rounded-xl border border-black/5 dark:border-white/5">
               <span className="text-[10px] text-gray-500 dark:text-gray-400 block font-semibold">{t('member_nationality')}</span>
-              <span className="text-xs font-bold text-pink-600 dark:text-pink-400 block">{member.nationality}</span>
+              <span className="text-xs font-bold text-pink-600 dark:text-pink-400 block">{memberNationality}</span>
             </div>
             <div className="bg-black/5 dark:bg-white/5 p-3 rounded-xl border border-black/5 dark:border-white/5">
               <span className="text-[10px] text-gray-500 dark:text-gray-400 block font-semibold">MBTI</span>
               <span className="text-xs font-bold text-pink-600 dark:text-pink-400 block">{member.mbti}</span>
             </div>
             <div className="col-span-2 bg-black/5 dark:bg-white/5 p-3 rounded-xl border border-black/5 dark:border-white/5">
-              <span className="text-[10px] text-gray-500 dark:text-gray-400 block font-semibold">Signature</span>
-              <span className="text-xs font-bold text-gray-900 dark:text-white block">{member.signature}</span>
+              <span className="text-[10px] text-gray-500 dark:text-gray-400 block font-semibold">{signatureLabel}</span>
+              <span className="text-xs font-bold text-gray-900 dark:text-white block">{memberSignature}</span>
             </div>
           </div>
 
