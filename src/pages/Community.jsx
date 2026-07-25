@@ -76,7 +76,7 @@ export default function Community() {
         const { data, error } = await supabase.from('community_posts').insert([newPost]).select();
         if (error) throw error;
         if (data) setPosts([data[0], ...posts]);
-        showToast('info', 'Post published to Supabase live database!');
+        showToast('info', 'Post published successfully!');
       } catch (err) {
         console.error('Supabase insert error:', err.message);
         saveLocalPost(newPost);
@@ -125,16 +125,6 @@ export default function Community() {
           {t('community_sub')}
         </p>
       </div>
-
-      {/* Supabase Status Alert */}
-      {!isSupabaseConfigured() && (
-        <div className="glass-surface p-4 rounded-xl border border-amber-500/30 bg-amber-500/10 flex items-center justify-between text-xs text-amber-700 dark:text-amber-300 gap-3">
-          <div className="flex items-center gap-2">
-            <AlertTriangle className="w-4 h-4 flex-shrink-0 text-amber-500" />
-            <span>Supabase credentials pending in <code>.env</code>. Running in offline LocalStorage mode.</span>
-          </div>
-        </div>
-      )}
 
       {/* Post Submission Form */}
       <form onSubmit={handleAddPost} className="glass-surface p-6 rounded-2xl border flex flex-col gap-4">
