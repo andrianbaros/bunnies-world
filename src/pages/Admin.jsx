@@ -87,8 +87,8 @@ export default function Admin() {
             <Lock className="w-6 h-6" />
           </div>
           <div>
-            <h1 className="text-lg font-bold text-gray-900 dark:text-white uppercase tracking-wider">ADMIN MANAGEMENT PORTAL</h1>
-            <p className="text-xs text-slate-600 dark:text-gray-400 mt-1">Enter admin passcode to moderate community posts.</p>
+            <h1 className="text-lg font-bold text-[var(--text-heading)] uppercase tracking-wider">ADMIN MANAGEMENT PORTAL</h1>
+            <p className="text-xs text-[var(--text-muted)] mt-1">Enter admin passcode to moderate community posts.</p>
           </div>
 
           <input
@@ -97,7 +97,7 @@ export default function Admin() {
             value={passcode}
             onChange={(e) => setPasscode(e.target.value)}
             required
-            className="w-full bg-slate-100 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl px-4 py-3 text-xs text-gray-900 dark:text-white placeholder-slate-500 dark:placeholder-gray-400 outline-none focus:border-pink-500 text-center font-medium"
+            className="w-full bg-[var(--bg-subtle)] border border-[var(--border-color)] rounded-xl px-4 py-3 text-xs text-[var(--text-heading)] placeholder-[var(--text-muted)] outline-none focus:border-pink-500 text-center font-medium"
           />
 
           <button
@@ -118,15 +118,15 @@ export default function Admin() {
         <div className="flex items-center gap-3">
           <ShieldCheck className="w-7 h-7 text-pink-500" />
           <div>
-            <h1 className="text-lg font-bold text-gray-900 dark:text-white uppercase tracking-wider">ADMIN MODERATION CONTROL</h1>
-            <p className="text-xs text-slate-600 dark:text-gray-400">Full admin privileges to delete or pin community posts.</p>
+            <h1 className="text-lg font-bold text-[var(--text-heading)] uppercase tracking-wider">ADMIN MODERATION CONTROL</h1>
+            <p className="text-xs text-[var(--text-muted)]">Full admin privileges to delete or pin community posts.</p>
           </div>
         </div>
 
         <div className="flex items-center gap-2">
           <button
             onClick={fetchAdminPosts}
-            className="px-4 py-2 rounded-full bg-slate-100 dark:bg-white/10 border border-black/10 dark:border-white/10 text-xs text-gray-900 dark:text-white hover:bg-black/10 dark:hover:bg-white/20 transition-colors flex items-center gap-1.5 font-semibold"
+            className="px-4 py-2 rounded-full bg-[var(--bg-subtle)] border border-[var(--border-color)] text-xs text-[var(--text-heading)] hover:bg-[var(--bg-subtle-hover)] transition-colors flex items-center gap-1.5 font-semibold"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
             <span>Refresh</span>
@@ -144,10 +144,10 @@ export default function Admin() {
       <div className="glass-surface p-4 rounded-xl border flex items-center justify-between text-xs">
         <div className="flex items-center gap-2">
           <Database className="w-4 h-4 text-pink-500" />
-          <span className="text-slate-600 dark:text-gray-400">Database Driver:</span>
-          <span className="font-bold text-gray-900 dark:text-white">{isSupabaseConfigured() ? 'Supabase Live PostgreSQL' : 'LocalStorage Offline Fallback'}</span>
+          <span className="text-[var(--text-muted)]">Database Driver:</span>
+          <span className="font-bold text-[var(--text-heading)]">{isSupabaseConfigured() ? 'Supabase Live PostgreSQL' : 'LocalStorage Offline Fallback'}</span>
         </div>
-        <span className="text-[11px] text-slate-600 dark:text-gray-400 font-medium">Total Posts: {posts.length}</span>
+        <span className="text-[11px] text-[var(--text-muted)] font-medium">Total Posts: {posts.length}</span>
       </div>
 
       {/* Admin Posts Moderation Cards */}
@@ -156,19 +156,19 @@ export default function Admin() {
           <div key={post.id} className="glass-surface p-4 sm:p-5 rounded-xl border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div className="flex flex-col gap-1 overflow-hidden">
               <div className="flex items-center gap-2">
-                <span className="font-bold text-xs text-gray-900 dark:text-white">{post.author_name}</span>
+                <span className="font-bold text-xs text-[var(--text-heading)]">{post.author_name}</span>
                 <span className="text-[10px] px-2 py-0.5 rounded-full bg-pink-500/10 text-pink-600 dark:text-pink-400 font-semibold">{post.member_tag}</span>
                 {post.is_pinned && <span className="text-[10px] px-2 py-0.5 rounded-full bg-pink-500 text-white font-bold">PINNED</span>}
               </div>
-              <p className="text-xs text-slate-700 dark:text-gray-300 truncate max-w-xl">{post.content}</p>
-              <span className="text-[10px] text-slate-600 dark:text-gray-400 font-medium">{new Date(post.created_at).toLocaleString()} • {post.likes} Likes</span>
+              <p className="text-xs text-[var(--text-secondary)] truncate max-w-xl">{post.content}</p>
+              <span className="text-[10px] text-[var(--text-muted)] font-medium">{new Date(post.created_at).toLocaleString()} • {post.likes} Likes</span>
             </div>
 
             <div className="flex items-center gap-2 flex-shrink-0">
               <button
                 onClick={() => handleTogglePin(post.id, post.is_pinned)}
                 className={`p-2 rounded-lg text-xs font-semibold transition-all flex items-center gap-1 border ${
-                  post.is_pinned ? 'bg-pink-500 text-white border-pink-500' : 'bg-slate-100 dark:bg-white/10 text-slate-800 dark:text-gray-200 border-transparent hover:border-black/10'
+                  post.is_pinned ? 'bg-pink-500 text-white border-pink-500' : 'bg-[var(--bg-subtle)] text-[var(--text-primary)] border-transparent hover:border-[var(--border-color)]'
                 }`}
                 title="Toggle Pin"
               >

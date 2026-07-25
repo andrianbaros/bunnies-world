@@ -53,31 +53,31 @@ export default function Discography() {
         <h1 className="text-hero">
           NEWJEANS DISCOGRAPHY
         </h1>
-        <p className="text-sm text-slate-700 dark:text-gray-400 max-w-md">
+        <p className="text-sm text-[var(--text-secondary)] max-w-md">
           Explore official EPs, singles, tracklists, and audio previews.
         </p>
       </div>
 
       {/* Search & Filter Bar */}
       <div className="glass-surface p-4 rounded-2xl flex flex-wrap items-center justify-between gap-4 border">
-        <div className="flex items-center gap-2.5 bg-slate-100 dark:bg-black/40 px-4 py-2 rounded-xl border border-slate-300/80 dark:border-white/10 flex-grow max-w-md">
-          <Search className="w-4 h-4 text-gray-400" />
+        <div className="flex items-center gap-2.5 bg-[var(--bg-subtle)] px-4 py-2 rounded-xl border border-[var(--border-color)] flex-grow max-w-md">
+          <Search className="w-4 h-4 text-[var(--text-muted)]" />
           <input
             type="text"
             placeholder="Search album or song title..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="bg-transparent text-xs font-medium text-slate-900 dark:text-white placeholder-slate-500 dark:placeholder-gray-400 outline-none w-full"
+            className="bg-transparent text-xs font-medium text-[var(--text-heading)] placeholder-[var(--text-muted)] outline-none w-full"
           />
         </div>
 
-        <div className="flex items-center gap-1.5 bg-slate-100 dark:bg-black/40 p-1.5 rounded-xl border border-slate-300/80 dark:border-white/10">
+        <div className="flex items-center gap-1.5 bg-[var(--bg-subtle)] p-1.5 rounded-xl border border-[var(--border-color)]">
           <button
             onClick={() => setActiveTab('albums')}
             className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 ${
               activeTab === 'albums'
                 ? 'bg-pink-500 text-white shadow-sm'
-                : 'text-slate-600 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white'
+                : 'text-[var(--text-muted)] hover:text-[var(--text-heading)]'
             }`}
           >
             <Disc className="w-3.5 h-3.5" />
@@ -88,7 +88,7 @@ export default function Discography() {
             className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 ${
               activeTab === 'songs'
                 ? 'bg-pink-500 text-white shadow-sm'
-                : 'text-slate-600 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white'
+                : 'text-[var(--text-muted)] hover:text-[var(--text-heading)]'
             }`}
           >
             <Music className="w-3.5 h-3.5" />
@@ -134,8 +134,8 @@ export default function Discography() {
                 </div>
 
                 <div className="flex flex-col text-left gap-1">
-                  <span className="text-[10px] text-slate-600 dark:text-gray-400 font-semibold">{album.releaseDate} • {album.tracks.length} Tracks</span>
-                  <h3 className="font-bold text-base text-slate-900 dark:text-white leading-snug group-hover:text-pink-500 transition-colors">{album.title}</h3>
+                  <span className="text-[10px] text-[var(--text-muted)] font-semibold">{album.releaseDate} • {album.tracks.length} Tracks</span>
+                  <h3 className="font-bold text-base text-[var(--text-heading)] leading-snug group-hover:text-pink-500 transition-colors">{album.title}</h3>
                   <span className="text-xs text-pink-600 dark:text-pink-400 font-semibold line-clamp-1">Concept: {album.concept}</span>
                 </div>
               </motion.div>
@@ -154,7 +154,7 @@ export default function Discography() {
                 className={`flex items-center justify-between p-3.5 rounded-xl border transition-all ${
                   isPlaying
                     ? 'bg-pink-500/15 border-pink-500/30'
-                    : 'bg-slate-100 dark:bg-white/5 border-transparent hover:border-slate-300 dark:hover:border-white/10'
+                    : 'bg-[var(--bg-subtle)] border-transparent hover:border-[var(--border-color)] dark:hover:border-[var(--border-color)]'
                 }`}
               >
                 <div className="flex items-center gap-4">
@@ -165,8 +165,8 @@ export default function Discography() {
                     <Play className="w-4 h-4 fill-current ml-0.5" />
                   </button>
                   <div>
-                    <h4 className="font-bold text-sm text-slate-900 dark:text-white">{track.title}</h4>
-                    <span className="text-xs text-slate-600 dark:text-gray-400">{track.album} • {track.duration}</span>
+                    <h4 className="font-bold text-sm text-[var(--text-heading)]">{track.title}</h4>
+                    <span className="text-xs text-[var(--text-muted)]">{track.album} • {track.duration}</span>
                   </div>
                 </div>
 
@@ -174,7 +174,7 @@ export default function Discography() {
                   <button
                     onClick={() => toggleFavorite('songs', track)}
                     className={`p-2 rounded-full transition-colors ${
-                      isFav ? 'text-pink-500' : 'text-slate-400 dark:text-gray-400 hover:text-pink-500'
+                      isFav ? 'text-pink-500' : 'text-[var(--text-muted)] dark:text-[var(--text-muted)] hover:text-pink-500'
                     }`}
                   >
                     <Heart className={`w-4 h-4 ${isFav ? 'fill-current' : ''}`} />
@@ -212,28 +212,28 @@ export default function Discography() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="relative w-full max-w-2xl bg-white dark:bg-zinc-900 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-white/10 z-10 flex flex-col gap-6 shadow-2xl max-h-[85vh] overflow-y-auto my-auto"
+              className="relative w-full max-w-2xl bg-[var(--bg-card)] p-6 sm:p-8 rounded-3xl border border-[var(--border-color)] z-10 flex flex-col gap-6 shadow-2xl max-h-[85vh] overflow-y-auto my-auto"
             >
               <button
                 onClick={() => setSelectedAlbum(null)}
-                className="absolute top-5 right-5 p-2 rounded-full bg-slate-100 dark:bg-white/10 text-slate-700 dark:text-gray-300 hover:text-slate-900 dark:hover:text-white transition-colors"
+                className="absolute top-5 right-5 p-2 rounded-full bg-[var(--bg-subtle)] text-[var(--text-secondary)] hover:text-[var(--text-heading)] transition-colors"
                 title="Close"
               >
                 <X className="w-4 h-4" />
               </button>
 
-              <div className="flex flex-col sm:flex-row items-center gap-6 border-b border-slate-200 dark:border-white/10 pb-6">
+              <div className="flex flex-col sm:flex-row items-center gap-6 border-b border-[var(--border-color)] pb-6">
                 <img src={selectedAlbum.cover} alt={selectedAlbum.title} className="w-32 h-32 rounded-xl object-cover shadow-md border" />
                 <div className="flex flex-col gap-1.5 text-center sm:text-left">
-                  <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white">{selectedAlbum.title}</h2>
-                  <span className="text-xs text-slate-600 dark:text-gray-400 font-semibold">{selectedAlbum.releaseDate} • {selectedAlbum.tracks.length} Songs</span>
+                  <h2 className="text-xl sm:text-2xl font-extrabold text-[var(--text-heading)]">{selectedAlbum.title}</h2>
+                  <span className="text-xs text-[var(--text-muted)] font-semibold">{selectedAlbum.releaseDate} • {selectedAlbum.tracks.length} Songs</span>
                   <span className="text-xs text-pink-600 dark:text-pink-400 font-semibold">Concept: {selectedAlbum.concept}</span>
                 </div>
               </div>
 
               {/* Tracklist inside Modal */}
               <div className="flex flex-col gap-3">
-                <h4 className="text-xs font-bold text-slate-600 dark:text-gray-400 uppercase tracking-wider flex items-center gap-2">
+                <h4 className="text-xs font-bold text-[var(--text-muted)] uppercase tracking-wider flex items-center gap-2">
                   <Music className="w-4 h-4 text-pink-500" />
                   <span>Tracklist & Music Videos</span>
                 </h4>
@@ -250,7 +250,7 @@ export default function Discography() {
                         className={`flex flex-wrap items-center justify-between p-3 rounded-xl border transition-all ${
                           isCurrent
                             ? 'bg-pink-500/15 border-pink-500/30'
-                            : 'bg-slate-100 dark:bg-white/5 border-transparent hover:border-slate-300 dark:hover:border-white/10'
+                            : 'bg-[var(--bg-subtle)] border-transparent hover:border-[var(--border-color)] dark:hover:border-[var(--border-color)]'
                         }`}
                       >
                         <div className="flex items-center gap-3">
@@ -261,8 +261,8 @@ export default function Discography() {
                             <Play className="w-3.5 h-3.5 fill-current ml-0.5" />
                           </button>
                           <div>
-                            <h5 className="font-bold text-xs text-slate-900 dark:text-white">{track.title}</h5>
-                            <span className="text-[10px] text-slate-600 dark:text-gray-400">{track.duration}</span>
+                            <h5 className="font-bold text-xs text-[var(--text-heading)]">{track.title}</h5>
+                            <span className="text-[10px] text-[var(--text-muted)]">{track.duration}</span>
                           </div>
                         </div>
 

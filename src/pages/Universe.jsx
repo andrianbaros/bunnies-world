@@ -62,17 +62,17 @@ export default function Universe() {
         <h1 className="text-hero">
           BUNNIES TRIVIA & QUIZ
         </h1>
-        <p className="text-sm text-slate-700 dark:text-gray-400 max-w-md">
+        <p className="text-sm text-[var(--text-secondary)] max-w-md">
           Test your NewJeans knowledge and discover your fandom affinity result!
         </p>
       </div>
 
       {/* Quiz Card */}
       <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} className="glass-surface rounded-2xl p-6 sm:p-8 flex flex-col gap-6 border shadow-sm">
-        <div className="flex items-center justify-between border-b border-black/10 dark:border-white/10 pb-3">
+        <div className="flex items-center justify-between border-b border-[var(--border-color)] pb-3">
           <div className="flex items-center gap-2">
             <HelpCircle className="w-5 h-5 text-pink-500" />
-            <h2 className="text-sm font-bold text-gray-900 dark:text-white uppercase tracking-wider">TRIVIA CHALLENGE</h2>
+            <h2 className="text-sm font-bold text-[var(--text-heading)] uppercase tracking-wider">TRIVIA CHALLENGE</h2>
           </div>
           <span className="text-xs font-semibold text-pink-600 dark:text-pink-400">Question {currentQuizIdx + 1} of {quizData.length}</span>
         </div>
@@ -80,11 +80,11 @@ export default function Universe() {
         {!isQuizCompleted ? (
           <div className="flex flex-col gap-5">
             {/* Progress Bar */}
-            <div className="w-full bg-black/10 dark:bg-white/10 h-1.5 rounded-full overflow-hidden">
+            <div className="w-full bg-[var(--bg-subtle)] h-1.5 rounded-full overflow-hidden">
               <div className="bg-pink-500 h-full transition-all duration-300" style={{ width: `${((currentQuizIdx + 1) / quizData.length) * 100}%` }} />
             </div>
 
-            <h3 className="text-base font-bold text-gray-900 dark:text-white">{quizData[currentQuizIdx].question}</h3>
+            <h3 className="text-base font-bold text-[var(--text-heading)]">{quizData[currentQuizIdx].question}</h3>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {quizData[currentQuizIdx].options.map((opt, idx) => (
@@ -96,7 +96,7 @@ export default function Universe() {
                       ? idx === quizData[currentQuizIdx].answer
                         ? 'bg-emerald-500/20 border-emerald-500 text-emerald-700 dark:text-emerald-300'
                         : 'bg-rose-500/20 border-rose-500 text-rose-700 dark:text-rose-300'
-                      : 'bg-black/5 dark:bg-black/40 border-black/10 dark:border-white/10 hover:border-pink-500/40 text-slate-900 dark:text-gray-200'
+                      : 'bg-[var(--bg-subtle)] border-[var(--border-color)] hover:border-pink-500/40 text-[var(--text-heading)] dark:text-gray-200'
                   }`}
                 >
                   {opt}
@@ -108,16 +108,16 @@ export default function Universe() {
           /* Quiz Results */
           <div className="flex flex-col items-center text-center gap-4 py-4">
             <Trophy className="w-12 h-12 text-pink-500" />
-            <h3 className="text-xl font-bold text-gray-900 dark:text-white">Quiz Completed!</h3>
-            <p className="text-xs sm:text-sm text-slate-700 dark:text-gray-300">
+            <h3 className="text-xl font-bold text-[var(--text-heading)]">Quiz Completed!</h3>
+            <p className="text-xs sm:text-sm text-[var(--text-secondary)]">
               You scored <span className="font-bold text-pink-600 dark:text-pink-400">{score}</span> out of {quizData.length}!
             </p>
 
             {soulBunny && (
-              <div className="bg-black/5 dark:bg-black/40 p-5 rounded-xl border border-black/10 dark:border-white/10 max-w-md text-center flex flex-col gap-1.5">
+              <div className="bg-[var(--bg-subtle)] p-5 rounded-xl border border-[var(--border-color)] max-w-md text-center flex flex-col gap-1.5">
                 <span className="text-[10px] font-bold text-pink-600 dark:text-pink-400 uppercase tracking-widest">Fandom Result</span>
-                <h4 className="text-base font-bold text-gray-900 dark:text-white">{soulBunny.title}</h4>
-                <p className="text-xs text-slate-700 dark:text-gray-300 leading-relaxed">{soulBunny.desc}</p>
+                <h4 className="text-base font-bold text-[var(--text-heading)]">{soulBunny.title}</h4>
+                <p className="text-xs text-[var(--text-secondary)] leading-relaxed">{soulBunny.desc}</p>
               </div>
             )}
 
@@ -137,8 +137,8 @@ export default function Universe() {
         <div className="flex items-center gap-3">
           <Award className="w-5 h-5 text-pink-500" />
           <div>
-            <h4 className="font-bold text-xs uppercase tracking-wider text-gray-900 dark:text-white">Your High Score</h4>
-            <p className="text-xs text-slate-600 dark:text-gray-400 mt-0.5">Saved in LocalStorage.</p>
+            <h4 className="font-bold text-xs uppercase tracking-wider text-[var(--text-heading)]">Your High Score</h4>
+            <p className="text-xs text-[var(--text-muted)] mt-0.5">Saved in LocalStorage.</p>
           </div>
         </div>
         <span className="text-xl font-black text-pink-600 dark:text-pink-400">{settings.quizHighScore || 0} pts</span>

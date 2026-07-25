@@ -116,7 +116,7 @@ export function SettingsProvider({ children }) {
 
       {/* Global Toast Display */}
       {toast && (
-        <div className="fixed top-20 right-6 z-50 glass-surface px-4 py-2.5 rounded-xl border border-pink-500/30 text-xs font-semibold text-gray-900 dark:text-white shadow-lg flex items-center gap-2">
+        <div className="fixed top-20 right-6 z-50 glass-surface px-4 py-2.5 rounded-xl border border-pink-500/30 text-xs font-semibold text-[var(--text-heading)] shadow-lg flex items-center gap-2">
           <span className="w-2 h-2 rounded-full bg-pink-500" />
           <span>{toast.message}</span>
         </div>

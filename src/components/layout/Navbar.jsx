@@ -45,7 +45,7 @@ export default function Navbar() {
         {/* Brand Logo */}
         <NavLink to="/" className="flex items-center gap-1.5 sm:gap-2.5 font-bold tracking-tight text-current hover:opacity-80 transition-opacity flex-shrink-0">
           <img src="/assets/logo.png" alt="Bunnies World Logo" className="w-6 h-6 sm:w-8 sm:h-8 object-contain rounded-md shadow-xs flex-shrink-0" />
-          <span className="font-extrabold text-[11px] xs:text-xs sm:text-base tracking-normal sm:tracking-wider uppercase whitespace-nowrap text-slate-900 dark:text-white">
+          <span className="font-extrabold text-[11px] xs:text-xs sm:text-base tracking-normal sm:tracking-wider uppercase whitespace-nowrap text-[var(--text-heading)]">
             BUNNIES WORLD
           </span>
         </NavLink>
@@ -62,7 +62,7 @@ export default function Navbar() {
                   `flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all ${
                     isActive
                       ? 'bg-pink-500/15 text-pink-600 dark:text-pink-400 border border-pink-500/30'
-                      : 'text-slate-700 dark:text-gray-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5'
+                      : 'text-[var(--text-secondary)] hover:text-[var(--text-heading)] hover:bg-[var(--bg-subtle-hover)] dark:hover:bg-white/5'
                   }`
                 }
               >
@@ -79,7 +79,7 @@ export default function Navbar() {
               className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all ${
                 isMoreOpen || moreNavItems.some((i) => location.pathname === i.path)
                   ? 'bg-pink-500/15 text-pink-600 dark:text-pink-400 border border-pink-500/30'
-                  : 'text-slate-700 dark:text-gray-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5'
+                  : 'text-[var(--text-secondary)] hover:text-[var(--text-heading)] hover:bg-[var(--bg-subtle-hover)] dark:hover:bg-white/5'
               }`}
             >
               <MoreHorizontal className="w-4 h-4" />
@@ -87,7 +87,7 @@ export default function Navbar() {
             </button>
 
             {isMoreOpen && (
-              <div className="absolute right-0 top-12 w-52 bg-white dark:bg-zinc-900 p-2 rounded-2xl flex flex-col gap-1 border border-slate-200 dark:border-white/10 shadow-2xl z-50">
+              <div className="absolute right-0 top-12 w-52 bg-[var(--bg-card)] p-2 rounded-2xl flex flex-col gap-1 border border-[var(--border-color)] shadow-2xl z-50">
                 {moreNavItems.map((item) => {
                   const Icon = item.icon;
                   return (
@@ -99,7 +99,7 @@ export default function Navbar() {
                         `flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold transition-colors ${
                           isActive
                             ? 'bg-pink-500/15 text-pink-600 dark:text-pink-400 font-bold'
-                            : 'text-slate-700 dark:text-gray-300 hover:bg-slate-100 dark:hover:bg-white/10'
+                            : 'text-[var(--text-secondary)] hover:bg-[var(--bg-subtle-hover)]'
                         }`
                       }
                     >
@@ -117,7 +117,7 @@ export default function Navbar() {
         <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
           <NavLink
             to="/search"
-            className="p-1.5 sm:p-2 rounded-full text-slate-700 dark:text-gray-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5 transition-colors"
+            className="p-1.5 sm:p-2 rounded-full text-[var(--text-secondary)] hover:text-[var(--text-heading)] hover:bg-[var(--bg-subtle-hover)] dark:hover:bg-white/5 transition-colors"
             title="Search"
           >
             <Search className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
@@ -125,14 +125,14 @@ export default function Navbar() {
 
           <button
             onClick={toggleTheme}
-            className="p-1.5 sm:p-2 rounded-full text-slate-700 dark:text-gray-300 hover:bg-slate-100 dark:hover:bg-white/5 transition-colors"
+            className="p-1.5 sm:p-2 rounded-full text-[var(--text-secondary)] hover:bg-[var(--bg-subtle-hover)] dark:hover:bg-white/5 transition-colors"
             title="Toggle Theme"
           >
             {settings.theme === 'light' ? <Sun className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-500" /> : <Moon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-indigo-300" />}
           </button>
 
           {/* Multi-Language Selector */}
-          <div className="flex items-center bg-slate-200/80 dark:bg-black/40 rounded-full p-0.5 sm:p-1 border border-slate-300/80 dark:border-white/10 flex-shrink-0">
+          <div className="flex items-center bg-[var(--bg-subtle)] rounded-full p-0.5 sm:p-1 border border-[var(--border-color)] flex-shrink-0">
             {['en', 'id', 'ko', 'ja'].map((lang) => (
               <button
                 key={lang}
@@ -140,7 +140,7 @@ export default function Navbar() {
                 className={`px-1.5 sm:px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] font-bold uppercase transition-all ${
                   settings.language === lang
                     ? 'bg-pink-500 text-white shadow-sm'
-                    : 'text-slate-600 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white'
+                    : 'text-[var(--text-muted)] hover:text-[var(--text-heading)]'
                 }`}
               >
                 {lang}
@@ -160,7 +160,7 @@ export default function Navbar() {
 
       {/* Mobile More Menu Panel */}
       {isMobileMoreOpen && (
-        <div className="md:hidden fixed bottom-[140px] left-4 right-4 z-45 bg-white dark:bg-zinc-900 p-4 rounded-3xl border border-slate-200 dark:border-white/10 shadow-2xl flex flex-col gap-2 max-h-[50vh] overflow-y-auto">
+        <div className="md:hidden fixed bottom-[140px] left-4 right-4 z-45 bg-[var(--bg-card)] p-4 rounded-3xl border border-[var(--border-color)] shadow-2xl flex flex-col gap-2 max-h-[50vh] overflow-y-auto">
           <div className="grid grid-cols-2 gap-2">
             {moreNavItems.map((item) => {
               const Icon = item.icon;
@@ -173,7 +173,7 @@ export default function Navbar() {
                   className={`flex items-center gap-2.5 p-3 rounded-2xl text-xs font-semibold transition-all border ${
                     isItemActive
                       ? 'bg-pink-500/15 text-pink-600 dark:text-pink-400 border-pink-500/30'
-                      : 'bg-slate-100 dark:bg-black/30 text-slate-700 dark:text-gray-300 border-transparent hover:text-slate-900 dark:hover:text-white'
+                      : 'bg-[var(--bg-subtle)] text-[var(--text-secondary)] border-transparent hover:text-[var(--text-heading)]'
                   }`}
                 >
                   <Icon className="w-4 h-4 opacity-70" />
@@ -186,7 +186,7 @@ export default function Navbar() {
       )}
 
       {/* Mobile Bottom Navigation Bar */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/90 dark:bg-zinc-950/90 backdrop-blur-md border-t border-slate-200 dark:border-white/10 px-2 py-1.5 flex items-center justify-around rounded-none">
+      <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-[var(--bg-surface)] bg-[var(--bg-surface)] backdrop-blur-md border-t border-[var(--border-color)] px-2 py-1.5 flex items-center justify-around rounded-none">
         {primaryNavItems.slice(0, 4).map((item) => {
           const Icon = item.icon;
           return (
@@ -195,7 +195,7 @@ export default function Navbar() {
               to={item.path}
               className={({ isActive }) =>
                 `flex flex-col items-center gap-1 p-1 text-[10px] font-medium transition-colors ${
-                  isActive ? 'text-pink-500 font-bold' : 'text-slate-600 dark:text-gray-400'
+                  isActive ? 'text-pink-500 font-bold' : 'text-[var(--text-muted)]'
                 }`
               }
             >
@@ -210,7 +210,7 @@ export default function Navbar() {
           className={`flex flex-col items-center gap-1 p-1 text-[10px] font-medium transition-colors ${
             isMobileMoreOpen || moreNavItems.some((i) => location.pathname === i.path)
               ? 'text-pink-500 font-bold'
-              : 'text-slate-600 dark:text-gray-400'
+              : 'text-[var(--text-muted)]'
           }`}
         >
           <MoreHorizontal className="w-4 h-4" />

@@ -44,21 +44,21 @@ export default function News() {
         <h1 className="text-hero">
           {t('news_title')}
         </h1>
-        <p className="text-sm text-slate-700 dark:text-gray-400 max-w-md">
+        <p className="text-sm text-[var(--text-secondary)] max-w-md">
           {t('news_sub')}
         </p>
       </div>
 
       {/* Filter Bar */}
       <div className="glass-surface p-4 rounded-2xl flex flex-wrap items-center justify-between gap-4 border">
-        <div className="flex items-center gap-2.5 bg-slate-100 dark:bg-black/40 px-4 py-2.5 rounded-xl border border-slate-300/80 dark:border-white/10 flex-grow max-w-md">
-          <Search className="w-4 h-4 text-gray-400" />
+        <div className="flex items-center gap-2.5 bg-[var(--bg-subtle)] px-4 py-2.5 rounded-xl border border-[var(--border-color)] flex-grow max-w-md">
+          <Search className="w-4 h-4 text-[var(--text-muted)]" />
           <input
             type="text"
             placeholder={t('news_search_ph')}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="bg-transparent text-xs font-medium text-gray-900 dark:text-white placeholder-slate-500 dark:placeholder-gray-400 outline-none w-full"
+            className="bg-transparent text-xs font-medium text-[var(--text-heading)] placeholder-[var(--text-muted)] outline-none w-full"
           />
         </div>
         <div className="flex justify-center flex-wrap gap-1.5">
@@ -69,7 +69,7 @@ export default function News() {
               className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all ${
                 categoryFilter === cat
                   ? 'bg-pink-500 text-white shadow-sm'
-                  : 'bg-black/5 dark:bg-white/5 text-slate-700 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white border border-transparent'
+                  : 'bg-[var(--bg-subtle)] text-[var(--text-secondary)] hover:text-[var(--text-heading)] border border-transparent'
               }`}
             >
               {cat}
@@ -100,17 +100,17 @@ export default function News() {
                   <span className="px-2.5 py-0.5 rounded-full bg-pink-500/10 text-pink-600 dark:text-pink-400 text-[10px] font-bold border border-pink-500/20">
                     {itemCat}
                   </span>
-                  <span className="text-[11px] text-slate-600 dark:text-gray-400 font-medium">{item.date}</span>
+                  <span className="text-[11px] text-[var(--text-muted)] font-medium">{item.date}</span>
                 </div>
-                <h3 className="font-bold text-base text-gray-900 dark:text-white">{itemTitle}</h3>
-                <p className="text-xs text-slate-700 dark:text-gray-300 leading-relaxed">{itemSummary}</p>
+                <h3 className="font-bold text-base text-[var(--text-heading)]">{itemTitle}</h3>
+                <p className="text-xs text-[var(--text-secondary)] leading-relaxed">{itemSummary}</p>
                 <div className="flex items-center gap-2 mt-2">
                   <button
                     onClick={() => toggleFavorite('news', item)}
                     className={`p-2 rounded-full border transition-colors ${
                       isFav
                         ? 'bg-pink-500 text-white border-pink-500'
-                        : 'bg-black/5 dark:bg-white/10 border-black/10 dark:border-white/10 text-slate-600 dark:text-gray-400 hover:text-pink-500'
+                        : 'bg-[var(--bg-subtle)] border-[var(--border-color)] text-[var(--text-muted)] hover:text-pink-500'
                     }`}
                     title="Bookmark News"
                   >
@@ -118,7 +118,7 @@ export default function News() {
                   </button>
                   <button
                     onClick={(e) => handleShare(e, item)}
-                    className="p-2 rounded-full bg-black/5 dark:bg-white/10 border border-black/10 dark:border-white/10 text-slate-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+                    className="p-2 rounded-full bg-[var(--bg-subtle)] border border-[var(--border-color)] text-[var(--text-muted)] hover:text-[var(--text-heading)] transition-colors"
                     title="Share News"
                   >
                     <Share2 className="w-3.5 h-3.5" />

@@ -43,7 +43,7 @@ export default function Home() {
   return (
     <div className="flex flex-col gap-12 py-6 px-4 max-w-6xl mx-auto z-10 relative">
       {/* 1. Hero Slideshow Banner */}
-      <section className="min-h-[60vh] sm:min-h-[65vh] flex flex-col items-center justify-center text-center gap-6 relative rounded-3xl p-6 sm:p-10 overflow-hidden glass-surface border border-black/10 dark:border-white/10 group">
+      <section className="min-h-[60vh] sm:min-h-[65vh] flex flex-col items-center justify-center text-center gap-6 relative rounded-3xl p-6 sm:p-10 overflow-hidden glass-surface border border-[var(--border-color)] group">
         <div className="absolute inset-0 z-0">
           <AnimatePresence mode="wait">
             <motion.img
@@ -62,7 +62,7 @@ export default function Home() {
 
         <button
           onClick={() => setCurrentSlide((prev) => (prev - 1 + heroImages.length) % heroImages.length)}
-          className="absolute left-4 top-1/2 -translate-y-1/2 z-20 p-2.5 rounded-full bg-black/30 dark:bg-white/10 text-white border border-white/20 opacity-0 group-hover:opacity-100 transition-all duration-200"
+          className="absolute left-4 top-1/2 -translate-y-1/2 z-20 p-2.5 rounded-full bg-black/30 dark:bg-white/10 text-white border border-[var(--border-color)] opacity-0 group-hover:opacity-100 transition-all duration-200"
           title="Previous Slide"
         >
           <ChevronLeft className="w-5 h-5" />
@@ -70,13 +70,13 @@ export default function Home() {
 
         <button
           onClick={() => setCurrentSlide((prev) => (prev + 1) % heroImages.length)}
-          className="absolute right-4 top-1/2 -translate-y-1/2 z-20 p-2.5 rounded-full bg-black/30 dark:bg-white/10 text-white border border-white/20 opacity-0 group-hover:opacity-100 transition-all duration-200"
+          className="absolute right-4 top-1/2 -translate-y-1/2 z-20 p-2.5 rounded-full bg-black/30 dark:bg-white/10 text-white border border-[var(--border-color)] opacity-0 group-hover:opacity-100 transition-all duration-200"
           title="Next Slide"
         >
           <ChevronRight className="w-5 h-5" />
         </button>
 
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex items-center gap-1.5 bg-black/40 px-3 py-1.5 rounded-full border border-white/10">
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex items-center gap-1.5 bg-black/40 px-3 py-1.5 rounded-full border border-[var(--border-color)]">
           {heroImages.map((_, idx) => (
             <button
               key={idx}
@@ -101,7 +101,7 @@ export default function Home() {
           initial={{ opacity: 0, scale: 0.96 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="text-hero font-black tracking-tight text-gray-900 dark:text-white z-10"
+          className="text-hero font-black tracking-tight text-[var(--text-heading)] z-10"
         >
           {t('hero_title')}
         </motion.h1>
@@ -110,7 +110,7 @@ export default function Home() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="text-sm sm:text-base text-slate-700 dark:text-gray-300 max-w-xl leading-relaxed z-10 font-normal"
+          className="text-sm sm:text-base text-[var(--text-secondary)] max-w-xl leading-relaxed z-10 font-normal"
         >
           {t('hero_subtitle')}
         </motion.p>
@@ -131,7 +131,7 @@ export default function Home() {
 
           <Link
             to="/universe"
-            className="px-6 py-3 rounded-full bg-slate-100 dark:bg-white/10 text-gray-900 dark:text-white font-bold text-xs tracking-wider border border-black/10 dark:border-white/10 hover:bg-black/10 dark:hover:bg-white/20 transition-colors flex items-center gap-2"
+            className="px-6 py-3 rounded-full bg-[var(--bg-subtle)] text-[var(--text-heading)] font-bold text-xs tracking-wider border border-[var(--border-color)] hover:bg-[var(--bg-subtle-hover)] transition-colors flex items-center gap-2"
           >
             <span>{t('btn_calc_affinity')}</span>
           </Link>
@@ -141,7 +141,7 @@ export default function Home() {
       {/* 2. Quote of the Day */}
       <section className="glass-surface p-6 sm:p-8 rounded-2xl text-center flex flex-col items-center gap-3 border">
         <Quote className="w-6 h-6 text-pink-500 opacity-80" />
-        <p className="text-sm sm:text-base italic text-slate-900 dark:text-gray-200 font-serif max-w-2xl leading-relaxed">
+        <p className="text-sm sm:text-base italic text-[var(--text-heading)] dark:text-gray-200 font-serif max-w-2xl leading-relaxed">
           "{quotes[0].text}"
         </p>
         <span className="text-xs font-bold text-pink-600 dark:text-pink-400 tracking-wider uppercase">— {quotes[0].author} (NewJeans)</span>
@@ -150,7 +150,7 @@ export default function Home() {
       {/* 3. Active Members */}
       <section className="flex flex-col gap-5">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-bold text-gray-900 dark:text-white uppercase tracking-wider">
+          <h2 className="text-lg font-bold text-[var(--text-heading)] uppercase tracking-wider">
             {t('home_active_members')}
           </h2>
           <Link to="/members" className="text-xs font-semibold text-pink-600 dark:text-pink-400 hover:underline flex items-center gap-1">
@@ -170,10 +170,10 @@ export default function Home() {
                 <img src={member.image} alt={member.name} className="w-full h-full object-cover rounded-full group-hover:scale-105 transition-transform duration-300" />
               </div>
               <div>
-                <h3 className="font-bold text-sm text-gray-900 dark:text-white">{member.name}</h3>
+                <h3 className="font-bold text-sm text-[var(--text-heading)]">{member.name}</h3>
                 <span className="text-[11px] text-pink-600 dark:text-pink-400 font-semibold">{member.koreanName}</span>
               </div>
-              <p className="text-xs text-slate-600 dark:text-gray-400 line-clamp-1">{member.position}</p>
+              <p className="text-xs text-[var(--text-muted)] line-clamp-1">{member.position}</p>
             </Link>
           ))}
         </div>
@@ -188,8 +188,8 @@ export default function Home() {
           <span className="px-3 py-0.5 rounded-full bg-pink-500/10 text-pink-600 dark:text-pink-400 text-[10px] font-bold tracking-wider uppercase w-fit mx-auto sm:mx-0">
             {t('home_featured_disc')}
           </span>
-          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">{featuredAlbum.title}</h2>
-          <p className="text-xs text-slate-700 dark:text-gray-300 leading-relaxed max-w-lg">
+          <h2 className="text-xl sm:text-2xl font-bold text-[var(--text-heading)]">{featuredAlbum.title}</h2>
+          <p className="text-xs text-[var(--text-secondary)] leading-relaxed max-w-lg">
             {featuredAlbum.concept} — Released {featuredAlbum.releaseDate}
           </p>
           <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3 mt-2">
@@ -207,7 +207,7 @@ export default function Home() {
       <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="glass-surface p-5 sm:p-6 rounded-2xl flex flex-col gap-4 border">
           <div className="flex items-center justify-between">
-            <h3 className="font-bold text-xs uppercase tracking-wider text-gray-900 dark:text-white flex items-center gap-2">
+            <h3 className="font-bold text-xs uppercase tracking-wider text-[var(--text-heading)] flex items-center gap-2">
               <ImageIcon className="w-4 h-4 text-pink-500" />
               <span>{t('home_wallpaper')}</span>
             </h3>
@@ -223,7 +223,7 @@ export default function Home() {
 
         <div className="glass-surface p-5 sm:p-6 rounded-2xl flex flex-col gap-4 border">
           <div className="flex items-center justify-between">
-            <h3 className="font-bold text-xs uppercase tracking-wider text-gray-900 dark:text-white flex items-center gap-2">
+            <h3 className="font-bold text-xs uppercase tracking-wider text-[var(--text-heading)] flex items-center gap-2">
               <Music className="w-4 h-4 text-pink-500" />
               <span>{t('home_top_audio')}</span>
             </h3>
@@ -234,13 +234,13 @@ export default function Home() {
               <div
                 key={track.id}
                 onClick={() => playSongById(track.id)}
-                className="flex items-center justify-between p-3 rounded-xl bg-slate-100 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 transition-all cursor-pointer border border-transparent hover:border-black/10 dark:hover:border-white/10"
+                className="flex items-center justify-between p-3 rounded-xl bg-[var(--bg-subtle)] hover:bg-[var(--bg-subtle-hover)] transition-all cursor-pointer border border-transparent hover:border-[var(--border-color)] dark:hover:border-[var(--border-color)]"
               >
                 <div className="flex items-center gap-3">
                   <img src={track.cover} alt={track.title} className="w-9 h-9 rounded-lg object-cover" />
                   <div>
-                    <h4 className="font-bold text-xs text-gray-900 dark:text-white">{track.title}</h4>
-                    <span className="text-[10px] text-slate-600 dark:text-gray-400">{track.album}</span>
+                    <h4 className="font-bold text-xs text-[var(--text-heading)]">{track.title}</h4>
+                    <span className="text-[10px] text-[var(--text-muted)]">{track.album}</span>
                   </div>
                 </div>
                 <button className="p-1.5 rounded-full bg-pink-500/10 text-pink-600 dark:text-pink-400 hover:bg-pink-500 hover:text-white transition-colors">

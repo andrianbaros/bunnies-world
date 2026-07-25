@@ -1,6 +1,6 @@
 import React from 'react';
 
-class ErrorBoundary extends React.Component {
+export default class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
     this.state = { hasError: false, error: null };
@@ -11,40 +11,27 @@ class ErrorBoundary extends React.Component {
   }
 
   componentDidCatch(error, errorInfo) {
-    console.error('ErrorBoundary caught an error:', error, errorInfo);
-    const errStr = error?.toString() || '';
-    if (errStr.includes('dynamically imported module') || errStr.includes('Loading chunk') || error?.name === 'ChunkLoadError') {
-      const refreshedKey = 'chunk_reload_attempted';
-      const hasRefreshed = sessionStorage.getItem(refreshedKey);
-      if (!hasRefreshed) {
-        sessionStorage.setItem(refreshedKey, 'true');
-        window.location.reload();
-      }
-    }
+    console.error('Uncaught error:', error, errorInfo);
   }
 
   render() {
     if (this.state.hasError) {
       return (
-        <div className="flex flex-col items-center justify-center min-h-screen text-center p-6 bg-zinc-950 text-white gap-4">
-          <h2 className="text-xl font-bold text-pink-500">New Release Deployed</h2>
-          <p className="text-xs text-zinc-400 max-w-md">
-            The application has been updated with a new build. Reloading the page will load the latest release.
+        <div className="flex flex-col items-center justify-center min-h-screen text-center p-6 bg-[var(--bg-main)] text-[var(--text-primary)] gap-4">
+          <h1 className="text-2xl font-bold text-[var(--text-heading)]">Something went wrong</h1>
+          <p className="text-xs text-[var(--text-muted)] max-w-md">
+            An unexpected application error occurred. Please try reloading the page.
           </p>
           <button
-            onClick={() => {
-              sessionStorage.removeItem('chunk_reload_attempted');
-              window.location.reload();
-            }}
-            className="px-5 py-2.5 rounded-full bg-pink-500 text-white font-semibold text-xs hover:bg-pink-600 transition-colors shadow-sm"
+            onClick={() => window.location.reload()}
+            className="px-5 py-2.5 rounded-full bg-pink-500 text-white font-bold text-xs hover:bg-pink-600 transition-colors shadow-sm"
           >
-            Reload Page
+            Reload Application
           </button>
         </div>
       );
     }
+
     return this.props.children;
   }
 }
-
-export default ErrorBoundary;

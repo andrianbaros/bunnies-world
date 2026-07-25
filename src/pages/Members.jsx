@@ -52,37 +52,37 @@ export default function Members() {
         <h1 className="text-hero">
           NEWJEANS PROFILE
         </h1>
-        <p className="text-sm text-slate-700 dark:text-gray-400 max-w-md">
+        <p className="text-sm text-[var(--text-secondary)] max-w-md">
           {t('members_sub')}
         </p>
       </div>
 
       {/* Search & Filter Bar */}
       <div className="glass-surface p-4 rounded-2xl flex flex-wrap items-center justify-between gap-4 border">
-        <div className="flex items-center gap-2.5 bg-slate-100 dark:bg-black/40 px-4 py-2 rounded-xl border border-slate-300/80 dark:border-white/10 flex-grow max-w-md">
-          <Search className="w-4 h-4 text-gray-400" />
+        <div className="flex items-center gap-2.5 bg-[var(--bg-subtle)] px-4 py-2 rounded-xl border border-[var(--border-color)] flex-grow max-w-md">
+          <Search className="w-4 h-4 text-[var(--text-muted)]" />
           <input
             type="text"
             placeholder={t('members_search_ph')}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="bg-transparent text-xs font-medium text-gray-900 dark:text-white placeholder-slate-500 dark:placeholder-gray-400 outline-none w-full"
+            className="bg-transparent text-xs font-medium text-[var(--text-heading)] placeholder-[var(--text-muted)] outline-none w-full"
           />
         </div>
 
         <div className="flex items-center gap-2">
-          <div className="flex items-center gap-2 bg-slate-100 dark:bg-black/40 px-3 py-1.5 rounded-xl border border-slate-300/80 dark:border-white/10 text-xs">
-            <Filter className="w-3.5 h-3.5 text-gray-400" />
+          <div className="flex items-center gap-2 bg-[var(--bg-subtle)] px-3 py-1.5 rounded-xl border border-[var(--border-color)] text-xs">
+            <Filter className="w-3.5 h-3.5 text-[var(--text-muted)]" />
             <select
               value={mbtiFilter}
               onChange={(e) => setMbtiFilter(e.target.value)}
-              className="bg-transparent text-xs font-semibold text-gray-900 dark:text-white outline-none cursor-pointer"
+              className="bg-transparent text-xs font-semibold text-[var(--text-heading)] outline-none cursor-pointer"
             >
-              <option value="All" className="dark:bg-zinc-900">All MBTI</option>
-              <option value="ESTJ" className="dark:bg-zinc-900">ESTJ</option>
-              <option value="INFP" className="dark:bg-zinc-900">INFP</option>
-              <option value="ISTP" className="dark:bg-zinc-900">ISTP</option>
-              <option value="ENFP" className="dark:bg-zinc-900">ENFP</option>
+              <option value="All" className="bg-[var(--bg-popover)]">All MBTI</option>
+              <option value="ESTJ" className="bg-[var(--bg-popover)]">ESTJ</option>
+              <option value="INFP" className="bg-[var(--bg-popover)]">INFP</option>
+              <option value="ISTP" className="bg-[var(--bg-popover)]">ISTP</option>
+              <option value="ENFP" className="bg-[var(--bg-popover)]">ENFP</option>
             </select>
           </div>
         </div>
@@ -90,8 +90,8 @@ export default function Members() {
 
       {/* Active Members Grid */}
       <div className="flex flex-col gap-5">
-        <div className="flex items-center justify-between border-b border-black/10 dark:border-white/10 pb-3">
-          <h2 className="text-sm font-bold text-gray-900 dark:text-white tracking-wider uppercase">
+        <div className="flex items-center justify-between border-b border-[var(--border-color)] pb-3">
+          <h2 className="text-sm font-bold text-[var(--text-heading)] tracking-wider uppercase">
             {t('active_members')} ({filteredActive.length})
           </h2>
         </div>
@@ -116,13 +116,13 @@ export default function Members() {
                     />
                   </div>
                   <div>
-                    <h3 className="font-bold text-base text-gray-900 dark:text-white">{member.name}</h3>
+                    <h3 className="font-bold text-base text-[var(--text-heading)]">{member.name}</h3>
                     <span className="text-xs text-pink-600 dark:text-pink-400 font-semibold">{member.koreanName}</span>
                   </div>
-                  <p className="text-xs text-slate-600 dark:text-gray-400 line-clamp-2">{member.position}</p>
+                  <p className="text-xs text-[var(--text-muted)] line-clamp-2">{member.position}</p>
                 </Link>
 
-                <div className="flex items-center gap-2 mt-auto pt-3 border-t border-black/5 dark:border-white/10 w-full justify-center">
+                <div className="flex items-center gap-2 mt-auto pt-3 border-t border-[var(--border-color)] dark:border-[var(--border-color)] w-full justify-center">
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
@@ -131,7 +131,7 @@ export default function Members() {
                     className={`p-2 rounded-full transition-colors ${
                       isFav
                         ? 'bg-pink-500 text-white'
-                        : 'bg-black/5 dark:bg-white/10 text-slate-600 dark:text-gray-400 hover:text-pink-500'
+                        : 'bg-[var(--bg-subtle)] text-[var(--text-muted)] hover:text-pink-500'
                     }`}
                     title="Bookmark Member"
                   >
@@ -140,7 +140,7 @@ export default function Members() {
 
                   <button
                     onClick={(e) => handleShare(e, member)}
-                    className="p-2 rounded-full bg-black/5 dark:bg-white/10 text-slate-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+                    className="p-2 rounded-full bg-[var(--bg-subtle)] text-[var(--text-muted)] hover:text-[var(--text-heading)] transition-colors"
                     title="Share Profile"
                   >
                     <Share2 className="w-4 h-4" />
@@ -162,8 +162,8 @@ export default function Members() {
       {/* Former Member Section */}
       {filteredFormer.length > 0 && (
         <div className="flex flex-col gap-5 mt-4">
-          <div className="flex items-center justify-between border-b border-black/10 dark:border-white/10 pb-3">
-            <h2 className="text-sm font-bold text-gray-900 dark:text-white tracking-wider uppercase">
+          <div className="flex items-center justify-between border-b border-[var(--border-color)] pb-3">
+            <h2 className="text-sm font-bold text-[var(--text-heading)] tracking-wider uppercase">
               {t('former_members')} ({filteredFormer.length})
             </h2>
           </div>
@@ -183,10 +183,10 @@ export default function Members() {
                     <img src={member.image} alt={member.name} className="w-full h-full object-cover rounded-full" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-base text-gray-900 dark:text-white">{member.name}</h3>
+                    <h3 className="font-bold text-base text-[var(--text-heading)]">{member.name}</h3>
                     <span className="text-xs text-amber-600 dark:text-amber-400 font-semibold">{member.koreanName}</span>
                   </div>
-                  <p className="text-xs text-slate-600 dark:text-gray-400 line-clamp-2">{member.position}</p>
+                  <p className="text-xs text-[var(--text-muted)] line-clamp-2">{member.position}</p>
                 </Link>
               </motion.div>
             ))}

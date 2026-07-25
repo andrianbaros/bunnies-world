@@ -36,21 +36,21 @@ export default function SearchPage() {
         <h1 className="text-hero">
           {t('search_title')}
         </h1>
-        <p className="text-sm text-slate-700 dark:text-gray-400 max-w-md">
+        <p className="text-sm text-[var(--text-secondary)] max-w-md">
           {t('search_sub')}
         </p>
       </div>
 
       {/* Search Input Bar */}
       <div className="glass-surface p-4 rounded-2xl border">
-        <div className="flex items-center gap-3 bg-black/5 dark:bg-black/40 px-4 py-3 rounded-xl border border-black/10 dark:border-white/10">
-          <Search className="w-5 h-5 text-gray-400" />
+        <div className="flex items-center gap-3 bg-[var(--bg-subtle)] px-4 py-3 rounded-xl border border-[var(--border-color)]">
+          <Search className="w-5 h-5 text-[var(--text-muted)]" />
           <input
             type="text"
             placeholder={t('search_ph')}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="bg-transparent text-sm font-medium text-gray-900 dark:text-white placeholder-slate-500 dark:placeholder-gray-400 outline-none w-full"
+            className="bg-transparent text-sm font-medium text-[var(--text-heading)] placeholder-[var(--text-muted)] outline-none w-full"
             autoFocus
           />
         </div>
@@ -62,7 +62,7 @@ export default function SearchPage() {
           <div className="flex flex-col gap-8">
             {matchingMembers.length > 0 && (
               <div className="flex flex-col gap-4">
-                <h3 className="text-xs font-bold text-slate-600 dark:text-gray-400 uppercase tracking-wider flex items-center gap-2 border-b border-black/10 dark:border-white/10 pb-2">
+                <h3 className="text-xs font-bold text-[var(--text-muted)] uppercase tracking-wider flex items-center gap-2 border-b border-[var(--border-color)] pb-2">
                   <Users className="w-4 h-4 text-pink-500" />
                   <span>{t('search_members_label')} ({matchingMembers.length})</span>
                 </h3>
@@ -75,7 +75,7 @@ export default function SearchPage() {
                     >
                       <img src={m.image} alt={m.name} className="w-10 h-10 rounded-full object-cover" />
                       <div>
-                        <h4 className="font-bold text-xs text-gray-900 dark:text-white">{m.name}</h4>
+                        <h4 className="font-bold text-xs text-[var(--text-heading)]">{m.name}</h4>
                         <span className="text-[10px] text-pink-600 dark:text-pink-400 font-semibold">{m.koreanName}</span>
                       </div>
                     </Link>
@@ -85,7 +85,7 @@ export default function SearchPage() {
             )}
             {matchingAlbums.length > 0 && (
               <div className="flex flex-col gap-4">
-                <h3 className="text-xs font-bold text-slate-600 dark:text-gray-400 uppercase tracking-wider flex items-center gap-2 border-b border-black/10 dark:border-white/10 pb-2">
+                <h3 className="text-xs font-bold text-[var(--text-muted)] uppercase tracking-wider flex items-center gap-2 border-b border-[var(--border-color)] pb-2">
                   <Disc className="w-4 h-4 text-pink-500" />
                   <span>{t('search_albums_label')} ({matchingAlbums.length})</span>
                 </h3>
@@ -98,8 +98,8 @@ export default function SearchPage() {
                     >
                       <img src={a.cover} alt={a.title} className="w-10 h-10 rounded-lg object-cover" />
                       <div className="overflow-hidden">
-                        <h4 className="font-bold text-xs text-gray-900 dark:text-white truncate">{a.title}</h4>
-                        <span className="text-[10px] text-slate-600 dark:text-gray-400 font-medium">{a.releaseDate}</span>
+                        <h4 className="font-bold text-xs text-[var(--text-heading)] truncate">{a.title}</h4>
+                        <span className="text-[10px] text-[var(--text-muted)] font-medium">{a.releaseDate}</span>
                       </div>
                     </Link>
                   ))}
@@ -109,14 +109,14 @@ export default function SearchPage() {
           </div>
         ) : (
           <div className="glass-surface p-10 rounded-2xl text-center flex flex-col items-center gap-2 border">
-            <h3 className="text-base font-bold text-gray-900 dark:text-white">{t('search_empty_title')} "{query}"</h3>
-            <p className="text-xs text-slate-600 dark:text-gray-400">{t('search_empty_sub')}</p>
+            <h3 className="text-base font-bold text-[var(--text-heading)]">{t('search_empty_title')} "{query}"</h3>
+            <p className="text-xs text-[var(--text-muted)]">{t('search_empty_sub')}</p>
           </div>
         )
       ) : (
         <div className="glass-surface p-10 rounded-2xl text-center flex flex-col items-center gap-2 border">
-          <h3 className="text-base font-bold text-gray-900 dark:text-white">{t('search_start_title')}</h3>
-          <p className="text-xs text-slate-600 dark:text-gray-400">{t('search_start_sub')}</p>
+          <h3 className="text-base font-bold text-[var(--text-heading)]">{t('search_start_title')}</h3>
+          <p className="text-xs text-[var(--text-muted)]">{t('search_start_sub')}</p>
         </div>
       )}
     </div>

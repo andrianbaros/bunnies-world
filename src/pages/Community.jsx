@@ -121,7 +121,7 @@ export default function Community() {
         <h1 className="text-hero">
           {t('community_title')}
         </h1>
-        <p className="text-sm text-slate-700 dark:text-gray-400 max-w-md">
+        <p className="text-sm text-[var(--text-secondary)] max-w-md">
           {t('community_sub')}
         </p>
       </div>
@@ -144,20 +144,20 @@ export default function Community() {
             placeholder={t('community_nickname_ph')}
             value={authorName}
             onChange={(e) => setAuthorName(e.target.value)}
-            className="bg-slate-100 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl px-4 py-2.5 text-xs text-gray-900 dark:text-white placeholder-slate-500 dark:placeholder-gray-400 outline-none focus:border-pink-500"
+            className="bg-[var(--bg-subtle)] border border-[var(--border-color)] rounded-xl px-4 py-2.5 text-xs text-[var(--text-heading)] placeholder-[var(--text-muted)] outline-none focus:border-pink-500"
           />
 
           <select
             value={memberTag}
             onChange={(e) => setMemberTag(e.target.value)}
-            className="bg-slate-100 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl px-4 py-2.5 text-xs text-gray-900 dark:text-white outline-none cursor-pointer focus:border-pink-500"
+            className="bg-[var(--bg-subtle)] border border-[var(--border-color)] rounded-xl px-4 py-2.5 text-xs text-[var(--text-heading)] outline-none cursor-pointer focus:border-pink-500"
           >
-            <option value="NewJeans" className="dark:bg-zinc-900">NewJeans Overall</option>
-            <option value="Minji" className="dark:bg-zinc-900">Minji</option>
-            <option value="Hanni" className="dark:bg-zinc-900">Hanni</option>
-            <option value="Haerin" className="dark:bg-zinc-900">Haerin</option>
-            <option value="Hyein" className="dark:bg-zinc-900">Hyein</option>
-            <option value="Bunnies" className="dark:bg-zinc-900">Bunnies Fandom</option>
+            <option value="NewJeans" className="bg-[var(--bg-popover)]">NewJeans Overall</option>
+            <option value="Minji" className="bg-[var(--bg-popover)]">Minji</option>
+            <option value="Hanni" className="bg-[var(--bg-popover)]">Hanni</option>
+            <option value="Haerin" className="bg-[var(--bg-popover)]">Haerin</option>
+            <option value="Hyein" className="bg-[var(--bg-popover)]">Hyein</option>
+            <option value="Bunnies" className="bg-[var(--bg-popover)]">Bunnies Fandom</option>
           </select>
         </div>
 
@@ -168,7 +168,7 @@ export default function Community() {
             value={content}
             onChange={handleContentChange}
             required
-            className="w-full bg-slate-100 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl p-4 text-xs text-gray-900 dark:text-white placeholder-slate-500 dark:placeholder-gray-400 outline-none focus:border-pink-500 resize-none"
+            className="w-full bg-[var(--bg-subtle)] border border-[var(--border-color)] rounded-xl p-4 text-xs text-[var(--text-heading)] placeholder-[var(--text-muted)] outline-none focus:border-pink-500 resize-none"
           />
           {profanityWarning && (
             <span className="absolute right-3 bottom-3 text-[10px] text-pink-600 dark:text-pink-400 font-semibold bg-pink-500/10 px-2.5 py-1 rounded-full border border-pink-500/20 flex items-center gap-1">
@@ -179,7 +179,7 @@ export default function Community() {
         </div>
 
         <div className="flex items-center justify-between pt-1">
-          <div className="flex items-center gap-2 text-[11px] text-slate-600 dark:text-gray-400">
+          <div className="flex items-center gap-2 text-[11px] text-[var(--text-muted)]">
             <Shield className="w-3.5 h-3.5 text-pink-500" />
             <span>{t('community_shield')}</span>
           </div>
@@ -198,20 +198,20 @@ export default function Community() {
       {/* Posts Feed */}
       <div className="flex flex-col gap-4">
         <div className="flex items-center justify-between">
-          <h3 className="font-bold text-sm text-gray-900 dark:text-white flex items-center gap-2">
+          <h3 className="font-bold text-sm text-[var(--text-heading)] flex items-center gap-2">
             <MessageSquare className="w-4 h-4 text-pink-500" />
             <span>{t('community_fan_posts')} ({posts.length})</span>
           </h3>
 
-          <button onClick={fetchPosts} className="p-2 rounded-full bg-slate-100 dark:bg-white/5 text-slate-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors" title="Refresh Feed">
+          <button onClick={fetchPosts} className="p-2 rounded-full bg-[var(--bg-subtle)] text-[var(--text-secondary)] hover:text-[var(--text-heading)] transition-colors" title="Refresh Feed">
             <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
           </button>
         </div>
 
         {loading ? (
-          <div className="text-center py-10 text-xs text-slate-600 dark:text-gray-400">{t('community_loading')}</div>
+          <div className="text-center py-10 text-xs text-[var(--text-muted)]">{t('community_loading')}</div>
         ) : posts.length === 0 ? (
-          <div className="text-center py-10 text-xs text-slate-600 dark:text-gray-400 glass-surface rounded-2xl">{t('community_no_posts')}</div>
+          <div className="text-center py-10 text-xs text-[var(--text-muted)] glass-surface rounded-2xl">{t('community_no_posts')}</div>
         ) : (
           posts.map((post) => {
             const authorName = post.author_name || post.author || 'Anonymous Bunny';
@@ -225,7 +225,7 @@ export default function Community() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 className={`glass-surface p-5 rounded-2xl flex flex-col gap-3 border transition-all ${
-                  post.is_pinned ? 'border-pink-500/40 bg-pink-500/5' : 'border-black/10 dark:border-white/10'
+                  post.is_pinned ? 'border-pink-500/40 bg-pink-500/5' : 'border-[var(--border-color)]'
                 }`}
               >
                 <div className="flex items-center justify-between">
@@ -234,7 +234,7 @@ export default function Community() {
                       {authorName[0].toUpperCase()}
                     </div>
                     <div>
-                      <h4 className="font-bold text-xs text-gray-900 dark:text-white flex items-center gap-1.5">
+                      <h4 className="font-bold text-xs text-[var(--text-heading)] flex items-center gap-1.5">
                         <span>{authorName}</span>
                         {post.is_pinned && (
                           <span className="px-2 py-0.5 rounded-full bg-pink-500/10 text-pink-600 dark:text-pink-400 text-[9px] font-bold flex items-center gap-0.5 border border-pink-500/20">
@@ -242,24 +242,24 @@ export default function Community() {
                           </span>
                         )}
                       </h4>
-                      <span className="text-[10px] text-slate-600 dark:text-gray-400 font-medium">
+                      <span className="text-[10px] text-[var(--text-muted)] font-medium">
                         {new Date(postDate).toLocaleDateString()} • {postTag}
                       </span>
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-1 text-[10px] text-gray-400" title="Regular users cannot delete posts">
+                  <div className="flex items-center gap-1 text-[10px] text-[var(--text-muted)]" title="Regular users cannot delete posts">
                     <Lock className="w-3 h-3" />
                     <span className="hidden sm:inline">{t('community_admin_protected')}</span>
                   </div>
                 </div>
 
-                <p className="text-xs text-slate-800 dark:text-gray-200 leading-relaxed font-sans">{postContent}</p>
+                <p className="text-xs text-[var(--text-primary)] leading-relaxed font-sans">{postContent}</p>
 
-                <div className="flex items-center justify-between pt-2 border-t border-black/5 dark:border-white/10 text-xs">
+                <div className="flex items-center justify-between pt-2 border-t border-[var(--border-color)] dark:border-[var(--border-color)] text-xs">
                   <button
                     onClick={() => handleLike(post.id, postLikes)}
-                    className="flex items-center gap-1.5 text-xs text-slate-600 dark:text-gray-400 hover:text-pink-500 transition-colors"
+                    className="flex items-center gap-1.5 text-xs text-[var(--text-muted)] hover:text-pink-500 transition-colors"
                   >
                     <Heart className="w-4 h-4 text-pink-500 hover:fill-current" />
                     <span>{postLikes} {t('community_likes')}</span>

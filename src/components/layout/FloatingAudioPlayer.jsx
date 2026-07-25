@@ -40,7 +40,7 @@ export default function FloatingAudioPlayer() {
 
   return (
     <div
-      className={`fixed right-3 sm:right-6 z-50 glass-surface rounded-2xl transition-all duration-300 shadow-lg border border-black/10 dark:border-white/10 ${
+      className={`fixed right-3 sm:right-6 z-50 glass-surface rounded-2xl transition-all duration-300 shadow-lg border border-[var(--border-color)] ${
         isMinimized
           ? 'bottom-20 sm:bottom-6 w-[calc(100%-1.5rem)] max-w-[280px] p-3'
           : 'bottom-20 sm:bottom-6 w-[calc(100%-1.5rem)] max-w-sm sm:w-96 p-4 sm:p-5'
@@ -53,15 +53,15 @@ export default function FloatingAudioPlayer() {
             <img
               src={currentTrack.cover}
               alt={currentTrack.title}
-              className={`w-full h-full rounded-full object-cover border border-black/10 dark:border-white/15 ${
+              className={`w-full h-full rounded-full object-cover border border-[var(--border-color)] ${
                 isPlaying ? 'animate-spin' : ''
               }`}
               style={{ animationDuration: '8s' }}
             />
           </div>
           <div className="overflow-hidden">
-            <h4 className="text-xs font-bold text-gray-900 dark:text-white truncate">{currentTrack.title}</h4>
-            <p className="text-[11px] text-slate-600 dark:text-gray-400 truncate">{currentTrack.artist} • {currentTrack.album}</p>
+            <h4 className="text-xs font-bold text-[var(--text-heading)] truncate">{currentTrack.title}</h4>
+            <p className="text-[11px] text-[var(--text-muted)] truncate">{currentTrack.artist} • {currentTrack.album}</p>
           </div>
         </div>
 
@@ -78,7 +78,7 @@ export default function FloatingAudioPlayer() {
           <button
             onClick={() => toggleFavorite('songs', currentTrack)}
             className={`p-1.5 rounded-full text-xs transition-colors ${
-              isFav ? 'text-pink-500' : 'text-gray-400 hover:text-gray-700 dark:hover:text-white'
+              isFav ? 'text-pink-500' : 'text-[var(--text-muted)] hover:text-[var(--text-heading)]'
             }`}
           >
             <Heart className={`w-4 h-4 ${isFav ? 'fill-current' : ''}`} />
@@ -86,7 +86,7 @@ export default function FloatingAudioPlayer() {
 
           <button
             onClick={() => setIsMinimized(!isMinimized)}
-            className="text-gray-400 hover:text-gray-700 dark:hover:text-white transition-colors p-1"
+            className="text-[var(--text-muted)] hover:text-[var(--text-heading)] transition-colors p-1"
           >
             {isMinimized ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
           </button>
@@ -97,13 +97,13 @@ export default function FloatingAudioPlayer() {
       {!isMinimized && (
         <div className="mt-4 flex flex-col gap-3">
           {/* Progress Bar */}
-          <div className="w-full bg-black/10 dark:bg-white/10 h-1.5 rounded-full overflow-hidden">
+          <div className="w-full bg-[var(--bg-subtle)] h-1.5 rounded-full overflow-hidden">
             <div
               className="bg-pink-500 h-full transition-all duration-100"
               style={{ width: `${progressPercent}%` }}
             />
           </div>
-          <div className="flex justify-between text-[10px] text-slate-600 dark:text-gray-400 font-semibold">
+          <div className="flex justify-between text-[10px] text-[var(--text-muted)] font-semibold">
             <span>{formatTime(currentTime)}</span>
             <span>{formatTime(duration)}</span>
           </div>
@@ -113,14 +113,14 @@ export default function FloatingAudioPlayer() {
             <button
               onClick={() => setIsShuffle(!isShuffle)}
               className={`p-1.5 rounded-full text-xs transition-colors ${
-                isShuffle ? 'text-pink-500 font-bold' : 'text-gray-400 hover:text-gray-700 dark:hover:text-white'
+                isShuffle ? 'text-pink-500 font-bold' : 'text-[var(--text-muted)] hover:text-[var(--text-heading)]'
               }`}
               title="Shuffle"
             >
               <Shuffle className="w-4 h-4" />
             </button>
 
-            <button onClick={prevTrack} className="text-slate-700 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors p-1">
+            <button onClick={prevTrack} className="text-[var(--text-secondary)] hover:text-black hover:text-[var(--text-heading)] transition-colors p-1">
               <SkipBack className="w-4 h-4" />
             </button>
 
@@ -131,14 +131,14 @@ export default function FloatingAudioPlayer() {
               {isPlaying ? <Pause className="w-4 h-4 fill-current" /> : <Play className="w-4 h-4 fill-current ml-0.5" />}
             </button>
 
-            <button onClick={nextTrack} className="text-slate-700 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors p-1">
+            <button onClick={nextTrack} className="text-[var(--text-secondary)] hover:text-black hover:text-[var(--text-heading)] transition-colors p-1">
               <SkipForward className="w-4 h-4" />
             </button>
 
             <button
               onClick={() => setIsRepeat(!isRepeat)}
               className={`p-1.5 rounded-full text-xs transition-colors ${
-                isRepeat ? 'text-pink-500 font-bold' : 'text-gray-400 hover:text-gray-700 dark:hover:text-white'
+                isRepeat ? 'text-pink-500 font-bold' : 'text-[var(--text-muted)] hover:text-[var(--text-heading)]'
               }`}
               title="Repeat"
             >
@@ -147,11 +147,11 @@ export default function FloatingAudioPlayer() {
           </div>
 
           {/* Secondary Controls Bar */}
-          <div className="flex items-center justify-between border-t border-black/10 dark:border-white/10 pt-2.5 text-xs">
+          <div className="flex items-center justify-between border-t border-[var(--border-color)] pt-2.5 text-xs">
             <button
               onClick={() => setIsPlaylistOpen(!isPlaylistOpen)}
               className={`flex items-center gap-1.5 text-xs font-semibold transition-colors ${
-                isPlaylistOpen ? 'text-pink-500' : 'text-slate-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+                isPlaylistOpen ? 'text-pink-500' : 'text-[var(--text-muted)] hover:text-[var(--text-heading)]'
               }`}
             >
               <ListMusic className="w-4 h-4" />
@@ -171,7 +171,7 @@ export default function FloatingAudioPlayer() {
 
           {/* Playlist Queue Drawer */}
           {isPlaylistOpen && (
-            <div className="max-h-40 overflow-y-auto bg-slate-100 dark:bg-black/40 rounded-xl p-1.5 flex flex-col gap-1 border border-black/5 dark:border-white/10">
+            <div className="max-h-40 overflow-y-auto bg-[var(--bg-subtle)] rounded-xl p-1.5 flex flex-col gap-1 border border-[var(--border-color)] dark:border-[var(--border-color)]">
               {playlist.map((track) => (
                 <button
                   key={track.id}
@@ -179,11 +179,11 @@ export default function FloatingAudioPlayer() {
                   className={`flex items-center justify-between p-2 rounded-lg text-left text-xs transition-colors ${
                     currentTrack.id === track.id
                       ? 'bg-pink-500/15 text-pink-600 dark:text-pink-400 font-bold'
-                      : 'text-slate-800 dark:text-gray-200 hover:bg-black/5 dark:hover:bg-white/5'
+                      : 'text-[var(--text-primary)] hover:bg-[var(--bg-subtle-hover)]'
                   }`}
                 >
                   <span className="truncate">{track.title}</span>
-                  <span className="text-[10px] text-slate-600 dark:text-gray-400">{track.duration}</span>
+                  <span className="text-[10px] text-[var(--text-muted)]">{track.duration}</span>
                 </button>
               ))}
             </div>

@@ -29,7 +29,7 @@ export default function Settings() {
         <h1 className="text-hero">
           {t('settings_title')}
         </h1>
-        <p className="text-sm text-slate-700 dark:text-gray-400 max-w-md">
+        <p className="text-sm text-[var(--text-secondary)] max-w-md">
           {t('settings_sub')}
         </p>
       </div>
@@ -38,10 +38,10 @@ export default function Settings() {
       <div className="glass-surface p-6 sm:p-8 rounded-2xl flex flex-col gap-8 border">
         {/* 1. Theme Segment Button Selector */}
         <div className="flex flex-col gap-3">
-          <label className="font-bold text-xs uppercase tracking-wider text-gray-900 dark:text-white flex items-center gap-2">
+          <label className="font-bold text-xs uppercase tracking-wider text-[var(--text-heading)] flex items-center gap-2">
             <span>{t('theme_mode')}</span>
           </label>
-          <div className="grid grid-cols-3 gap-2 bg-black/5 dark:bg-black/40 p-1.5 rounded-xl border border-black/10 dark:border-white/10">
+          <div className="grid grid-cols-3 gap-2 bg-[var(--bg-subtle)] p-1.5 rounded-xl border border-[var(--border-color)]">
             {themes.map((item) => {
               const Icon = item.icon;
               const isActive = settings.theme === item.id;
@@ -52,7 +52,7 @@ export default function Settings() {
                   className={`flex items-center justify-center gap-2 py-2.5 rounded-lg text-xs font-semibold transition-all ${
                     isActive
                       ? 'bg-pink-500 text-white shadow-sm'
-                      : 'text-slate-700 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+                      : 'text-[var(--text-secondary)] hover:text-[var(--text-heading)]'
                   }`}
                 >
                   <Icon className="w-4 h-4" />
@@ -65,7 +65,7 @@ export default function Settings() {
 
         {/* 2. Language Selector Grid */}
         <div className="flex flex-col gap-3">
-          <label className="font-bold text-xs uppercase tracking-wider text-gray-900 dark:text-white flex items-center gap-2">
+          <label className="font-bold text-xs uppercase tracking-wider text-[var(--text-heading)] flex items-center gap-2">
             <Globe className="w-4 h-4 text-pink-500" />
             <span>Language / 언어 / 言語</span>
           </label>
@@ -79,7 +79,7 @@ export default function Settings() {
                   className={`flex items-center justify-center p-3 rounded-xl border text-xs font-semibold transition-all ${
                     isActive
                       ? 'bg-pink-500/15 border-pink-500/30 text-pink-600 dark:text-pink-400 font-bold'
-                      : 'bg-black/5 dark:bg-white/5 border-black/10 dark:border-white/10 text-slate-800 dark:text-gray-200 hover:border-black/20 dark:hover:border-white/20'
+                      : 'bg-[var(--bg-subtle)] border-[var(--border-color)] text-[var(--text-primary)] hover:border-black/20 dark:hover:border-[var(--border-color)]'
                   }`}
                 >
                   <span>{lang.label}</span>
@@ -90,10 +90,10 @@ export default function Settings() {
         </div>
 
         {/* 3. Reduced Motion Toggle */}
-        <div className="flex items-center justify-between pt-4 border-t border-black/10 dark:border-white/10">
+        <div className="flex items-center justify-between pt-4 border-t border-[var(--border-color)]">
           <div>
-            <h4 className="font-bold text-xs uppercase tracking-wider text-gray-900 dark:text-white">{t('reduced_motion')}</h4>
-            <p className="text-xs text-slate-600 dark:text-gray-400 mt-0.5">{t('reduced_motion_sub')}</p>
+            <h4 className="font-bold text-xs uppercase tracking-wider text-[var(--text-heading)]">{t('reduced_motion')}</h4>
+            <p className="text-xs text-[var(--text-muted)] mt-0.5">{t('reduced_motion_sub')}</p>
           </div>
           <button
             onClick={() => updateSetting('reducedMotion', !settings.reducedMotion)}
@@ -106,10 +106,10 @@ export default function Settings() {
         </div>
 
         {/* 4. Reset Local Storage Button */}
-        <div className="flex items-center justify-between pt-4 border-t border-black/10 dark:border-white/10">
+        <div className="flex items-center justify-between pt-4 border-t border-[var(--border-color)]">
           <div>
-            <h4 className="font-bold text-xs uppercase tracking-wider text-gray-900 dark:text-white">{t('reset_data')}</h4>
-            <p className="text-xs text-slate-600 dark:text-gray-400 mt-0.5">{t('reset_data_sub')}</p>
+            <h4 className="font-bold text-xs uppercase tracking-wider text-[var(--text-heading)]">{t('reset_data')}</h4>
+            <p className="text-xs text-[var(--text-muted)] mt-0.5">{t('reset_data_sub')}</p>
           </div>
           <button
             onClick={resetAllSettings}
