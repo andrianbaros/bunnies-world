@@ -22,11 +22,11 @@ export default function Navbar() {
     { path: '/', label: t('nav_home'), icon: Sparkles },
     { path: '/members', label: t('nav_members'), icon: Users },
     { path: '/discography', label: t('nav_discography'), icon: Disc },
-    { path: '/community', label: t('nav_community'), icon: MessageSquare },
-    { path: '/about', label: t('nav_about'), icon: Info }
+    { path: '/community', label: t('nav_community'), icon: MessageSquare }
   ];
 
   const moreNavItems = [
+    { path: '/about', label: t('nav_about'), icon: Info },
     { path: '/timeline', label: t('nav_timeline'), icon: Calendar },
     { path: '/gallery', label: t('nav_gallery'), icon: Sparkles },
     { path: '/news', label: t('nav_news'), icon: Newspaper },
@@ -144,7 +144,7 @@ export default function Navbar() {
 
       {/* Mobile More Menu Bottom Drawer Panel */}
       {isMobileMoreOpen && (
-        <div className="md:hidden fixed bottom-[58px] left-3 right-3 z-45 glass-surface-pink p-4 rounded-3xl border border-pink-300/30 shadow-2xl flex flex-col gap-2 max-h-[50vh] overflow-y-auto animate-in slide-in-from-bottom duration-250">
+        <div className="md:hidden fixed bottom-[140px] left-3 right-3 z-45 glass-surface-pink p-4 rounded-3xl border border-pink-300/30 shadow-2xl flex flex-col gap-2 max-h-[50vh] overflow-y-auto animate-in slide-in-from-bottom duration-250">
           <div className="grid grid-cols-2 gap-2">
             {moreNavItems.map((item) => {
               const Icon = item.icon;
