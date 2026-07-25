@@ -41,13 +41,12 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-2 sm:top-3 z-40 w-[96%] max-w-6xl mx-auto mb-4 sm:mb-6">
-      <nav className="glass-surface rounded-full px-3 sm:px-6 py-2 flex items-center justify-between shadow-sm min-h-[50px] sm:min-h-[60px] overflow-hidden">
+      <nav className="glass-surface rounded-full px-2.5 sm:px-6 py-2 flex items-center justify-between shadow-sm min-h-[50px] sm:min-h-[60px] overflow-hidden">
         {/* Brand Logo */}
-        <NavLink to="/" className="flex items-center gap-2 font-bold tracking-tight text-current hover:opacity-80 transition-opacity min-w-0 flex-shrink">
-          <img src="/assets/logo.png" alt="Bunnies Universe Logo" className="w-7 h-7 sm:w-8 sm:h-8 object-contain rounded-md shadow-xs flex-shrink-0" />
-          <span className="font-extrabold text-xs sm:text-base tracking-wider uppercase truncate">
-            <span className="inline sm:hidden">BUNNIES</span>
-            <span className="hidden sm:inline">BUNNIES UNIVERSE</span>
+        <NavLink to="/" className="flex items-center gap-1.5 sm:gap-2.5 font-bold tracking-tight text-current hover:opacity-80 transition-opacity flex-shrink-0">
+          <img src="/assets/logo.png" alt="Bunnies Universe Logo" className="w-6 h-6 sm:w-8 sm:h-8 object-contain rounded-md shadow-xs flex-shrink-0" />
+          <span className="font-extrabold text-[11px] xs:text-xs sm:text-base tracking-normal sm:tracking-wider uppercase whitespace-nowrap">
+            BUNNIES UNIVERSE
           </span>
         </NavLink>
 
