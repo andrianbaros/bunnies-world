@@ -1,0 +1,65 @@
+[
+  {
+    "id": "g1",
+    "title": "Ditto Y2K Camcorder Vibe",
+    "category": "Photocard",
+    "image": "/assets/Ditto era.jpg",
+    "date": "2023-01-10"
+  },
+  {
+    "id": "g2",
+    "title": "Super Shy Powerpuff Style",
+    "category": "Concept Photo",
+    "image": "/assets/supershy power puff.jpg",
+    "date": "2023-07-15"
+  },
+  {
+    "id": "g3",
+    "title": "How Sweet Miami Bass Shoot",
+    "category": "Behind The Scenes",
+    "image": "/assets/how sweet shoot.jpg",
+    "date": "2024-05-20"
+  },
+  {
+    "id": "g4",
+    "title": "Bunnies Fanart Collage",
+    "category": "Fan Art",
+    "image": "/assets/fanart collage.png",
+    "date": "2024-06-01"
+  },
+  {
+    "id": "g5",
+    "title": "Get Up Summer Memories",
+    "category": "Photocard",
+    "image": "/assets/getup.jpg",
+    "date": "2023-08-05"
+  },
+  {
+    "id": "g6",
+    "title": "Minji Fashion Shoot",
+    "category": "Magazine",
+    "image": "/assets/minji2.jpg",
+    "date": "2024-02-14"
+  },
+  {
+    "id": "g7",
+    "title": "Hanni Expressive Joy",
+    "category": "Photoshoot",
+    "image": "/assets/hanni2.jpg",
+    "date": "2024-03-01"
+  },
+  {
+    "id": "g8",
+    "title": "Haerin Feline Aesthetics",
+    "category": "Performance",
+    "image": "/assets/haerin2.jpg",
+    "date": "2024-04-10"
+  },
+  {
+    "id": "g9",
+    "title": "Hyein R&B Soul Shoot",
+    "category": "Magazine",
+    "image": "/assets/hyein2.jpg",
+    "date": "2024-05-01"
+  }
+]

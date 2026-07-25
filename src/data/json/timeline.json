@@ -1,0 +1,65 @@
+[
+  {
+    "id": "t1",
+    "year": "2019-2021",
+    "date": "2019 - 2021",
+    "title": "Formation & Pre-Debut Activities",
+    "description": "Global audition preparations under Min Hee-jin's direction leading to the launch of ADOR, establishing the debut member lineup.",
+    "tag": "PRE-DEBUT",
+    "image": "/assets/minji1.jpg"
+  },
+  {
+    "id": "t2",
+    "year": "2022",
+    "date": "July 22, 2022",
+    "title": "Surprise Debut with 'Attention'",
+    "description": "NewJeans made an unprecedented surprise debut with the 'Attention' music video, followed by 'Hype Boy', 'Cookie', and 'Hurt'.",
+    "tag": "DEBUT",
+    "image": "/assets/Ditto era.jpg"
+  },
+  {
+    "id": "t3",
+    "year": "2022",
+    "date": "December 19, 2022",
+    "title": "'Ditto' Phenomenon & Single Album 'OMG'",
+    "description": "'Ditto' became the longest-running #1 song on Korea's Circle Digital Chart (13 weeks) and entered the Billboard Hot 100 & UK Official Charts.",
+    "tag": "VIRAL HIT",
+    "image": "/assets/hanni1.jpg"
+  },
+  {
+    "id": "t4",
+    "year": "2023",
+    "date": "July 21, 2023",
+    "title": "2nd EP 'Get Up' & #1 Billboard 200 Debut",
+    "description": "Released 'Get Up' with title tracks 'Super Shy', 'ETA', and 'Cool With You', debuting at #1 on the Billboard 200 and performing at Lollapalooza.",
+    "tag": "BILLBOARD #1",
+    "image": "/assets/getup.jpg"
+  },
+  {
+    "id": "t5",
+    "year": "2024",
+    "date": "May 24, 2024",
+    "title": "Double Single 'How Sweet' & Japan Debut",
+    "description": "Returned with Miami Bass hit 'How Sweet' & 'Bubble Gum', followed by their official Japanese debut single 'Supernatural'.",
+    "tag": "JAPAN DEBUT",
+    "image": "/assets/how sweet shoot.jpg"
+  },
+  {
+    "id": "t6",
+    "year": "2024-2025",
+    "date": "Late 2024 - 2025",
+    "title": "Contract Evolution & Danielle Archive Era",
+    "description": "Following contract discussions, Danielle's exclusive contract concluded, with her legacy officially preserved in the Former Member Archive.",
+    "tag": "ARCHIVE ERA",
+    "image": "/assets/danielle.jpg"
+  },
+  {
+    "id": "t7",
+    "year": "2026",
+    "date": "July 22, 2026",
+    "title": "4-Member Active Re-Activation",
+    "description": "NewJeans launched the '2026 Summer of NewJeans' campaign, continuing active group engagements with Minji, Hanni, Haerin, and Hyein.",
+    "tag": "CURRENT ERA",
+    "image": "/assets/haerin1.jpg"
+  }
+]

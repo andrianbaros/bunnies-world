@@ -1,0 +1,22 @@
+{
+  "nav_home": "HOME",
+  "nav_members": "MEMBERS",
+  "nav_discography": "DISCOGRAPHY",
+  "nav_timeline": "TIMELINE",
+  "nav_universe": "UNIVERSE",
+  "nav_community": "COMMUNITY",
+  "nav_settings": "SETTINGS",
+  "hero_title": "BUNNIES UNIVERSE",
+  "hero_subtitle": "Official Interactive World for NewJeans & Bunnies",
+  "btn_explore": "Explore Universe",
+  "btn_calc_affinity": "Calculate Bunny Affinity",
+  "members_title": "NEWJEANS MEMBERS",
+  "members_sub": "Discover the 5 shining stars of NewJeans",
+  "discography_title": "DISCOGRAPHY & MUSIC",
+  "discography_sub": "Listen to official previews & explore vinyl records",
+  "affinity_title": "BUNNY AFFINITY CALCULATOR",
+  "affinity_sub": "Calculate your mathematical attraction force using KaTeX physics equations",
+  "community_title": "BUNNIES FAN BOARD",
+  "community_sub": "Leave your message in the digital scrapbook",
+  "footer_text": "© 2026 BUNNIES UNIVERSE - Designed with Love for NewJeans"
+}

@@ -1,0 +1,62 @@
+[
+  {
+    "id": "track-1",
+    "title": "Attention",
+    "artist": "NewJeans",
+    "album": "New Jeans (1st EP)",
+    "duration": "3:00",
+    "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/13/33/80/13338088-6e32-3cb4-818b-d3d5b4d46c60/mzaf_6427935611641023860.plus.aac.p.m4a",
+    "youtubeUrl": "https://www.youtube.com/watch?v=js1CtxSY38I",
+    "cover": "/assets/Ditto era.jpg"
+  },
+  {
+    "id": "track-2",
+    "title": "Hype Boy",
+    "artist": "NewJeans",
+    "album": "New Jeans (1st EP)",
+    "duration": "2:59",
+    "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/85/f3/08/85f30899-e93c-35e2-4742-df57fc2d3552/mzaf_14134842621180071043.plus.aac.p.m4a",
+    "youtubeUrl": "https://www.youtube.com/watch?v=11cta61Wi0g",
+    "cover": "/assets/hanni1.jpg"
+  },
+  {
+    "id": "track-3",
+    "title": "Ditto",
+    "artist": "NewJeans",
+    "album": "OMG (Single Album)",
+    "duration": "3:05",
+    "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/85/72/66/8572665a-d35f-ce5d-43c5-9ae4b69b4b46/mzaf_2317272666428796662.plus.aac.p.m4a",
+    "youtubeUrl": "https://www.youtube.com/watch?v=pSUydWEqKwE",
+    "cover": "/assets/Ditto era.jpg"
+  },
+  {
+    "id": "track-4",
+    "title": "OMG",
+    "artist": "NewJeans",
+    "album": "OMG (Single Album)",
+    "duration": "3:32",
+    "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/a7/d4/4a/a7d44a6d-0044-36dc-4061-a90fb469c849/mzaf_14382190698601624004.plus.aac.p.m4a",
+    "youtubeUrl": "https://www.youtube.com/watch?v=sVTy_wmn5SU",
+    "cover": "/assets/minji1.jpg"
+  },
+  {
+    "id": "track-5",
+    "title": "Super Shy",
+    "artist": "NewJeans",
+    "album": "Get Up (2nd EP)",
+    "duration": "2:34",
+    "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/a0/0c/47/a00c4790-3bbe-c669-fc8b-d8779508b512/mzaf_4170831274187670095.plus.aac.p.m4a",
+    "youtubeUrl": "https://www.youtube.com/watch?v=ArmDp-zijuc",
+    "cover": "/assets/getup.jpg"
+  },
+  {
+    "id": "track-6",
+    "title": "How Sweet",
+    "artist": "NewJeans",
+    "album": "How Sweet (Double Single)",
+    "duration": "3:39",
+    "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/4d/f8/ec/4df8ec06-579b-0b92-1c4d-d8714cc5d1bc/mzaf_8361635933595309894.plus.aac.p.m4a",
+    "youtubeUrl": "https://www.youtube.com/watch?v=Q3K0TOvTOno",
+    "cover": "/assets/how sweet shoot.jpg"
+  }
+]

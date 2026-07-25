@@ -1,0 +1,22 @@
+{
+  "nav_home": "홈",
+  "nav_members": "멤버",
+  "nav_discography": "디스코그래피",
+  "nav_timeline": "타임라인",
+  "nav_universe": "유니버스",
+  "nav_community": "커뮤니티",
+  "nav_settings": "설정",
+  "hero_title": "BUNNIES UNIVERSE",
+  "hero_subtitle": "뉴진스와 버니즈를 위한 공식 인터랙티브 월드",
+  "btn_explore": "유니버스 탐험하기",
+  "btn_calc_affinity": "버니 친화도 계산기",
+  "members_title": "뉴진스 멤버",
+  "members_sub": "뉴진스의 5명 빛나는 멤버들을 만나보세요",
+  "discography_title": "디스코그래피 & 뮤직",
+  "discography_sub": "공식 미리듣기와 바이닐 레코드를 감상하세요",
+  "affinity_title": "버니 친화도 계산기",
+  "affinity_sub": "KaTeX 물리학 방정식을 사용하여 나의 친화도를 계산해보세요",
+  "community_title": "버니즈 팬 게시판",
+  "community_sub": "디지털 스크랩북에 메시지를 남겨보세요",
+  "footer_text": "© 2026 BUNNIES UNIVERSE - 뉴진스를 위해 사랑으로 제작됨"
+}

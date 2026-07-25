@@ -1,0 +1,123 @@
+[
+  {
+    "id": "minji",
+    "name": "MINJI",
+    "koreanName": "민지",
+    "fullName": "Kim Min-ji (김민지)",
+    "birthDate": "May 7, 2004",
+    "nationality": "South Korean",
+    "mbti": "ESTJ",
+    "status": "active",
+    "animalRepresentation": "Bear 🐻",
+    "color": "#7bdff2",
+    "position": "Leader & Vocalist",
+    "quote": "I want NewJeans to be like a pair of classic jeans that you never get tired of wearing.",
+    "bio": "Minji is the reliable, charismatic leader of NewJeans. Known for her deep, charming vocal tone, classic Korean visual aesthetics, and intelligent, warm leadership.",
+    "signature": "Classic Elegance & Deep Tone",
+    "image": "/assets/minji1.jpg",
+    "gallery": [
+      "/assets/minji1.jpg",
+      "/assets/minji2.jpg",
+      "/assets/minji3.jpg",
+      "/assets/minji4.jpg",
+      "/assets/minji5.jpg"
+    ],
+    "favoriteSongs": ["Attention", "Ditto", "How Sweet"]
+  },
+  {
+    "id": "hanni",
+    "name": "HANNI",
+    "koreanName": "하니",
+    "fullName": "Hanni Pham / Pham Ngoc Han",
+    "birthDate": "October 6, 2004",
+    "nationality": "Vietnamese-Australian",
+    "mbti": "INFP",
+    "status": "active",
+    "animalRepresentation": "Bunny 🐰",
+    "color": "#ffa6cf",
+    "position": "Vocalist & Dancer",
+    "quote": "Music is our way of telling honest stories that stay with people forever.",
+    "bio": "Hanni is beloved worldwide for her versatile vocals, adorable expressions, songwriting skills (wrote lyrics for Hype Boy & OMG), and energetic stage presence.",
+    "signature": "Sweet Vocals & Expressive Joy",
+    "image": "/assets/hanni1.jpg",
+    "gallery": [
+      "/assets/hanni1.jpg",
+      "/assets/hanni2.jpg",
+      "/assets/hanni3.jpg",
+      "/assets/hanni4.jpg",
+      "/assets/hanni5.jpg"
+    ],
+    "favoriteSongs": ["Hype Boy", "OMG", "Bubble Gum"]
+  },
+  {
+    "id": "haerin",
+    "name": "HAERIN",
+    "koreanName": "해린",
+    "fullName": "Kang Hae-rin (강해린)",
+    "birthDate": "May 15, 2006",
+    "nationality": "South Korean",
+    "mbti": "ISTP",
+    "status": "active",
+    "animalRepresentation": "Cat 🐱",
+    "color": "#b892ff",
+    "position": "Vocalist & Main Dancer",
+    "quote": "Finding quiet focus on stage is when I feel most connected with Bunnies.",
+    "bio": "Haerin is famous for her iconic feline visuals, precise dance performance, curious personality, and unique vocal colors that give NewJeans its distinctive Y2K flair.",
+    "signature": "Feline Grace & Hip Dance Controls",
+    "image": "/assets/haerin1.jpg",
+    "gallery": [
+      "/assets/haerin1.jpg",
+      "/assets/haerin2.jpg",
+      "/assets/haerin3.jpg",
+      "/assets/haerin4.jpg",
+      "/assets/haerin5.jpg"
+    ],
+    "favoriteSongs": ["Super Shy", "ETA", "New Jeans"]
+  },
+  {
+    "id": "hyein",
+    "name": "HYEIN",
+    "koreanName": "혜인",
+    "fullName": "Lee Hye-in (이혜인)",
+    "birthDate": "April 21, 2008",
+    "nationality": "South Korean",
+    "mbti": "INFP",
+    "status": "active",
+    "animalRepresentation": "Chick 🐥",
+    "color": "#b2fba5",
+    "position": "Vocalist & Maknae",
+    "quote": "Every melody we sing is a gift filled with all our heart for our Bunnies.",
+    "bio": "Hyein is the multi-talented youngest member (maknae). Standing tall with high-fashion model proportions, her soulful R&B vocals and mature performance captivate fans.",
+    "signature": "Soulful R&B Vocals & Model Aesthetics",
+    "image": "/assets/hyein1.jpg",
+    "gallery": [
+      "/assets/hyein1.jpg",
+      "/assets/hyein2.jpg",
+      "/assets/hyein3.jpg",
+      "/assets/hyein4.jpg",
+      "/assets/hyein5.jpg"
+    ],
+    "favoriteSongs": ["Cool With You", "Get Up", "Hurt"]
+  },
+  {
+    "id": "danielle",
+    "name": "DANIELLE",
+    "koreanName": "다니엘",
+    "fullName": "Danielle Marsh / Mo Ji-hye (모지혜)",
+    "birthDate": "April 11, 2005",
+    "nationality": "Korean-Australian",
+    "mbti": "ENFP",
+    "status": "former",
+    "animalRepresentation": "Sunflower 🌻",
+    "color": "#fef9c3",
+    "position": "Former Member / Vocalist",
+    "quote": "Forever grateful for every single smile and warm memory shared with Bunnies.",
+    "bio": "Danielle contributed immense sunshine energy, expressive vocal range, Disney princess visuals, and artistic lyricism during her memorable era with NewJeans. Note: This profile is preserved as an official member archive.",
+    "signature": "Sunshine Vibe & Bright Energy",
+    "image": "/assets/danielle.jpg",
+    "gallery": [
+      "/assets/danielle.jpg"
+    ],
+    "favoriteSongs": ["Attention", "Super Shy"]
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "id": "news-1",
+    "title": "NewJeans Launches '2026 Summer of NewJeans' Active Group Campaign",
+    "summary": "On July 22, 2026, NewJeans released official anniversary films & photos celebrating their active 4-member lineup (Minji, Hanni, Haerin, Hyein).",
+    "category": "Re-Activation",
+    "date": "2026-07-22",
+    "image": "/assets/Ditto era.jpg"
+  },
+  {
+    "id": "news-2",
+    "title": "Danielle Profile Officially Preserved in Former Member Archive",
+    "summary": "Following contract discussions, Danielle's artistic legacy is permanently commemorated in the Bunnies Universe Former Member Archive.",
+    "category": "Archive",
+    "date": "2025-12-29",
+    "image": "/assets/danielle.jpg"
+  },
+  {
+    "id": "news-3",
+    "title": "Music Production Records & Global Chart Milestones Reviewed",
+    "summary": "Official production records for 'Bubble Gum', 'How Sweet', and 'ETA' undergo standard musicological cataloging.",
+    "category": "Production",
+    "date": "2026-07-10",
+    "image": "/assets/how sweet shoot.jpg"
+  }
+]

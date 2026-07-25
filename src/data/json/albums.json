@@ -1,0 +1,104 @@
+[
+  {
+    "id": "newjeans-ep1",
+    "title": "New Jeans (1st EP)",
+    "releaseDate": "August 1, 2022",
+    "concept": "Y2K Retro Debut",
+    "cover": "/assets/Ditto era.jpg",
+    "tracks": [
+      {
+        "title": "Attention",
+        "duration": "3:00",
+        "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/13/33/80/13338088-6e32-3cb4-818b-d3d5b4d46c60/mzaf_6427935611641023860.plus.aac.p.m4a",
+        "youtube": "https://www.youtube.com/watch?v=js1CtxSY38I"
+      },
+      {
+        "title": "Hype Boy",
+        "duration": "2:59",
+        "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/85/f3/08/85f30899-e93c-35e2-4742-df57fc2d3552/mzaf_14134842621180071043.plus.aac.p.m4a",
+        "youtube": "https://www.youtube.com/watch?v=11cta61Wi0g"
+      },
+      {
+        "title": "Cookie",
+        "duration": "3:55",
+        "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/e5/7b/b0/e57bb09d-52c7-4fbd-1cd4-34c5bf3191fd/mzaf_15060284439168925693.plus.aac.p.m4a",
+        "youtube": "https://www.youtube.com/watch?v=VOmIplFfeeg"
+      },
+      {
+        "title": "Hurt",
+        "duration": "2:57",
+        "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/3f/07/2d/3f072dce-e050-c31a-69d3-0afcb875e0ad/mzaf_11436160729315425428.plus.aac.p.m4a",
+        "youtube": "https://www.youtube.com/watch?v=tVInY14S9vA"
+      }
+    ]
+  },
+  {
+    "id": "omg-single",
+    "title": "OMG (Single Album)",
+    "releaseDate": "January 2, 2023",
+    "concept": "Winter Nostalgia & Digital Diary",
+    "cover": "/assets/Ditto era.jpg",
+    "tracks": [
+      {
+        "title": "Ditto",
+        "duration": "3:05",
+        "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/85/72/66/8572665a-d35f-ce5d-43c5-9ae4b69b4b46/mzaf_2317272666428796662.plus.aac.p.m4a",
+        "youtube": "https://www.youtube.com/watch?v=pSUydWEqKwE"
+      },
+      {
+        "title": "OMG",
+        "duration": "3:32",
+        "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/a7/d4/4a/a7d44a6d-0044-36dc-4061-a90fb469c849/mzaf_14382190698601624004.plus.aac.p.m4a",
+        "youtube": "https://www.youtube.com/watch?v=sVTy_wmn5SU"
+      }
+    ]
+  },
+  {
+    "id": "get-up-ep2",
+    "title": "Get Up (2nd EP)",
+    "releaseDate": "July 21, 2023",
+    "concept": "Powerpuff Girls & Summer Dream",
+    "cover": "/assets/getup.jpg",
+    "tracks": [
+      {
+        "title": "Super Shy",
+        "duration": "2:34",
+        "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/a0/0c/47/a00c4790-3bbe-c669-fc8b-d8779508b512/mzaf_4170831274187670095.plus.aac.p.m4a",
+        "youtube": "https://www.youtube.com/watch?v=ArmDp-zijuc"
+      },
+      {
+        "title": "ETA",
+        "duration": "2:31",
+        "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/fb/eb/dc/fbebdc04-d035-0b34-6df7-7c7e73e1c5ce/mzaf_1666920854414573023.plus.aac.p.m4a",
+        "youtube": "https://www.youtube.com/watch?v=jOTfBl1LgOU"
+      },
+      {
+        "title": "Cool With You",
+        "duration": "2:27",
+        "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/aa/59/53/aa59533b-71e8-cf81-d8a1-29da229caa8f/mzaf_12452112547662327605.plus.aac.p.m4a",
+        "youtube": "https://www.youtube.com/watch?v=zsYSSVoQnP4"
+      }
+    ]
+  },
+  {
+    "id": "how-sweet-double",
+    "title": "How Sweet (Double Single)",
+    "releaseDate": "May 24, 2024",
+    "concept": "Miami Bass & Hip Hop Vibes",
+    "cover": "/assets/how sweet shoot.jpg",
+    "tracks": [
+      {
+        "title": "How Sweet",
+        "duration": "3:39",
+        "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/4d/f8/ec/4df8ec06-579b-0b92-1c4d-d8714cc5d1bc/mzaf_8361635933595309894.plus.aac.p.m4a",
+        "youtube": "https://www.youtube.com/watch?v=Q3K0TOvTOno"
+      },
+      {
+        "title": "Bubble Gum",
+        "duration": "3:20",
+        "previewUrl": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/94/d6/aa/94d6aab6-6654-5aca-dbf8-9874b7975bcd/mzaf_16231939766265640228.plus.aac.p.m4a",
+        "youtube": "https://www.youtube.com/watch?v=ft70sAYrFyY"
+      }
+    ]
+  }
+]

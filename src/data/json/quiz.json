@@ -1,0 +1,32 @@
+[
+  {
+    "id": "q1",
+    "question": "What is the official fandom name of NewJeans?",
+    "options": ["Bunnies (Tokki)", "Midzy", "Blink", "Neverland"],
+    "answer": 0
+  },
+  {
+    "id": "q2",
+    "question": "Which member co-wrote the lyrics for both 'Hype Boy' and 'OMG'?",
+    "options": ["Minji", "Hanni", "Danielle", "Haerin"],
+    "answer": 1
+  },
+  {
+    "id": "q3",
+    "question": "What was NewJeans' surprise debut single released on July 22, 2022?",
+    "options": ["Ditto", "Attention", "Hype Boy", "Super Shy"],
+    "answer": 1
+  },
+  {
+    "id": "q4",
+    "question": "Which member voiced Ariel in the Korean dubbed version of Disney's The Little Mermaid?",
+    "options": ["Danielle", "Hyein", "Minji", "Hanni"],
+    "answer": 0
+  },
+  {
+    "id": "q5",
+    "question": "Which iconic animated franchise did NewJeans collaborate with for their 'Get Up' EP?",
+    "options": ["The Powerpuff Girls", "Sailor Moon", "Totally Spies", "Winx Club"],
+    "answer": 0
+  }
+]
