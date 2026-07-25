@@ -36,7 +36,7 @@ export default function SearchPage() {
         <h1 className="text-hero">
           {t('search_title')}
         </h1>
-        <p className="text-sm text-gray-600 dark:text-gray-400 max-w-md">
+        <p className="text-sm text-slate-700 dark:text-gray-400 max-w-md">
           {t('search_sub')}
         </p>
       </div>
@@ -50,7 +50,7 @@ export default function SearchPage() {
             placeholder={t('search_ph')}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="bg-transparent text-sm font-medium text-gray-900 dark:text-white placeholder-gray-400 outline-none w-full"
+            className="bg-transparent text-sm font-medium text-gray-900 dark:text-white placeholder-slate-500 dark:placeholder-gray-400 outline-none w-full"
             autoFocus
           />
         </div>
@@ -62,7 +62,7 @@ export default function SearchPage() {
           <div className="flex flex-col gap-8">
             {matchingMembers.length > 0 && (
               <div className="flex flex-col gap-4">
-                <h3 className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider flex items-center gap-2 border-b border-black/10 dark:border-white/10 pb-2">
+                <h3 className="text-xs font-bold text-slate-600 dark:text-gray-400 uppercase tracking-wider flex items-center gap-2 border-b border-black/10 dark:border-white/10 pb-2">
                   <Users className="w-4 h-4 text-pink-500" />
                   <span>{t('search_members_label')} ({matchingMembers.length})</span>
                 </h3>
@@ -85,7 +85,7 @@ export default function SearchPage() {
             )}
             {matchingAlbums.length > 0 && (
               <div className="flex flex-col gap-4">
-                <h3 className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider flex items-center gap-2 border-b border-black/10 dark:border-white/10 pb-2">
+                <h3 className="text-xs font-bold text-slate-600 dark:text-gray-400 uppercase tracking-wider flex items-center gap-2 border-b border-black/10 dark:border-white/10 pb-2">
                   <Disc className="w-4 h-4 text-pink-500" />
                   <span>{t('search_albums_label')} ({matchingAlbums.length})</span>
                 </h3>
@@ -99,7 +99,7 @@ export default function SearchPage() {
                       <img src={a.cover} alt={a.title} className="w-10 h-10 rounded-lg object-cover" />
                       <div className="overflow-hidden">
                         <h4 className="font-bold text-xs text-gray-900 dark:text-white truncate">{a.title}</h4>
-                        <span className="text-[10px] text-gray-500 dark:text-gray-400 font-medium">{a.releaseDate}</span>
+                        <span className="text-[10px] text-slate-600 dark:text-gray-400 font-medium">{a.releaseDate}</span>
                       </div>
                     </Link>
                   ))}
@@ -110,13 +110,13 @@ export default function SearchPage() {
         ) : (
           <div className="glass-surface p-10 rounded-2xl text-center flex flex-col items-center gap-2 border">
             <h3 className="text-base font-bold text-gray-900 dark:text-white">{t('search_empty_title')} "{query}"</h3>
-            <p className="text-xs text-gray-500 dark:text-gray-400">{t('search_empty_sub')}</p>
+            <p className="text-xs text-slate-600 dark:text-gray-400">{t('search_empty_sub')}</p>
           </div>
         )
       ) : (
         <div className="glass-surface p-10 rounded-2xl text-center flex flex-col items-center gap-2 border">
           <h3 className="text-base font-bold text-gray-900 dark:text-white">{t('search_start_title')}</h3>
-          <p className="text-xs text-gray-500 dark:text-gray-400">{t('search_start_sub')}</p>
+          <p className="text-xs text-slate-600 dark:text-gray-400">{t('search_start_sub')}</p>
         </div>
       )}
     </div>

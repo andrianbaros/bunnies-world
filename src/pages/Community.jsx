@@ -121,7 +121,7 @@ export default function Community() {
         <h1 className="text-hero">
           {t('community_title')}
         </h1>
-        <p className="text-sm text-gray-600 dark:text-gray-400 max-w-md">
+        <p className="text-sm text-slate-700 dark:text-gray-400 max-w-md">
           {t('community_sub')}
         </p>
       </div>
@@ -144,13 +144,13 @@ export default function Community() {
             placeholder={t('community_nickname_ph')}
             value={authorName}
             onChange={(e) => setAuthorName(e.target.value)}
-            className="bg-slate-100/80 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl px-4 py-2.5 text-xs text-gray-900 dark:text-white placeholder-gray-400 outline-none focus:border-pink-500"
+            className="bg-slate-100 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl px-4 py-2.5 text-xs text-gray-900 dark:text-white placeholder-slate-500 dark:placeholder-gray-400 outline-none focus:border-pink-500"
           />
 
           <select
             value={memberTag}
             onChange={(e) => setMemberTag(e.target.value)}
-            className="bg-slate-100/80 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl px-4 py-2.5 text-xs text-gray-900 dark:text-white outline-none cursor-pointer focus:border-pink-500"
+            className="bg-slate-100 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl px-4 py-2.5 text-xs text-gray-900 dark:text-white outline-none cursor-pointer focus:border-pink-500"
           >
             <option value="NewJeans" className="dark:bg-zinc-900">NewJeans Overall</option>
             <option value="Minji" className="dark:bg-zinc-900">Minji</option>
@@ -168,7 +168,7 @@ export default function Community() {
             value={content}
             onChange={handleContentChange}
             required
-            className="w-full bg-slate-100/80 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl p-4 text-xs text-gray-900 dark:text-white placeholder-gray-400 outline-none focus:border-pink-500 resize-none"
+            className="w-full bg-slate-100 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl p-4 text-xs text-gray-900 dark:text-white placeholder-slate-500 dark:placeholder-gray-400 outline-none focus:border-pink-500 resize-none"
           />
           {profanityWarning && (
             <span className="absolute right-3 bottom-3 text-[10px] text-pink-600 dark:text-pink-400 font-semibold bg-pink-500/10 px-2.5 py-1 rounded-full border border-pink-500/20 flex items-center gap-1">
@@ -179,7 +179,7 @@ export default function Community() {
         </div>
 
         <div className="flex items-center justify-between pt-1">
-          <div className="flex items-center gap-2 text-[11px] text-gray-500 dark:text-gray-400">
+          <div className="flex items-center gap-2 text-[11px] text-slate-600 dark:text-gray-400">
             <Shield className="w-3.5 h-3.5 text-pink-500" />
             <span>{t('community_shield')}</span>
           </div>
@@ -203,15 +203,15 @@ export default function Community() {
             <span>{t('community_fan_posts')} ({posts.length})</span>
           </h3>
 
-          <button onClick={fetchPosts} className="p-2 rounded-full bg-slate-100/80 dark:bg-white/5 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors" title="Refresh Feed">
+          <button onClick={fetchPosts} className="p-2 rounded-full bg-slate-100 dark:bg-white/5 text-slate-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors" title="Refresh Feed">
             <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
           </button>
         </div>
 
         {loading ? (
-          <div className="text-center py-10 text-xs text-gray-500 dark:text-gray-400">{t('community_loading')}</div>
+          <div className="text-center py-10 text-xs text-slate-600 dark:text-gray-400">{t('community_loading')}</div>
         ) : posts.length === 0 ? (
-          <div className="text-center py-10 text-xs text-gray-500 dark:text-gray-400 glass-surface rounded-2xl">{t('community_no_posts')}</div>
+          <div className="text-center py-10 text-xs text-slate-600 dark:text-gray-400 glass-surface rounded-2xl">{t('community_no_posts')}</div>
         ) : (
           posts.map((post) => {
             const authorName = post.author_name || post.author || 'Anonymous Bunny';
@@ -242,7 +242,7 @@ export default function Community() {
                           </span>
                         )}
                       </h4>
-                      <span className="text-[10px] text-gray-500 dark:text-gray-400 font-medium">
+                      <span className="text-[10px] text-slate-600 dark:text-gray-400 font-medium">
                         {new Date(postDate).toLocaleDateString()} • {postTag}
                       </span>
                     </div>
@@ -254,12 +254,12 @@ export default function Community() {
                   </div>
                 </div>
 
-                <p className="text-xs text-gray-700 dark:text-gray-300 leading-relaxed font-sans">{postContent}</p>
+                <p className="text-xs text-slate-800 dark:text-gray-200 leading-relaxed font-sans">{postContent}</p>
 
                 <div className="flex items-center justify-between pt-2 border-t border-black/5 dark:border-white/10 text-xs">
                   <button
                     onClick={() => handleLike(post.id, postLikes)}
-                    className="flex items-center gap-1.5 text-xs text-gray-500 dark:text-gray-400 hover:text-pink-500 transition-colors"
+                    className="flex items-center gap-1.5 text-xs text-slate-600 dark:text-gray-400 hover:text-pink-500 transition-colors"
                   >
                     <Heart className="w-4 h-4 text-pink-500 hover:fill-current" />
                     <span>{postLikes} {t('community_likes')}</span>

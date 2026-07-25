@@ -52,26 +52,26 @@ export default function Members() {
         <h1 className="text-hero">
           NEWJEANS PROFILE
         </h1>
-        <p className="text-sm text-gray-600 dark:text-gray-400 max-w-md">
+        <p className="text-sm text-slate-700 dark:text-gray-400 max-w-md">
           {t('members_sub')}
         </p>
       </div>
 
       {/* Search & Filter Bar */}
       <div className="glass-surface p-4 rounded-2xl flex flex-wrap items-center justify-between gap-4 border">
-        <div className="flex items-center gap-2.5 bg-black/5 dark:bg-black/40 px-4 py-2 rounded-xl border border-black/10 dark:border-white/10 flex-grow max-w-md">
+        <div className="flex items-center gap-2.5 bg-slate-100 dark:bg-black/40 px-4 py-2 rounded-xl border border-slate-300/80 dark:border-white/10 flex-grow max-w-md">
           <Search className="w-4 h-4 text-gray-400" />
           <input
             type="text"
             placeholder={t('members_search_ph')}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="bg-transparent text-xs font-medium text-gray-900 dark:text-white placeholder-gray-400 outline-none w-full"
+            className="bg-transparent text-xs font-medium text-gray-900 dark:text-white placeholder-slate-500 dark:placeholder-gray-400 outline-none w-full"
           />
         </div>
 
         <div className="flex items-center gap-2">
-          <div className="flex items-center gap-2 bg-black/5 dark:bg-black/40 px-3 py-1.5 rounded-xl border border-black/10 dark:border-white/10 text-xs">
+          <div className="flex items-center gap-2 bg-slate-100 dark:bg-black/40 px-3 py-1.5 rounded-xl border border-slate-300/80 dark:border-white/10 text-xs">
             <Filter className="w-3.5 h-3.5 text-gray-400" />
             <select
               value={mbtiFilter}
@@ -119,7 +119,7 @@ export default function Members() {
                     <h3 className="font-bold text-base text-gray-900 dark:text-white">{member.name}</h3>
                     <span className="text-xs text-pink-600 dark:text-pink-400 font-semibold">{member.koreanName}</span>
                   </div>
-                  <p className="text-xs text-gray-500 dark:text-gray-400 line-clamp-2">{member.position}</p>
+                  <p className="text-xs text-slate-600 dark:text-gray-400 line-clamp-2">{member.position}</p>
                 </Link>
 
                 <div className="flex items-center gap-2 mt-auto pt-3 border-t border-black/5 dark:border-white/10 w-full justify-center">
@@ -131,7 +131,7 @@ export default function Members() {
                     className={`p-2 rounded-full transition-colors ${
                       isFav
                         ? 'bg-pink-500 text-white'
-                        : 'bg-black/5 dark:bg-white/10 text-gray-500 dark:text-gray-400 hover:text-pink-500'
+                        : 'bg-black/5 dark:bg-white/10 text-slate-600 dark:text-gray-400 hover:text-pink-500'
                     }`}
                     title="Bookmark Member"
                   >
@@ -140,7 +140,7 @@ export default function Members() {
 
                   <button
                     onClick={(e) => handleShare(e, member)}
-                    className="p-2 rounded-full bg-black/5 dark:bg-white/10 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+                    className="p-2 rounded-full bg-black/5 dark:bg-white/10 text-slate-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
                     title="Share Profile"
                   >
                     <Share2 className="w-4 h-4" />
@@ -186,7 +186,7 @@ export default function Members() {
                     <h3 className="font-bold text-base text-gray-900 dark:text-white">{member.name}</h3>
                     <span className="text-xs text-amber-600 dark:text-amber-400 font-semibold">{member.koreanName}</span>
                   </div>
-                  <p className="text-xs text-gray-500 dark:text-gray-400 line-clamp-2">{member.position}</p>
+                  <p className="text-xs text-slate-600 dark:text-gray-400 line-clamp-2">{member.position}</p>
                 </Link>
               </motion.div>
             ))}

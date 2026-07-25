@@ -29,7 +29,7 @@ export default function Settings() {
         <h1 className="text-hero">
           {t('settings_title')}
         </h1>
-        <p className="text-sm text-gray-600 dark:text-gray-400 max-w-md">
+        <p className="text-sm text-slate-700 dark:text-gray-400 max-w-md">
           {t('settings_sub')}
         </p>
       </div>
@@ -52,7 +52,7 @@ export default function Settings() {
                   className={`flex items-center justify-center gap-2 py-2.5 rounded-lg text-xs font-semibold transition-all ${
                     isActive
                       ? 'bg-pink-500 text-white shadow-sm'
-                      : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+                      : 'text-slate-700 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
                   }`}
                 >
                   <Icon className="w-4 h-4" />
@@ -79,7 +79,7 @@ export default function Settings() {
                   className={`flex items-center justify-center p-3 rounded-xl border text-xs font-semibold transition-all ${
                     isActive
                       ? 'bg-pink-500/15 border-pink-500/30 text-pink-600 dark:text-pink-400 font-bold'
-                      : 'bg-black/5 dark:bg-white/5 border-black/10 dark:border-white/10 text-gray-700 dark:text-gray-300 hover:border-black/20 dark:hover:border-white/20'
+                      : 'bg-black/5 dark:bg-white/5 border-black/10 dark:border-white/10 text-slate-800 dark:text-gray-200 hover:border-black/20 dark:hover:border-white/20'
                   }`}
                 >
                   <span>{lang.label}</span>
@@ -93,7 +93,7 @@ export default function Settings() {
         <div className="flex items-center justify-between pt-4 border-t border-black/10 dark:border-white/10">
           <div>
             <h4 className="font-bold text-xs uppercase tracking-wider text-gray-900 dark:text-white">{t('reduced_motion')}</h4>
-            <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{t('reduced_motion_sub')}</p>
+            <p className="text-xs text-slate-600 dark:text-gray-400 mt-0.5">{t('reduced_motion_sub')}</p>
           </div>
           <button
             onClick={() => updateSetting('reducedMotion', !settings.reducedMotion)}
@@ -109,7 +109,7 @@ export default function Settings() {
         <div className="flex items-center justify-between pt-4 border-t border-black/10 dark:border-white/10">
           <div>
             <h4 className="font-bold text-xs uppercase tracking-wider text-gray-900 dark:text-white">{t('reset_data')}</h4>
-            <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{t('reset_data_sub')}</p>
+            <p className="text-xs text-slate-600 dark:text-gray-400 mt-0.5">{t('reset_data_sub')}</p>
           </div>
           <button
             onClick={resetAllSettings}

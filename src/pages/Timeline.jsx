@@ -15,7 +15,7 @@ export default function Timeline() {
         <h1 className="text-hero">
           {t('timeline_title')}
         </h1>
-        <p className="text-sm text-gray-600 dark:text-gray-400 max-w-md">
+        <p className="text-sm text-slate-700 dark:text-gray-400 max-w-md">
           {t('timeline_sub')}
         </p>
       </div>
@@ -37,7 +37,7 @@ export default function Timeline() {
               <div className="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-pink-500 border-2 border-white dark:border-zinc-950 shadow-sm" />
               <div className="hidden sm:block absolute -left-32 top-1 text-right w-24">
                 <span className="font-bold text-sm text-pink-600 dark:text-pink-400 block">{item.year}</span>
-                <span className="text-[11px] text-gray-500 dark:text-gray-400 block font-semibold">{item.date}</span>
+                <span className="text-[11px] text-slate-600 dark:text-gray-400 block font-semibold">{item.date}</span>
               </div>
               <div className="glass-surface p-5 rounded-2xl flex flex-col sm:flex-row gap-4 border hover:border-pink-500/30 transition-all">
                 <img src={item.image} alt={itemTitle} className="w-full sm:w-32 h-32 object-cover rounded-xl flex-shrink-0" />
@@ -46,10 +46,10 @@ export default function Timeline() {
                     <span className="px-2.5 py-0.5 rounded-full bg-pink-500/10 text-pink-600 dark:text-pink-400 text-[10px] font-bold border border-pink-500/20 uppercase">
                       {itemTag}
                     </span>
-                    <span className="sm:hidden text-[11px] text-gray-500 dark:text-gray-400 font-semibold">{item.date}</span>
+                    <span className="sm:hidden text-[11px] text-slate-600 dark:text-gray-400 font-semibold">{item.date}</span>
                   </div>
                   <h3 className="font-bold text-base text-gray-900 dark:text-white">{itemTitle}</h3>
-                  <p className="text-xs text-gray-600 dark:text-gray-300 leading-relaxed">{itemDesc}</p>
+                  <p className="text-xs text-slate-700 dark:text-gray-300 leading-relaxed">{itemDesc}</p>
                 </div>
               </div>
             </motion.div>

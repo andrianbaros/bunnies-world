@@ -61,7 +61,7 @@ export default function FloatingAudioPlayer() {
           </div>
           <div className="overflow-hidden">
             <h4 className="text-xs font-bold text-gray-900 dark:text-white truncate">{currentTrack.title}</h4>
-            <p className="text-[11px] text-gray-500 dark:text-gray-400 truncate">{currentTrack.artist} • {currentTrack.album}</p>
+            <p className="text-[11px] text-slate-600 dark:text-gray-400 truncate">{currentTrack.artist} • {currentTrack.album}</p>
           </div>
         </div>
 
@@ -103,7 +103,7 @@ export default function FloatingAudioPlayer() {
               style={{ width: `${progressPercent}%` }}
             />
           </div>
-          <div className="flex justify-between text-[10px] text-gray-500 dark:text-gray-400 font-semibold">
+          <div className="flex justify-between text-[10px] text-slate-600 dark:text-gray-400 font-semibold">
             <span>{formatTime(currentTime)}</span>
             <span>{formatTime(duration)}</span>
           </div>
@@ -120,7 +120,7 @@ export default function FloatingAudioPlayer() {
               <Shuffle className="w-4 h-4" />
             </button>
 
-            <button onClick={prevTrack} className="text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors p-1">
+            <button onClick={prevTrack} className="text-slate-700 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors p-1">
               <SkipBack className="w-4 h-4" />
             </button>
 
@@ -131,7 +131,7 @@ export default function FloatingAudioPlayer() {
               {isPlaying ? <Pause className="w-4 h-4 fill-current" /> : <Play className="w-4 h-4 fill-current ml-0.5" />}
             </button>
 
-            <button onClick={nextTrack} className="text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors p-1">
+            <button onClick={nextTrack} className="text-slate-700 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors p-1">
               <SkipForward className="w-4 h-4" />
             </button>
 
@@ -151,7 +151,7 @@ export default function FloatingAudioPlayer() {
             <button
               onClick={() => setIsPlaylistOpen(!isPlaylistOpen)}
               className={`flex items-center gap-1.5 text-xs font-semibold transition-colors ${
-                isPlaylistOpen ? 'text-pink-500' : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+                isPlaylistOpen ? 'text-pink-500' : 'text-slate-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
               }`}
             >
               <ListMusic className="w-4 h-4" />
@@ -171,7 +171,7 @@ export default function FloatingAudioPlayer() {
 
           {/* Playlist Queue Drawer */}
           {isPlaylistOpen && (
-            <div className="max-h-40 overflow-y-auto bg-slate-100/80 dark:bg-black/40 rounded-xl p-1.5 flex flex-col gap-1 border border-black/5 dark:border-white/10">
+            <div className="max-h-40 overflow-y-auto bg-slate-100 dark:bg-black/40 rounded-xl p-1.5 flex flex-col gap-1 border border-black/5 dark:border-white/10">
               {playlist.map((track) => (
                 <button
                   key={track.id}
@@ -179,11 +179,11 @@ export default function FloatingAudioPlayer() {
                   className={`flex items-center justify-between p-2 rounded-lg text-left text-xs transition-colors ${
                     currentTrack.id === track.id
                       ? 'bg-pink-500/15 text-pink-600 dark:text-pink-400 font-bold'
-                      : 'text-gray-700 dark:text-gray-300 hover:bg-black/5 dark:hover:bg-white/5'
+                      : 'text-slate-800 dark:text-gray-200 hover:bg-black/5 dark:hover:bg-white/5'
                   }`}
                 >
                   <span className="truncate">{track.title}</span>
-                  <span className="text-[10px] text-gray-500 dark:text-gray-400">{track.duration}</span>
+                  <span className="text-[10px] text-slate-600 dark:text-gray-400">{track.duration}</span>
                 </button>
               ))}
             </div>

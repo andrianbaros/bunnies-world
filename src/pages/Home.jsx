@@ -110,7 +110,7 @@ export default function Home() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="text-sm sm:text-base text-gray-600 dark:text-gray-300 max-w-xl leading-relaxed z-10 font-normal"
+          className="text-sm sm:text-base text-slate-700 dark:text-gray-300 max-w-xl leading-relaxed z-10 font-normal"
         >
           {t('hero_subtitle')}
         </motion.p>
@@ -131,7 +131,7 @@ export default function Home() {
 
           <Link
             to="/universe"
-            className="px-6 py-3 rounded-full bg-slate-100/80 dark:bg-white/10 text-gray-900 dark:text-white font-bold text-xs tracking-wider border border-black/10 dark:border-white/10 hover:bg-black/10 dark:hover:bg-white/20 transition-colors flex items-center gap-2"
+            className="px-6 py-3 rounded-full bg-slate-100 dark:bg-white/10 text-gray-900 dark:text-white font-bold text-xs tracking-wider border border-black/10 dark:border-white/10 hover:bg-black/10 dark:hover:bg-white/20 transition-colors flex items-center gap-2"
           >
             <span>{t('btn_calc_affinity')}</span>
           </Link>
@@ -141,7 +141,7 @@ export default function Home() {
       {/* 2. Quote of the Day */}
       <section className="glass-surface p-6 sm:p-8 rounded-2xl text-center flex flex-col items-center gap-3 border">
         <Quote className="w-6 h-6 text-pink-500 opacity-80" />
-        <p className="text-sm sm:text-base italic text-gray-800 dark:text-gray-200 font-serif max-w-2xl leading-relaxed">
+        <p className="text-sm sm:text-base italic text-slate-900 dark:text-gray-200 font-serif max-w-2xl leading-relaxed">
           "{quotes[0].text}"
         </p>
         <span className="text-xs font-bold text-pink-600 dark:text-pink-400 tracking-wider uppercase">— {quotes[0].author} (NewJeans)</span>
@@ -173,7 +173,7 @@ export default function Home() {
                 <h3 className="font-bold text-sm text-gray-900 dark:text-white">{member.name}</h3>
                 <span className="text-[11px] text-pink-600 dark:text-pink-400 font-semibold">{member.koreanName}</span>
               </div>
-              <p className="text-xs text-gray-500 dark:text-gray-400 line-clamp-1">{member.position}</p>
+              <p className="text-xs text-slate-600 dark:text-gray-400 line-clamp-1">{member.position}</p>
             </Link>
           ))}
         </div>
@@ -189,7 +189,7 @@ export default function Home() {
             {t('home_featured_disc')}
           </span>
           <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">{featuredAlbum.title}</h2>
-          <p className="text-xs text-gray-600 dark:text-gray-300 leading-relaxed max-w-lg">
+          <p className="text-xs text-slate-700 dark:text-gray-300 leading-relaxed max-w-lg">
             {featuredAlbum.concept} — Released {featuredAlbum.releaseDate}
           </p>
           <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3 mt-2">
@@ -234,13 +234,13 @@ export default function Home() {
               <div
                 key={track.id}
                 onClick={() => playSongById(track.id)}
-                className="flex items-center justify-between p-3 rounded-xl bg-slate-100/80 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 transition-all cursor-pointer border border-transparent hover:border-black/10 dark:hover:border-white/10"
+                className="flex items-center justify-between p-3 rounded-xl bg-slate-100 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 transition-all cursor-pointer border border-transparent hover:border-black/10 dark:hover:border-white/10"
               >
                 <div className="flex items-center gap-3">
                   <img src={track.cover} alt={track.title} className="w-9 h-9 rounded-lg object-cover" />
                   <div>
                     <h4 className="font-bold text-xs text-gray-900 dark:text-white">{track.title}</h4>
-                    <span className="text-[10px] text-gray-500 dark:text-gray-400">{track.album}</span>
+                    <span className="text-[10px] text-slate-600 dark:text-gray-400">{track.album}</span>
                   </div>
                 </div>
                 <button className="p-1.5 rounded-full bg-pink-500/10 text-pink-600 dark:text-pink-400 hover:bg-pink-500 hover:text-white transition-colors">

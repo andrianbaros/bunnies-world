@@ -41,32 +41,32 @@ export default function Discography() {
         <h1 className="text-hero">
           NEWJEANS DISCOGRAPHY
         </h1>
-        <p className="text-sm text-gray-600 dark:text-gray-400 max-w-md">
+        <p className="text-sm text-slate-700 dark:text-gray-400 max-w-md">
           Explore official EPs, singles, tracklists, and audio previews.
         </p>
       </div>
 
       {/* Tab Controls & Search Bar */}
       <div className="glass-surface p-4 rounded-2xl flex flex-wrap items-center justify-between gap-4 border">
-        <div className="flex items-center gap-2.5 bg-slate-100/80 dark:bg-black/40 px-4 py-2 rounded-xl border border-black/10 dark:border-white/10 flex-grow max-w-md">
+        <div className="flex items-center gap-2.5 bg-slate-100 dark:bg-black/40 px-4 py-2 rounded-xl border border-black/10 dark:border-white/10 flex-grow max-w-md">
           <Search className="w-4 h-4 text-gray-400" />
           <input
             type="text"
             placeholder="Search album or song title..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="bg-transparent text-xs font-medium text-gray-900 dark:text-white placeholder-gray-400 outline-none w-full"
+            className="bg-transparent text-xs font-medium text-gray-900 dark:text-white placeholder-slate-500 dark:placeholder-gray-400 outline-none w-full"
           />
         </div>
 
         {/* Tab Switcher */}
-        <div className="flex items-center gap-1.5 bg-slate-100/80 dark:bg-black/40 p-1.5 rounded-xl border border-black/10 dark:border-white/10">
+        <div className="flex items-center gap-1.5 bg-slate-100 dark:bg-black/40 p-1.5 rounded-xl border border-black/10 dark:border-white/10">
           <button
             onClick={() => setActiveTab('albums')}
             className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 ${
               activeTab === 'albums'
                 ? 'bg-pink-500 text-white shadow-sm'
-                : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+                : 'text-slate-700 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
             }`}
           >
             <Disc className="w-3.5 h-3.5" />
@@ -77,7 +77,7 @@ export default function Discography() {
             className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 ${
               activeTab === 'songs'
                 ? 'bg-pink-500 text-white shadow-sm'
-                : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+                : 'text-slate-700 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
             }`}
           >
             <Music className="w-3.5 h-3.5" />
@@ -123,7 +123,7 @@ export default function Discography() {
                       <Heart className={`w-4 h-4 ${isFav ? 'fill-current' : ''}`} />
                     </button>
                   </div>
-                  <span className="text-[11px] font-semibold text-gray-500 dark:text-gray-400">{album.releaseDate} • {album.tracks.length} Tracks</span>
+                  <span className="text-[11px] font-semibold text-slate-600 dark:text-gray-400">{album.releaseDate} • {album.tracks.length} Tracks</span>
                   <span className="text-xs text-pink-600 dark:text-pink-400 font-semibold truncate mt-0.5">Concept: {album.concept}</span>
                 </div>
               </motion.div>
@@ -186,11 +186,11 @@ export default function Discography() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="relative w-full max-w-2xl glass-surface p-6 sm:p-8 rounded-3xl border z-10 flex flex-col gap-6 shadow-2xl max-h-[85vh] overflow-y-auto"
+              className="relative w-full max-w-2xl bg-white dark:bg-zinc-900 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-white/10 z-10 flex flex-col gap-6 shadow-2xl max-h-[85vh] overflow-y-auto"
             >
               <button
                 onClick={() => setSelectedAlbum(null)}
-                className="absolute top-5 right-5 p-2 rounded-full bg-slate-100/80 dark:bg-white/10 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
+                className="absolute top-5 right-5 p-2 rounded-full bg-slate-100 dark:bg-white/10 text-slate-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -199,14 +199,14 @@ export default function Discography() {
                 <img src={selectedAlbum.cover} alt={selectedAlbum.title} className="w-32 h-32 rounded-xl object-cover shadow-md border" />
                 <div className="flex flex-col gap-1.5 text-center sm:text-left">
                   <h2 className="text-xl sm:text-2xl font-extrabold text-gray-900 dark:text-white">{selectedAlbum.title}</h2>
-                  <span className="text-xs text-gray-500 dark:text-gray-400 font-semibold">{selectedAlbum.releaseDate} • {selectedAlbum.tracks.length} Songs</span>
+                  <span className="text-xs text-slate-600 dark:text-gray-400 font-semibold">{selectedAlbum.releaseDate} • {selectedAlbum.tracks.length} Songs</span>
                   <span className="text-xs text-pink-600 dark:text-pink-400 font-semibold">Concept: {selectedAlbum.concept}</span>
                 </div>
               </div>
 
               {/* Tracklist inside Modal */}
               <div className="flex flex-col gap-3">
-                <h4 className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider flex items-center gap-2">
+                <h4 className="text-xs font-bold text-slate-600 dark:text-gray-400 uppercase tracking-wider flex items-center gap-2">
                   <Music className="w-4 h-4 text-pink-500" />
                   <span>Tracklist & Music Videos</span>
                 </h4>
@@ -223,7 +223,7 @@ export default function Discography() {
                         className={`flex flex-wrap items-center justify-between p-3 rounded-xl border transition-all ${
                           isCurrent
                             ? 'bg-pink-500/15 border-pink-500/30'
-                            : 'bg-slate-100/80 dark:bg-white/5 border-transparent hover:border-black/10 dark:hover:border-white/10'
+                            : 'bg-slate-100 dark:bg-white/5 border-transparent hover:border-black/10 dark:hover:border-white/10'
                         }`}
                       >
                         <div className="flex items-center gap-3">
@@ -236,7 +236,7 @@ export default function Discography() {
                           </button>
                           <div>
                             <h5 className="font-bold text-xs text-gray-900 dark:text-white">{track.title}</h5>
-                            <span className="text-[10px] text-gray-500 dark:text-gray-400">{track.duration}</span>
+                            <span className="text-[10px] text-slate-600 dark:text-gray-400">{track.duration}</span>
                           </div>
                         </div>
 

@@ -186,21 +186,21 @@ export default function Gallery() {
         <h1 className="text-hero">
           {t('gallery_title')}
         </h1>
-        <p className="text-sm text-gray-600 dark:text-gray-400 max-w-md">
+        <p className="text-sm text-slate-700 dark:text-gray-400 max-w-md">
           {t('gallery_sub')}
         </p>
       </div>
 
       {/* Search & Filter Bar */}
       <div className="glass-surface p-4 flex flex-wrap items-center justify-between gap-4 border">
-        <div className="flex items-center gap-2.5 bg-slate-100/80 dark:bg-black/40 px-4 py-2.5 rounded-xl border border-black/10 dark:border-white/10 flex-grow max-w-md">
+        <div className="flex items-center gap-2.5 bg-slate-100 dark:bg-black/40 px-4 py-2.5 rounded-xl border border-black/10 dark:border-white/10 flex-grow max-w-md">
           <Search className="w-4 h-4 text-gray-400" />
           <input
             type="text"
             placeholder={t('gallery_search_ph')}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="bg-transparent text-xs font-medium text-gray-900 dark:text-white placeholder-gray-400 outline-none w-full"
+            className="bg-transparent text-xs font-medium text-gray-900 dark:text-white placeholder-slate-500 dark:placeholder-gray-400 outline-none w-full"
           />
         </div>
         <div className="flex justify-center flex-wrap gap-1.5">
@@ -211,7 +211,7 @@ export default function Gallery() {
               className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all ${
                 categoryFilter === cat
                   ? 'bg-pink-500 text-white shadow-sm'
-                  : 'bg-slate-100/80 dark:bg-white/5 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white border border-transparent'
+                  : 'bg-slate-100 dark:bg-white/5 text-slate-700 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white border border-transparent'
               }`}
             >
               {cat === 'All' ? t('gallery_cat_all') : cat}
@@ -265,7 +265,7 @@ export default function Gallery() {
       ) : (
         <div className="glass-surface p-12 rounded-3xl text-center flex flex-col items-center gap-3">
           <h3 className="text-lg font-bold text-gray-900 dark:text-white">{t('gallery_no_photo')}</h3>
-          <p className="text-xs text-gray-500 dark:text-gray-400">{t('gallery_no_photo_sub')}</p>
+          <p className="text-xs text-slate-600 dark:text-gray-400">{t('gallery_no_photo_sub')}</p>
           <button
             onClick={() => { setSearchTerm(''); setCategoryFilter('All'); }}
             className="px-5 py-2 rounded-full bg-pink-500 text-white text-xs font-semibold"
@@ -329,7 +329,7 @@ export default function Gallery() {
               <div className="flex items-center justify-between glass-surface p-4 rounded-2xl border">
                 <button
                   onClick={() => toggleFavorite('gallery', selectedImage)}
-                  className="px-4 py-2 rounded-full bg-slate-100/80 dark:bg-white/10 text-gray-900 dark:text-white font-semibold text-xs flex items-center gap-2 hover:bg-pink-500 hover:text-white transition-colors"
+                  className="px-4 py-2 rounded-full bg-slate-100 dark:bg-white/10 text-gray-900 dark:text-white font-semibold text-xs flex items-center gap-2 hover:bg-pink-500 hover:text-white transition-colors"
                 >
                   <Heart className={`w-4 h-4 ${settings.favorites?.gallery?.some((g) => g.id === selectedImage.id) ? 'fill-current text-pink-500' : ''}`} />
                   <span>Bookmark</span>

@@ -62,7 +62,7 @@ export default function Universe() {
         <h1 className="text-hero">
           BUNNIES TRIVIA & QUIZ
         </h1>
-        <p className="text-sm text-gray-600 dark:text-gray-400 max-w-md">
+        <p className="text-sm text-slate-700 dark:text-gray-400 max-w-md">
           Test your NewJeans knowledge and discover your fandom affinity result!
         </p>
       </div>
@@ -96,7 +96,7 @@ export default function Universe() {
                       ? idx === quizData[currentQuizIdx].answer
                         ? 'bg-emerald-500/20 border-emerald-500 text-emerald-700 dark:text-emerald-300'
                         : 'bg-rose-500/20 border-rose-500 text-rose-700 dark:text-rose-300'
-                      : 'bg-black/5 dark:bg-black/40 border-black/10 dark:border-white/10 hover:border-pink-500/40 text-gray-800 dark:text-gray-200'
+                      : 'bg-black/5 dark:bg-black/40 border-black/10 dark:border-white/10 hover:border-pink-500/40 text-slate-900 dark:text-gray-200'
                   }`}
                 >
                   {opt}
@@ -109,7 +109,7 @@ export default function Universe() {
           <div className="flex flex-col items-center text-center gap-4 py-4">
             <Trophy className="w-12 h-12 text-pink-500" />
             <h3 className="text-xl font-bold text-gray-900 dark:text-white">Quiz Completed!</h3>
-            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300">
+            <p className="text-xs sm:text-sm text-slate-700 dark:text-gray-300">
               You scored <span className="font-bold text-pink-600 dark:text-pink-400">{score}</span> out of {quizData.length}!
             </p>
 
@@ -117,7 +117,7 @@ export default function Universe() {
               <div className="bg-black/5 dark:bg-black/40 p-5 rounded-xl border border-black/10 dark:border-white/10 max-w-md text-center flex flex-col gap-1.5">
                 <span className="text-[10px] font-bold text-pink-600 dark:text-pink-400 uppercase tracking-widest">Fandom Result</span>
                 <h4 className="text-base font-bold text-gray-900 dark:text-white">{soulBunny.title}</h4>
-                <p className="text-xs text-gray-600 dark:text-gray-300 leading-relaxed">{soulBunny.desc}</p>
+                <p className="text-xs text-slate-700 dark:text-gray-300 leading-relaxed">{soulBunny.desc}</p>
               </div>
             )}
 
@@ -138,7 +138,7 @@ export default function Universe() {
           <Award className="w-5 h-5 text-pink-500" />
           <div>
             <h4 className="font-bold text-xs uppercase tracking-wider text-gray-900 dark:text-white">Your High Score</h4>
-            <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Saved in LocalStorage.</p>
+            <p className="text-xs text-slate-600 dark:text-gray-400 mt-0.5">Saved in LocalStorage.</p>
           </div>
         </div>
         <span className="text-xl font-black text-pink-600 dark:text-pink-400">{settings.quizHighScore || 0} pts</span>
