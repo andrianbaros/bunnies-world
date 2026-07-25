@@ -10,9 +10,12 @@ export default function Navbar() {
   const location = useLocation();
   const [isMoreOpen, setIsMoreOpen] = useState(false);
 
+  const [isMobileMoreOpen, setIsMobileMoreOpen] = useState(false);
+
   useEffect(() => {
     updateSetting('lastRoute', location.pathname);
     setIsMoreOpen(false);
+    setIsMobileMoreOpen(false);
   }, [location.pathname]);
 
   const primaryNavItems = [
@@ -131,9 +134,44 @@ export default function Navbar() {
         </div>
       </nav>
 
+      {/* Mobile Drawer Backdrop */}
+      {isMobileMoreOpen && (
+        <div 
+          className="md:hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-30"
+          onClick={() => setIsMobileMoreOpen(false)}
+        />
+      )}
+
+      {/* Mobile More Menu Bottom Drawer Panel */}
+      {isMobileMoreOpen && (
+        <div className="md:hidden fixed bottom-[58px] left-3 right-3 z-45 glass-surface-pink p-4 rounded-3xl border border-pink-300/30 shadow-2xl flex flex-col gap-2 max-h-[50vh] overflow-y-auto animate-in slide-in-from-bottom duration-250">
+          <div className="grid grid-cols-2 gap-2">
+            {moreNavItems.map((item) => {
+              const Icon = item.icon;
+              const isItemActive = location.pathname === item.path;
+              return (
+                <NavLink
+                  key={item.path}
+                  to={item.path}
+                  onClick={() => setIsMobileMoreOpen(false)}
+                  className={`flex items-center gap-2.5 p-3 rounded-2xl text-xs font-bold transition-all border ${
+                    isItemActive
+                      ? 'bg-pink-400/20 text-pink-300 border-pink-300/40'
+                      : 'bg-black/40 text-gray-300 border-white/5 hover:text-white'
+                  }`}
+                >
+                  <Icon className="w-4 h-4 text-pink-300" />
+                  <span>{item.label}</span>
+                </NavLink>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
       {/* Mobile Bottom Navigation Bar (Fixed for Mobile Screens) */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 glass-surface border-t border-white/10 px-2 py-1.5 flex items-center justify-around">
-        {primaryNavItems.map((item) => {
+      <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 glass-surface border-t border-white/10 px-1 py-1.5 flex items-center justify-around">
+        {primaryNavItems.slice(0, 4).map((item) => {
           const Icon = item.icon;
           return (
             <NavLink
@@ -146,10 +184,23 @@ export default function Navbar() {
               }
             >
               <Icon className="w-4 h-4" />
-              <span className="truncate max-w-[50px]">{item.label}</span>
+              <span className="truncate max-w-[55px]">{item.label}</span>
             </NavLink>
           );
         })}
+
+        {/* Mobile More Navigation Button */}
+        <button
+          onClick={() => setIsMobileMoreOpen(!isMobileMoreOpen)}
+          className={`flex flex-col items-center gap-0.5 p-1 text-[9px] font-bold transition-all ${
+            isMobileMoreOpen || moreNavItems.some(i => location.pathname === i.path) || location.pathname === '/about'
+              ? 'text-pink-300 font-black'
+              : 'text-gray-400'
+          }`}
+        >
+          <MoreHorizontal className="w-4 h-4" />
+          <span className="truncate max-w-[55px]">{t('nav_more')}</span>
+        </button>
       </div>
     </header>
   );
