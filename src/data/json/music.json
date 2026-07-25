@@ -21,6 +21,26 @@
   },
   {
     "id": "track-3",
+    "title": "Cookie",
+    "artist": "NewJeans",
+    "album": "New Jeans (1st EP)",
+    "duration": "3:55",
+    "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/e5/7b/b0/e57bb09d-52c7-4fbd-1cd4-34c5bf3191fd/mzaf_15060284439168925693.plus.aac.p.m4a",
+    "youtubeUrl": "https://www.youtube.com/watch?v=VOmIplFfeeg",
+    "cover": "/assets/haerin1.jpg"
+  },
+  {
+    "id": "track-4",
+    "title": "Hurt",
+    "artist": "NewJeans",
+    "album": "New Jeans (1st EP)",
+    "duration": "2:57",
+    "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/3f/07/2d/3f072dce-e050-c31a-69d3-0afcb875e0ad/mzaf_11436160729315425428.plus.aac.p.m4a",
+    "youtubeUrl": "https://www.youtube.com/watch?v=tVInY14S9vA",
+    "cover": "/assets/hyein1.jpg"
+  },
+  {
+    "id": "track-5",
     "title": "Ditto",
     "artist": "NewJeans",
     "album": "OMG (Single Album)",
@@ -30,7 +50,7 @@
     "cover": "/assets/Ditto era.jpg"
   },
   {
-    "id": "track-4",
+    "id": "track-6",
     "title": "OMG",
     "artist": "NewJeans",
     "album": "OMG (Single Album)",
@@ -40,7 +60,27 @@
     "cover": "/assets/minji1.jpg"
   },
   {
-    "id": "track-5",
+    "id": "track-7",
+    "title": "Zero",
+    "artist": "NewJeans",
+    "album": "Special Collaborations & OSTs",
+    "duration": "2:34",
+    "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/d6/68/58/d668580f-c4dc-d0c4-45d3-da4c8d79dd08/mzaf_18419796674429080265.plus.aac.p.m4a",
+    "youtubeUrl": "https://www.youtube.com/watch?v=XIOoqJyx8E4",
+    "cover": "/assets/minji2.jpg"
+  },
+  {
+    "id": "track-8",
+    "title": "New Jeans",
+    "artist": "NewJeans",
+    "album": "Get Up (2nd EP)",
+    "duration": "1:48",
+    "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/62/90/70/6290709d-e8ef-fbba-57f0-b5ef4ffb556d/mzaf_5031206073063517293.plus.aac.p.m4a",
+    "youtubeUrl": "https://www.youtube.com/watch?v=kcelrhbApEE",
+    "cover": "/assets/getup.jpg"
+  },
+  {
+    "id": "track-9",
     "title": "Super Shy",
     "artist": "NewJeans",
     "album": "Get Up (2nd EP)",
@@ -50,7 +90,47 @@
     "cover": "/assets/getup.jpg"
   },
   {
-    "id": "track-6",
+    "id": "track-10",
+    "title": "ETA",
+    "artist": "NewJeans",
+    "album": "Get Up (2nd EP)",
+    "duration": "2:31",
+    "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/fb/eb/dc/fbebdc04-d035-0b34-6df7-7c7e73e1c5ce/mzaf_1666920854414573023.plus.aac.p.m4a",
+    "youtubeUrl": "https://www.youtube.com/watch?v=jOTfBl1LgOU",
+    "cover": "/assets/haerin2.jpg"
+  },
+  {
+    "id": "track-11",
+    "title": "Cool With You",
+    "artist": "NewJeans",
+    "album": "Get Up (2nd EP)",
+    "duration": "2:27",
+    "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/aa/59/53/aa59533b-71e8-cf81-d8a1-29da229caa8f/mzaf_12452112547662327605.plus.aac.p.m4a",
+    "youtubeUrl": "https://www.youtube.com/watch?v=zsYSSVoQnP4",
+    "cover": "/assets/hyein2.jpg"
+  },
+  {
+    "id": "track-12",
+    "title": "Get Up",
+    "artist": "NewJeans",
+    "album": "Get Up (2nd EP)",
+    "duration": "0:36",
+    "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/9a/04/7f/9a047f4f-1936-b01e-92cd-cacd94e58996/mzaf_10570954596436510811.plus.aac.p.m4a",
+    "youtubeUrl": "https://www.youtube.com/watch?v=11cta61Wi0g",
+    "cover": "/assets/getup.jpg"
+  },
+  {
+    "id": "track-13",
+    "title": "ASAP",
+    "artist": "NewJeans",
+    "album": "Get Up (2nd EP)",
+    "duration": "2:14",
+    "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/9d/0e/96/9d0e96d8-678c-0d58-67ed-f83d6bcd3c57/mzaf_208859305911599617.plus.aac.p.m4a",
+    "youtubeUrl": "https://www.youtube.com/watch?v=dJdqn5v4Dkw",
+    "cover": "/assets/hanni2.jpg"
+  },
+  {
+    "id": "track-14",
     "title": "How Sweet",
     "artist": "NewJeans",
     "album": "How Sweet (Double Single)",
@@ -58,5 +138,75 @@
     "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/4d/f8/ec/4df8ec06-579b-0b92-1c4d-d8714cc5d1bc/mzaf_8361635933595309894.plus.aac.p.m4a",
     "youtubeUrl": "https://www.youtube.com/watch?v=Q3K0TOvTOno",
     "cover": "/assets/how sweet shoot.jpg"
+  },
+  {
+    "id": "track-15",
+    "title": "Bubble Gum",
+    "artist": "NewJeans",
+    "album": "How Sweet (Double Single)",
+    "duration": "3:20",
+    "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/94/d6/aa/94d6aab6-6654-5aca-dbf8-9874b7975bcd/mzaf_16231939766265640228.plus.aac.p.m4a",
+    "youtubeUrl": "https://www.youtube.com/watch?v=ft70sAYrFyY",
+    "cover": "/assets/how sweet shoot.jpg"
+  },
+  {
+    "id": "track-16",
+    "title": "Supernatural",
+    "artist": "NewJeans",
+    "album": "Supernatural (Japan Single)",
+    "duration": "3:11",
+    "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/41/ce/f9/41cef96a-6b48-2ddd-72a8-f479e7a1c752/mzaf_5570335600994446876.plus.aac.p.m4a",
+    "youtubeUrl": "https://www.youtube.com/watch?v=ZncbtRo7RXs",
+    "cover": "/assets/minji3.jpg"
+  },
+  {
+    "id": "track-17",
+    "title": "Right Now",
+    "artist": "NewJeans",
+    "album": "Supernatural (Japan Single)",
+    "duration": "2:40",
+    "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/d9/a5/ff/d9a5ff09-9936-60c3-322d-6541eb8228a0/mzaf_8507832924895951906.plus.aac.p.m4a",
+    "youtubeUrl": "https://www.youtube.com/watch?v=m6pT19V0wio",
+    "cover": "/assets/hanni3.jpg"
+  },
+  {
+    "id": "track-18",
+    "title": "GODS",
+    "artist": "NewJeans",
+    "album": "Special Collaborations & OSTs",
+    "duration": "3:40",
+    "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/98/f8/6c/98f86c06-431b-1112-52a2-f2222bece13e/mzaf_5836013213479843390.plus.aac.p.m4a",
+    "youtubeUrl": "https://www.youtube.com/watch?v=C3GouGa0noM",
+    "cover": "/assets/supershy power puff.jpg"
+  },
+  {
+    "id": "track-19",
+    "title": "Beautiful Restriction",
+    "artist": "NewJeans",
+    "album": "Special Collaborations & OSTs",
+    "duration": "3:30",
+    "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview116/v4/bb/62/42/bb62428b-639c-6061-fb80-0800ff0895e8/mzaf_12069157800336321836.plus.aac.p.m4a",
+    "youtubeUrl": "https://www.youtube.com/watch?v=1rY1c6HnSDo",
+    "cover": "/assets/hyein3.jpg"
+  },
+  {
+    "id": "track-20",
+    "title": "Our Night Is More Beautiful Than Your Day",
+    "artist": "NewJeans",
+    "album": "Special Collaborations & OSTs",
+    "duration": "3:12",
+    "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/9b/fe/1a/9bfe1a52-1c03-8cc8-9a23-8c006efdbf62/mzaf_4735950468360708575.plus.aac.p.m4a",
+    "youtubeUrl": "https://www.youtube.com/watch?v=nZ1W2RzY6p8",
+    "cover": "/assets/haerin3.jpg"
+  },
+  {
+    "id": "track-21",
+    "title": "Be Who You Are",
+    "artist": "Jon Batiste, NewJeans, J.I.D",
+    "album": "Special Collaborations & OSTs",
+    "duration": "3:10",
+    "url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/70/f0/fe/70f0fe28-12c9-6926-1ed8-0910ffa7a705/mzaf_746068337145575399.plus.aac.p.m4a",
+    "youtubeUrl": "https://www.youtube.com/watch?v=bO1oK9W72x4",
+    "cover": "/assets/fanart collage.png"
   }
 ]

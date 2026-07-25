@@ -52,13 +52,16 @@ export function AudioProvider({ children }) {
     setCurrentTrackIdx((prev) => (prev - 1 + playlist.length) % playlist.length);
   };
 
-  const playSongById = (id) => {
-    const idx = playlist.findIndex((s) => s.id === id);
+  const playSongById = (idOrTitle) => {
+    const idx = playlist.findIndex(
+      (s) => s.id === idOrTitle || s.title.toLowerCase() === idOrTitle.toString().toLowerCase()
+    );
     if (idx !== -1) {
       setCurrentTrackIdx(idx);
       setIsPlaying(true);
     }
   };
+
 
   const handleAudioEnded = () => {
     if (isRepeat) {

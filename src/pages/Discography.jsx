@@ -145,7 +145,7 @@ export default function Discography() {
             >
               <div className="flex items-center gap-3">
                 <button
-                  onClick={() => playSongById(song.id || 'track-1')}
+                  onClick={() => playSongById(song.title)}
                   className="w-9 h-9 rounded-full bg-pink-500 text-white flex items-center justify-center shadow-sm hover:bg-pink-600 transition-colors"
                 >
                   <Play className="w-4 h-4 fill-current ml-0.5" />
@@ -228,9 +228,10 @@ export default function Discography() {
                       >
                         <div className="flex items-center gap-3">
                           <button
-                            onClick={() => playSongById(track.id || 'track-1')}
+                            onClick={() => playSongById(track.title)}
                             className="w-8 h-8 rounded-full bg-pink-500 text-white flex items-center justify-center shadow-sm hover:bg-pink-600 transition-colors"
                           >
+
                             <Play className="w-3.5 h-3.5 fill-current ml-0.5" />
                           </button>
                           <div>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { HelpCircle, Globe, BookOpen, Scale, ExternalLink } from 'lucide-react';
+import { HelpCircle, Globe, BookOpen, Scale, ExternalLink, Info } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 export default function About() {
@@ -70,7 +70,36 @@ export default function About() {
         </p>
       </div>
 
-      {/* 2. Group Identity & Naming Meaning */}
+      {/* 2. About Bunnies Universe Web Portal with Official Logo */}
+      <section className="glass-surface p-6 sm:p-8 rounded-2xl border flex flex-col md:flex-row items-center gap-6">
+        <div className="w-24 h-24 sm:w-28 sm:h-28 flex-shrink-0 bg-black/5 dark:bg-black/40 p-3.5 rounded-2xl border border-black/10 dark:border-white/10 flex items-center justify-center shadow-xs">
+          <img src="/assets/logo.png" alt="Bunnies Universe Official Logo" className="w-full h-full object-contain" />
+        </div>
+        <div className="flex flex-col gap-2.5 text-center md:text-left">
+          <span className="text-[10px] font-bold text-pink-600 dark:text-pink-400 uppercase tracking-widest">
+            OFFICIAL FAN PLATFORM
+          </span>
+          <h2 className="text-xl font-black text-gray-900 dark:text-white uppercase tracking-wider">
+            ABOUT BUNNIES UNIVERSE WEB PORTAL
+          </h2>
+          <p className="text-xs text-gray-600 dark:text-gray-300 leading-relaxed">
+            <strong>Bunnies Universe</strong> (Unofficial NewJeans Fans Universe) is a high-performance, interactive digital portal built for global Bunnies. It features complete discography stream previews for every track, live community message boards synced with Supabase, member profiles, responsive Polaroid download studio, and clean dark/light theme switching.
+          </p>
+          <div className="flex flex-wrap justify-center md:justify-start gap-2 pt-1">
+            <span className="px-3 py-1 rounded-full bg-black/5 dark:bg-white/5 text-gray-700 dark:text-gray-300 text-[11px] font-semibold border border-black/10 dark:border-white/10">
+              Version 2.5 Pro
+            </span>
+            <span className="px-3 py-1 rounded-full bg-black/5 dark:bg-white/5 text-gray-700 dark:text-gray-300 text-[11px] font-semibold border border-black/10 dark:border-white/10">
+              Live Audio Previews
+            </span>
+            <span className="px-3 py-1 rounded-full bg-black/5 dark:bg-white/5 text-gray-700 dark:text-gray-300 text-[11px] font-semibold border border-black/10 dark:border-white/10">
+              Supabase Realtime
+            </span>
+          </div>
+        </div>
+      </section>
+
+      {/* 3. Group Identity & Naming Meaning */}
       <section className="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
         <div className="glass-surface p-6 rounded-2xl border flex flex-col justify-between gap-4">
           <div className="flex flex-col gap-2.5">
@@ -104,7 +133,7 @@ export default function About() {
         </div>
       </section>
 
-      {/* 3. History & Milestones */}
+      {/* 4. History & Milestones */}
       <section className="flex flex-col gap-5">
         <h2 className="text-base font-bold text-gray-900 dark:text-white uppercase tracking-wider flex items-center gap-2 border-b border-black/10 dark:border-white/10 pb-2">
           <BookOpen className="w-4 h-4 text-pink-500" />
@@ -120,7 +149,7 @@ export default function About() {
         </div>
       </section>
 
-      {/* 4. Music & Copyright Records */}
+      {/* 5. Music & Copyright Records */}
       <section className="glass-surface p-6 rounded-2xl flex flex-col gap-5 border">
         <div className="flex items-center gap-2 border-b border-black/10 dark:border-white/10 pb-2">
           <Scale className="w-4 h-4 text-pink-500" />
@@ -136,7 +165,7 @@ export default function About() {
         </div>
       </section>
 
-      {/* 5. FAQ */}
+      {/* 6. FAQ */}
       <section className="flex flex-col gap-5">
         <h2 className="text-base font-bold text-gray-900 dark:text-white uppercase tracking-wider flex items-center gap-2 border-b border-black/10 dark:border-white/10 pb-2">
           <HelpCircle className="w-4 h-4 text-pink-500" />
@@ -152,7 +181,7 @@ export default function About() {
         </div>
       </section>
 
-      {/* 6. External Links & Weverse */}
+      {/* 7. External Links & Weverse */}
       <section className="glass-surface p-6 sm:p-8 rounded-2xl text-center flex flex-col items-center gap-3 border">
         <h3 className="text-lg font-extrabold text-gray-900 dark:text-white">{t('about_portal')}</h3>
         <p className="text-xs text-gray-600 dark:text-gray-400 max-w-md">{t('about_portal_sub')}</p>
