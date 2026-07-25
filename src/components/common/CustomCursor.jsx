@@ -4,10 +4,21 @@ import { useSettings } from '../../contexts/SettingsContext';
 export default function CustomCursor() {
   const [position, setPosition] = useState({ x: -100, y: -100 });
   const [isHovered, setIsHovered] = useState(false);
+  const [isMobile, setIsMobile] = useState(true);
   const { settings } = useSettings();
 
   useEffect(() => {
-    if (settings.reducedMotion) return;
+    // Detect mobile / touch device
+    const checkIsMobile = () => {
+      const hasTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+      const isTouchMedia = window.matchMedia('(any-hover: none)').matches;
+      return hasTouch || isTouchMedia;
+    };
+
+    const mobileCheck = checkIsMobile();
+    setIsMobile(mobileCheck);
+
+    if (settings.reducedMotion || mobileCheck) return;
 
     document.body.classList.add('custom-cursor-active');
 
@@ -27,7 +38,7 @@ export default function CustomCursor() {
     };
   }, [settings.reducedMotion]);
 
-  if (settings.reducedMotion) return null;
+  if (settings.reducedMotion || isMobile) return null;
 
   return (
     <div

@@ -144,7 +144,14 @@ export default function BunniesCanvas() {
       init();
     };
 
+    const isTouchDevice = () => {
+      return 'ontouchstart' in window || navigator.maxTouchPoints > 0 || window.matchMedia('(any-hover: none)').matches;
+    };
+
+    const isMobileDevice = isTouchDevice();
+
     const handleMouseMove = (e) => {
+      if (isMobileDevice) return;
       mouse.x = e.clientX;
       mouse.y = e.clientY;
     };
@@ -155,16 +162,20 @@ export default function BunniesCanvas() {
     };
 
     window.addEventListener('resize', handleResize);
-    window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('mouseleave', handleMouseLeave);
+    if (!isMobileDevice) {
+      window.addEventListener('mousemove', handleMouseMove);
+      window.addEventListener('mouseleave', handleMouseLeave);
+    }
 
     handleResize();
     animate();
 
     return () => {
       window.removeEventListener('resize', handleResize);
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('mouseleave', handleMouseLeave);
+      if (!isMobileDevice) {
+        window.removeEventListener('mousemove', handleMouseMove);
+        window.removeEventListener('mouseleave', handleMouseLeave);
+      }
       cancelAnimationFrame(animationFrameId);
     };
   }, [settings.reducedMotion]);
