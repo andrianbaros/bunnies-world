@@ -1,8 +1,8 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Heart, Download, X, Loader2 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import html2canvas from 'html2canvas';
 import galleryData from '../data/json/gallery.json';
 import { useSettings } from '../contexts/SettingsContext';
 
@@ -13,9 +13,19 @@ export default function Gallery() {
   const [selectedImage, setSelectedImage] = useState(null);
   const [isDownloading, setIsDownloading] = useState(false);
   const { settings, toggleFavorite, addRecentlyViewed, showToast } = useSettings();
-  const polaroidRef = useRef(null);
 
   const categories = ['All', 'Photocard', 'Concept Photo', 'Behind The Scenes', 'Fan Art', 'Magazine', 'Performance'];
+
+  useEffect(() => {
+    if (selectedImage) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [selectedImage]);
 
   const filteredItems = galleryData.filter((item) => {
     const matchesSearch = item.title.toLowerCase().includes(searchTerm.toLowerCase());
@@ -29,26 +39,20 @@ export default function Gallery() {
   };
 
   const handleDownloadFrame = async () => {
-    if (!polaroidRef.current || !selectedImage) return;
+    if (!selectedImage) return;
     try {
       setIsDownloading(true);
-      showToast('info', 'Generating framed download...');
-      
-      const canvas = await html2canvas(polaroidRef.current, {
-        scale: 2.5,
-        useCORS: true,
-        allowTaint: true,
-        backgroundColor: '#ffffff',
-        logging: false
-      });
-      
-      const dataUrl = canvas.toDataURL('image/png');
+      showToast('info', 'Generating framed polaroid...');
+
+      const dataUrl = await generateFramedPolaroid(selectedImage);
+
       const link = document.createElement('a');
       link.href = dataUrl;
       link.download = `${selectedImage.title.toLowerCase().replace(/[^a-z0-9]/g, '_')}_polaroid.png`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+
       showToast('success', 'Framed polaroid downloaded!');
     } catch (err) {
       console.error('Download frame error:', err);
@@ -60,6 +64,116 @@ export default function Gallery() {
     } finally {
       setIsDownloading(false);
     }
+  };
+
+  // Pure Canvas API HD Framed Polaroid Generator
+  const generateFramedPolaroid = (item) => {
+    return new Promise((resolve, reject) => {
+      const canvas = document.createElement('canvas');
+      const width = 800;
+      const height = 1040;
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext('2d');
+
+      // 1. Draw outer Polaroid card background
+      ctx.fillStyle = '#ffffff';
+      ctx.beginPath();
+      if (ctx.roundRect) {
+        ctx.roundRect(0, 0, width, height, 32);
+      } else {
+        ctx.rect(0, 0, width, height);
+      }
+      ctx.fill();
+
+      // Outer border
+      ctx.strokeStyle = '#e5e7eb';
+      ctx.lineWidth = 4;
+      ctx.stroke();
+
+      // 2. Load Image
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+
+      img.onload = () => {
+        const imgX = 40;
+        const imgY = 40;
+        const imgW = 720;
+        const imgH = 720;
+
+        ctx.save();
+        ctx.beginPath();
+        if (ctx.roundRect) {
+          ctx.roundRect(imgX, imgY, imgW, imgH, 24);
+        } else {
+          ctx.rect(imgX, imgY, imgW, imgH);
+        }
+        ctx.clip();
+
+        // Aspect ratio cover fill calculation
+        const imgAspect = img.width / img.height;
+        const boxAspect = imgW / imgH;
+        let drawW, drawH, drawX, drawY;
+
+        if (imgAspect > boxAspect) {
+          drawH = imgH;
+          drawW = imgH * imgAspect;
+          drawX = imgX - (drawW - imgW) / 2;
+          drawY = imgY;
+        } else {
+          drawW = imgW;
+          drawH = imgW / imgAspect;
+          drawX = imgX;
+          drawY = imgY - (drawH - imgH) / 2;
+        }
+
+        ctx.drawImage(img, drawX, drawY, drawW, drawH);
+        ctx.restore();
+
+        // Image inner stroke
+        ctx.strokeStyle = 'rgba(0,0,0,0.06)';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(imgX, imgY, imgW, imgH);
+
+        // 3. Draw Footer Metadata
+        const footerY = 800;
+
+        // Category Badge
+        ctx.fillStyle = '#db2777'; // pink-600
+        ctx.font = 'bold 20px sans-serif';
+        ctx.textAlign = 'left';
+        ctx.fillText((item.category || 'PHOTOCARD').toUpperCase(), 48, footerY + 40);
+
+        // Title
+        ctx.fillStyle = '#111827'; // gray-900
+        ctx.font = '900 32px sans-serif';
+
+        let titleText = item.title || 'NewJeans Photocard';
+        if (titleText.length > 28) {
+          titleText = titleText.substring(0, 26) + '...';
+        }
+        ctx.fillText(titleText, 48, footerY + 88);
+
+        // Date
+        ctx.fillStyle = '#6b7280'; // gray-500
+        ctx.font = '600 20px sans-serif';
+        ctx.fillText(item.date || '2026', 48, footerY + 130);
+
+        // Brand Stamp on Bottom Right
+        ctx.fillStyle = '#9ca3af'; // gray-400
+        ctx.font = 'bold 22px sans-serif';
+        ctx.textAlign = 'right';
+        ctx.fillText('BUNNIES WORLD', width - 48, footerY + 130);
+
+        resolve(canvas.toDataURL('image/png'));
+      };
+
+      img.onerror = (err) => {
+        reject(err);
+      };
+
+      img.src = item.image;
+    });
   };
 
   return (
@@ -126,6 +240,7 @@ export default function Gallery() {
                     alt={item.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     loading="lazy"
+                    decoding="async"
                   />
                   <div className="absolute top-2 right-2 flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
                     <button
@@ -160,18 +275,20 @@ export default function Gallery() {
         </div>
       )}
 
-      {/* Lightbox Modal & Full Frame Download */}
-      <AnimatePresence>
-        {selectedImage && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+      {/* Portal-rendered Lightbox Modal: Locked to Viewport Screen Center */}
+      {selectedImage &&
+        createPortal(
+          <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+            {/* Dark Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setSelectedImage(null)}
-              className="fixed inset-0 bg-black/80 backdrop-blur-sm"
+              className="fixed inset-0 bg-black/80 backdrop-blur-md"
             />
-            
+
+            {/* Modal Box */}
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -187,17 +304,13 @@ export default function Gallery() {
                 <X className="w-5 h-5" />
               </button>
 
-              {/* Rendered Polaroid Card (Captured by html2canvas for Download) */}
-              <div
-                ref={polaroidRef}
-                className="bg-white text-gray-900 p-5 sm:p-6 rounded-3xl shadow-2xl flex flex-col gap-4 border-8 border-white"
-              >
-                <div className="w-full max-h-[60vh] rounded-2xl overflow-hidden bg-gray-100 flex items-center justify-center">
+              {/* Rendered Polaroid Card */}
+              <div className="bg-white text-gray-900 p-5 sm:p-6 rounded-3xl shadow-2xl flex flex-col gap-4 border-8 border-white">
+                <div className="w-full max-h-[55vh] rounded-2xl overflow-hidden bg-gray-100 flex items-center justify-center">
                   <img
                     src={selectedImage.image}
                     alt={selectedImage.title}
-                    className="w-full h-full object-contain max-h-[60vh] rounded-2xl"
-                    crossOrigin="anonymous"
+                    className="w-full h-full object-contain max-h-[55vh] rounded-2xl"
                   />
                 </div>
                 <div className="flex items-center justify-between pt-1">
@@ -236,9 +349,9 @@ export default function Gallery() {
                 </button>
               </div>
             </motion.div>
-          </div>
+          </div>,
+          document.body
         )}
-      </AnimatePresence>
     </div>
   );
 }
