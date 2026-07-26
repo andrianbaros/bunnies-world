@@ -4,16 +4,17 @@
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');
 
 :root,
+.dark,
 [data-theme='dark'] {
   /* Dark Mode Colors */
   --bg-dark: #090611;
   --bg-darker: #05030a;
-  --bg-card: rgba(20, 16, 32, 0.65);
-  --bg-card-hover: rgba(28, 22, 45, 0.85);
-  --bg-subtle: rgba(255, 255, 255, 0.08);
-  --bg-subtle-hover: rgba(255, 255, 255, 0.15);
-  --border-color: rgba(255, 255, 255, 0.12);
-  --border-hover: rgba(255, 255, 255, 0.25);
+  --bg-card: rgba(20, 16, 32, 0.7);
+  --bg-card-hover: rgba(28, 22, 45, 0.88);
+  --bg-subtle: rgba(255, 255, 255, 0.06);
+  --bg-subtle-hover: rgba(255, 255, 255, 0.12);
+  --border-color: rgba(236, 72, 153, 0.22);
+  --border-hover: rgba(236, 72, 153, 0.55);
   
   --primary: #ec4899;       /* Vibrant Pink */
   --primary-rgb: 236, 72, 153;
@@ -29,7 +30,7 @@
   --font-heading: 'Plus Jakarta Sans', sans-serif;
   --font-body: 'Outfit', sans-serif;
   
-  --box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+  --box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
   --transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -37,12 +38,12 @@
   /* Light Mode Colors (Bright, High Contrast & Clean) */
   --bg-dark: #f8fafc;
   --bg-darker: #f1f5f9;
-  --bg-card: #ffffff;
-  --bg-card-hover: #f8fafc;
+  --bg-card: rgba(255, 255, 255, 0.85);
+  --bg-card-hover: #ffffff;
   --bg-subtle: #f1f5f9;
   --bg-subtle-hover: #e2e8f0;
-  --border-color: #cbd5e1;
-  --border-hover: #94a3b8;
+  --border-color: rgba(236, 72, 153, 0.25);
+  --border-hover: rgba(236, 72, 153, 0.6);
 
   --primary: #ec4899;
   --secondary: #0284c7;
@@ -104,27 +105,23 @@ body {
   width: 100%;
 }
 
-/* Glassmorphism Base Utility */
-.glass {
-  background: var(--bg-card);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--border-color);
-  box-shadow: var(--box-shadow);
-  border-radius: 16px;
-  transition: var(--transition);
-}
-
-.glass:hover {
-  background: var(--bg-card-hover);
-  border-color: var(--border-hover);
-}
-
+/* iPhone Frosted Glassmorphism Utility */
+.glass,
 .glass-surface {
   background: var(--bg-card);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border: 1px solid var(--border-color);
   box-shadow: var(--box-shadow);
+  border-radius: 24px;
   transition: var(--transition);
+}
+
+.glass:hover,
+.glass-surface:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--border-hover);
+  box-shadow: 0 12px 35px -10px rgba(236, 72, 153, 0.2);
 }
 
 /* Header & Typography */
@@ -222,14 +219,17 @@ section {
   height: 100%;
   cursor: pointer;
   border: 1px solid var(--border-color);
-  border-radius: 16px;
+  border-radius: 24px;
   background: var(--bg-card);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   transition: var(--transition);
 }
 
 .member-card:hover {
-  border-color: var(--primary);
+  border-color: var(--border-hover);
   background: var(--bg-card-hover);
+  box-shadow: 0 12px 35px -10px rgba(236, 72, 153, 0.2);
 }
 
 /* Card Content Depth */
@@ -307,9 +307,11 @@ section {
   padding: 15px 20px;
   transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
   overflow: hidden;
-  border-radius: 20px;
+  border-radius: 24px;
   border: 1px solid var(--border-color);
   background: var(--bg-card);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
 }
 
 .music-player-widget.minimized {
@@ -617,7 +619,7 @@ section {
   padding: 0;
   position: relative;
   border: 1px solid var(--border-color);
-  border-radius: 16px;
+  border-radius: 24px;
 }
 
 .about-tabs {
@@ -726,7 +728,7 @@ section {
 .calc-container {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
-  border-radius: 14px;
+  border-radius: 24px;
   padding: 24px;
   margin-top: 15px;
   width: 100%;
@@ -775,7 +777,7 @@ section {
 .calc-result-box {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
-  border-radius: 12px;
+  border-radius: 16px;
   padding: 20px;
   text-align: center;
   margin-top: 25px;

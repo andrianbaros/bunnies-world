@@ -3,7 +3,6 @@
 
 /* 
   Configure Tailwind v4 dark variant to respond strictly to .dark class on html
-  instead of OS prefers-color-scheme setting
 */
 @variant dark (&:where(.dark, .dark *));
 
@@ -17,18 +16,18 @@
   .dark,
   [data-theme='dark'] {
     color-scheme: dark;
-    --bg-main: #09090b;
+    --bg-main: #090611;
     --bg-surface: rgba(24, 24, 27, 0.85);
     --bg-surface-hover: rgba(39, 39, 42, 0.95);
-    --bg-card: #121216;
-    --bg-card-hover: #1c1c23;
+    --bg-card: rgba(20, 16, 32, 0.75);
+    --bg-card-hover: rgba(28, 22, 45, 0.9);
     --bg-popover: #18181b;
     --bg-input: #18181b;
     --bg-subtle: rgba(255, 255, 255, 0.06);
     --bg-subtle-hover: rgba(255, 255, 255, 0.12);
     
-    --border-color: rgba(255, 255, 255, 0.14);
-    --border-hover: rgba(255, 255, 255, 0.28);
+    --border-color: rgba(236, 72, 153, 0.25);
+    --border-hover: rgba(236, 72, 153, 0.6);
     --border-focus: #ec4899;
 
     --text-heading: #ffffff;
@@ -57,15 +56,15 @@
     --bg-main: #f8fafc;
     --bg-surface: rgba(255, 255, 255, 0.94);
     --bg-surface-hover: #ffffff;
-    --bg-card: #ffffff;
-    --bg-card-hover: #f1f5f9;
+    --bg-card: rgba(255, 255, 255, 0.85);
+    --bg-card-hover: #ffffff;
     --bg-popover: #ffffff;
     --bg-input: #ffffff;
     --bg-subtle: #f1f5f9;
     --bg-subtle-hover: #e2e8f0;
     
-    --border-color: #cbd5e1;
-    --border-hover: #94a3b8;
+    --border-color: rgba(236, 72, 153, 0.25);
+    --border-hover: rgba(236, 72, 153, 0.6);
     --border-focus: #ec4899;
 
     --text-heading: #0f172a;
