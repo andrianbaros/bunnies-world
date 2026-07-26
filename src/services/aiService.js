@@ -53,6 +53,24 @@ async function callProvider(provider, messages) {
 }
 
 export async function sendMessageToAI(messages, model = 'agnes-2.5-flash') {
+  // Method 1: Call Vercel Serverless Function proxy (/api/chat)
+  // This bypasses browser CORS preflight restrictions completely
+  try {
+    const res = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ messages, model })
+    });
+
+    if (res.ok) {
+      const data = await res.json();
+      if (data.reply) return data.reply;
+    }
+  } catch (serverlessErr) {
+    console.warn('Serverless proxy /api/chat unavailable, falling back to direct fetch:', serverlessErr.message);
+  }
+
+  // Method 2: Direct Provider Call (for local static dev fallback)
   const bynaraKey = import.meta.env.VITE_BYNARA_API_KEY || DEFAULT_BYNARA_KEY;
   const cerebrasKey = import.meta.env.VITE_CEREBRAS_API_KEY || '';
 
