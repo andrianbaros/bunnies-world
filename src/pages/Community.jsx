@@ -31,16 +31,39 @@ export default function Community() {
   const fetchPosts = async () => {
     setLoading(true);
     let fetchedPosts = [];
+
     if (isSupabaseConfigured()) {
       try {
-        const { data, error } = await supabase
+        const { data: postsData, error: postsError } = await supabase
           .from('community_posts')
           .select('*')
           .order('is_pinned', { ascending: false })
           .order('created_at', { ascending: false });
 
-        if (error) throw error;
-        fetchedPosts = data || [];
+        if (postsError) throw postsError;
+
+        // Try fetching comments from community_comments table
+        let commentsData = [];
+        try {
+          const { data: cData, error: cErr } = await supabase
+            .from('community_comments')
+            .select('*')
+            .order('created_at', { ascending: false });
+          if (!cErr && cData) commentsData = cData;
+        } catch (cFetchErr) {
+          console.warn('Could not fetch community_comments from Supabase:', cFetchErr.message);
+        }
+
+        const commentsByPost = {};
+        (commentsData || []).forEach((c) => {
+          if (!commentsByPost[c.post_id]) commentsByPost[c.post_id] = [];
+          commentsByPost[c.post_id].push(c);
+        });
+
+        fetchedPosts = (postsData || []).map((p) => ({
+          ...p,
+          comments: commentsByPost[p.id] || p.comments || []
+        }));
       } catch (err) {
         console.warn('Supabase fetch failed, falling back to local storage:', err.message);
         fetchedPosts = storageService.getSettings().communityPosts || [];
@@ -58,10 +81,17 @@ export default function Community() {
       }
     });
 
-    const postsWithComments = fetchedPosts.map((p) => ({
-      ...p,
-      comments: p.comments || localCommentsMap[p.id] || []
-    }));
+    const postsWithComments = fetchedPosts.map((p) => {
+      const remoteComments = p.comments || [];
+      const localComments = localCommentsMap[p.id] || [];
+      const combined = [...remoteComments];
+      localComments.forEach((lc) => {
+        if (!combined.some((rc) => rc.id === lc.id || (rc.content === lc.content && rc.author_name === lc.author_name))) {
+          combined.push(lc);
+        }
+      });
+      return { ...p, comments: combined };
+    });
 
     setPosts(postsWithComments);
     setLoading(false);
@@ -147,7 +177,7 @@ export default function Community() {
   };
 
   // Submit Comment
-  const handleAddComment = (e, postId) => {
+  const handleAddComment = async (e, postId) => {
     e.preventDefault();
     const text = (commentInputs[postId] || '').trim();
     if (!text) return;
@@ -157,15 +187,36 @@ export default function Community() {
 
     const newComment = {
       id: `comment-${Date.now()}`,
+      post_id: postId,
       author_name: author,
       content: sanitized,
       created_at: new Date().toISOString()
     };
 
-    // Save locally
+    // 1. LocalStorage Persistence
     storageService.addCommunityComment(postId, newComment);
 
-    // Update state
+    // 2. Supabase Database Sync if available
+    if (isSupabaseConfigured() && typeof postId === 'string' && !postId.startsWith('local-')) {
+      try {
+        const { data, error } = await supabase.from('community_comments').insert([{
+          post_id: postId,
+          author_name: author,
+          content: sanitized,
+          created_at: newComment.created_at
+        }]).select();
+
+        if (error) {
+          console.warn('Supabase comment insert warning:', error.message);
+        } else if (data && data[0]) {
+          newComment.id = data[0].id;
+        }
+      } catch (err) {
+        console.warn('Supabase comment error:', err.message);
+      }
+    }
+
+    // 3. React State Update
     setPosts((prevPosts) =>
       prevPosts.map((p) => {
         if (p.id === postId) {
@@ -176,7 +227,7 @@ export default function Community() {
       })
     );
 
-    // Reset comment form
+    // Reset inputs
     setCommentInputs((prev) => ({ ...prev, [postId]: '' }));
     setCommentWarnings((prev) => ({ ...prev, [postId]: false }));
     showToast('success', 'Komentar terkirim!');
@@ -353,31 +404,33 @@ export default function Community() {
                       transition={{ duration: 0.2 }}
                       className="flex flex-col gap-3 pt-3 border-t border-[var(--border-color)] overflow-hidden"
                     >
-                      {/* Add Comment Form */}
-                      <form onSubmit={(e) => handleAddComment(e, post.id)} className="flex flex-col gap-2 bg-[var(--bg-subtle)] p-3 rounded-xl border border-[var(--border-color)]">
-                        <div className="flex items-center gap-2">
+                      {/* Responsive Add Comment Form */}
+                      <form onSubmit={(e) => handleAddComment(e, post.id)} className="flex flex-col gap-2.5 bg-[var(--bg-subtle)] p-3.5 rounded-xl border border-[var(--border-color)]">
+                        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
                           <input
                             type="text"
                             placeholder={t('community_nickname_ph', { defaultValue: 'Nickname...' })}
                             value={commentAuthors[post.id] || ''}
                             onChange={(e) => handleCommentAuthorChange(post.id, e.target.value)}
-                            className="w-1/3 bg-[var(--bg-input)] border border-[var(--border-color)] rounded-lg px-3 py-1.5 text-[11px] text-[var(--text-heading)] placeholder-[var(--text-muted)] outline-none focus:border-pink-500"
+                            className="w-full sm:w-1/3 bg-[var(--bg-input)] border border-[var(--border-color)] rounded-xl sm:rounded-lg px-3 py-2 sm:py-1.5 text-xs sm:text-[11px] text-[var(--text-heading)] placeholder-[var(--text-muted)] outline-none focus:border-pink-500"
                           />
-                          <input
-                            type="text"
-                            placeholder={t('community_add_comment', { defaultValue: 'Tulis komentar...' })}
-                            value={commentInputs[post.id] || ''}
-                            onChange={(e) => handleCommentTextChange(post.id, e.target.value)}
-                            required
-                            className="flex-grow bg-[var(--bg-input)] border border-[var(--border-color)] rounded-lg px-3 py-1.5 text-[11px] text-[var(--text-heading)] placeholder-[var(--text-muted)] outline-none focus:border-pink-500"
-                          />
-                          <button
-                            type="submit"
-                            className="px-3.5 py-1.5 rounded-full bg-pink-500 text-white font-bold text-[11px] hover:bg-pink-600 transition-colors flex items-center gap-1 flex-shrink-0"
-                          >
-                            <span>{t('community_reply_btn', { defaultValue: 'Kirim' })}</span>
-                            <CornerDownRight className="w-3 h-3" />
-                          </button>
+                          <div className="flex items-center gap-2 flex-grow">
+                            <input
+                              type="text"
+                              placeholder={t('community_add_comment', { defaultValue: 'Tulis komentar...' })}
+                              value={commentInputs[post.id] || ''}
+                              onChange={(e) => handleCommentTextChange(post.id, e.target.value)}
+                              required
+                              className="flex-grow bg-[var(--bg-input)] border border-[var(--border-color)] rounded-xl sm:rounded-lg px-3 py-2 sm:py-1.5 text-xs sm:text-[11px] text-[var(--text-heading)] placeholder-[var(--text-muted)] outline-none focus:border-pink-500"
+                            />
+                            <button
+                              type="submit"
+                              className="px-4 py-2 sm:py-1.5 rounded-full bg-pink-500 text-white font-bold text-xs sm:text-[11px] hover:bg-pink-600 transition-colors flex items-center justify-center gap-1 flex-shrink-0 shadow-sm"
+                            >
+                              <span>{t('community_reply_btn', { defaultValue: 'Kirim' })}</span>
+                              <CornerDownRight className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
                         </div>
                         {commentWarnings[post.id] && (
                           <span className="text-[10px] text-pink-600 dark:text-pink-400 font-semibold flex items-center gap-1">
@@ -393,7 +446,7 @@ export default function Community() {
                           commentsList.map((c) => (
                             <div
                               key={c.id || c.created_at}
-                              className="flex items-start gap-2.5 bg-[var(--bg-card)] p-3 rounded-xl border border-[var(--border-color)]"
+                              className="flex items-start gap-2.5 bg-[var(--bg-card)] p-3 rounded-xl border border-[var(--border-color)] shadow-xs"
                             >
                               <div className="w-6 h-6 rounded-full bg-pink-500/20 text-pink-600 dark:text-pink-400 font-bold text-[10px] flex items-center justify-center flex-shrink-0 mt-0.5 border border-pink-500/30">
                                 {(c.author_name || 'B')[0].toUpperCase()}
