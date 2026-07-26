@@ -28,5 +28,95 @@
     "question": "Which iconic animated franchise did NewJeans collaborate with for their 'Get Up' EP?",
     "options": ["The Powerpuff Girls", "Sailor Moon", "Totally Spies", "Winx Club"],
     "answer": 0
+  },
+  {
+    "id": "q6",
+    "question": "What is the title of NewJeans' Japanese debut double single released in June 2024?",
+    "options": ["Supernatural", "How Sweet", "Right Now", "Bubble Gum"],
+    "answer": 0
+  },
+  {
+    "id": "q7",
+    "question": "Which member is nicknamed 'Kitty Kang' for her cat-like feline visuals?",
+    "options": ["Minji", "Hanni", "Haerin", "Hyein"],
+    "answer": 2
+  },
+  {
+    "id": "q8",
+    "question": "Who is the youngest member (Maknae) of NewJeans?",
+    "options": ["Hyein", "Haerin", "Hanni", "Minji"],
+    "answer": 0
+  },
+  {
+    "id": "q9",
+    "question": "Who is the oldest member and de facto leader of NewJeans?",
+    "options": ["Minji", "Hanni", "Haerin", "Hyein"],
+    "answer": 0
+  },
+  {
+    "id": "q10",
+    "question": "Which single double-side was released in May 2024 featuring the B-side 'Bubble Gum'?",
+    "options": ["How Sweet", "Supernatural", "ETA", "Cool With You"],
+    "answer": 0
+  },
+  {
+    "id": "q11",
+    "question": "Where did NewJeans hold their landmark 2-day sold-out fan meeting 'Bunnies Camp 2024'?",
+    "options": ["Tokyo Dome", "Kyocera Dome", "Seoul Olympic Stadium", "Nippon Budokan"],
+    "answer": 0
+  },
+  {
+    "id": "q12",
+    "question": "Which member went viral worldwide for covering Seiko Matsuda's 'Aoi Sango Sho' at Tokyo Dome?",
+    "options": ["Hanni", "Minji", "Haerin", "Hyein"],
+    "answer": 0
+  },
+  {
+    "id": "q13",
+    "question": "Which iconic winter single was released in Dec 2022 with Side A and Side B music videos?",
+    "options": ["Ditto", "OMG", "Hurt", "Cookie"],
+    "answer": 0
+  },
+  {
+    "id": "q14",
+    "question": "Which global instant noodle brand named NewJeans as their Global Brand Ambassador in 2024?",
+    "options": ["Indomie", "Nongshim", "Samyang", "Shin Ramyun"],
+    "answer": 0
+  },
+  {
+    "id": "q15",
+    "question": "What grand prize did NewJeans win at the inaugural Korea Grand Music Awards (KGMA) 2024?",
+    "options": ["Grand Artist Award", "Song of the Year", "Best Dance Performance", "Global Icon"],
+    "answer": 0
+  },
+  {
+    "id": "q16",
+    "question": "What is the MBTI personality type of Haerin?",
+    "options": ["INTP", "ESTJ", "INFP", "ISFP"],
+    "answer": 0
+  },
+  {
+    "id": "q17",
+    "question": "What is the B-side track of NewJeans' Japanese debut single 'Supernatural'?",
+    "options": ["Right Now", "Bubble Gum", "How Sweet", "Zero"],
+    "answer": 0
+  },
+  {
+    "id": "q18",
+    "question": "How many active members currently perform in NewJeans?",
+    "options": ["4 members", "5 members", "6 members", "3 members"],
+    "answer": 0
+  },
+  {
+    "id": "q19",
+    "question": "What is Minji's official representative animal emoji in NewJeans lore?",
+    "options": ["Bear / Teddy Bear 🧸", "Cat 🐱", "Hamster 🐹", "Bunny 🐰"],
+    "answer": 0
+  },
+  {
+    "id": "q20",
+    "question": "What does the group name 'NewJeans' signify?",
+    "options": ["Timeless like jeans + new genes", "New Generation Dancers", "New Jeans Fashion Line", "New K-pop Era"],
+    "answer": 0
   }
 ]
