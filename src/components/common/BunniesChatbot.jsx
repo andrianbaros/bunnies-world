@@ -102,6 +102,29 @@ export default function BunniesChatbot() {
     }
   };
 
+  const renderMessageWithLinks = (text) => {
+    if (!text) return null;
+    const urlRegex = /(https?:\/\/[^\s!.,)]+)/g;
+    const parts = text.split(urlRegex);
+
+    return parts.map((part, i) => {
+      if (part.match(/^https?:\/\//)) {
+        return (
+          <a
+            key={i}
+            href={part}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline font-bold text-pink-300 dark:text-pink-400 hover:opacity-80 transition-opacity break-all cursor-pointer"
+          >
+            {part}
+          </a>
+        );
+      }
+      return part;
+    });
+  };
+
   const suggestions = [
     t('chatbot_suggestion_1', { defaultValue: 'Siapa saja member NewJeans?' }),
     t('chatbot_suggestion_2', { defaultValue: 'Apa lagu terbaru NewJeans?' }),
@@ -110,7 +133,7 @@ export default function BunniesChatbot() {
 
   const chatbotContent = (
     <>
-      {/* Floating Collapsed Button (Positioned cleanly with comfortable gap above music player) */}
+      {/* Floating Collapsed Button */}
       <AnimatePresence>
         {!isOpen && (
           <motion.div
@@ -139,7 +162,7 @@ export default function BunniesChatbot() {
         )}
       </AnimatePresence>
 
-      {/* Expanded Chat Window (Positioned cleanly with comfortable gap above music player) */}
+      {/* Expanded Chat Window */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -209,7 +232,7 @@ export default function BunniesChatbot() {
                           : 'bg-[var(--bg-subtle)] text-[var(--text-heading)] border border-[var(--border-color)] rounded-bl-none'
                       }`}
                     >
-                      {msg.content}
+                      {renderMessageWithLinks(msg.content)}
                     </div>
                   </div>
                 );
