@@ -1,6 +1,24 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { HelpCircle, Globe, BookOpen, Scale, ExternalLink, Code, Sparkles, Share2 } from 'lucide-react';
+import {
+  HelpCircle,
+  Globe,
+  BookOpen,
+  Scale,
+  ExternalLink,
+  Code,
+  Sparkles,
+  Share2,
+  Instagram,
+  Youtube,
+  Twitter,
+  Facebook,
+  Music,
+  Headphones,
+  Video,
+  User,
+  Radio
+} from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 export default function About() {
@@ -12,63 +30,63 @@ export default function About() {
       url: 'https://weverse.io/newjeansofficial/highlight',
       handle: 'Official Community',
       color: 'from-emerald-500/15 to-teal-500/5 border-emerald-500/30 text-emerald-500 dark:text-emerald-400',
-      icon: '✨'
+      icon: <Sparkles className="w-4 h-4 text-emerald-500" />
     },
     {
       name: 'Instagram',
       url: 'https://www.instagram.com/newjeans_official/',
       handle: '@newjeans_official',
       color: 'from-pink-500/15 to-rose-500/5 border-pink-500/30 text-pink-500 dark:text-pink-400',
-      icon: '📸'
+      icon: <Instagram className="w-4 h-4 text-pink-500" />
     },
     {
       name: 'X (Twitter)',
       url: 'https://x.com/NewJeans_ADOR',
       handle: '@NewJeans_ADOR',
       color: 'from-sky-500/15 to-blue-500/5 border-sky-500/30 text-sky-500 dark:text-sky-400',
-      icon: '🐦'
+      icon: <Twitter className="w-4 h-4 text-sky-400" />
     },
     {
       name: 'Facebook',
       url: 'https://www.facebook.com/official.newjeans',
       handle: '@official.newjeans',
       color: 'from-blue-600/15 to-indigo-600/5 border-blue-500/30 text-blue-500 dark:text-blue-400',
-      icon: '📘'
+      icon: <Facebook className="w-4 h-4 text-blue-500" />
     },
     {
       name: 'TikTok',
       url: 'https://www.tiktok.com/@newjeans_official',
       handle: '@newjeans_official',
       color: 'from-purple-500/15 to-pink-500/5 border-purple-500/30 text-purple-500 dark:text-purple-400',
-      icon: '🎵'
+      icon: <Video className="w-4 h-4 text-purple-400" />
     },
     {
       name: 'YouTube',
       url: 'https://www.youtube.com/c/NewJeans_official',
       handle: '@NewJeans_official',
       color: 'from-red-500/15 to-rose-600/5 border-red-500/30 text-red-500 dark:text-red-400',
-      icon: '▶️'
+      icon: <Youtube className="w-4 h-4 text-red-500" />
     },
     {
       name: 'Spotify',
       url: 'https://open.spotify.com/artist/6HvZYsbFfjnjFrWF950C9d',
       handle: 'NewJeans Official',
       color: 'from-green-500/15 to-emerald-600/5 border-green-500/30 text-green-500 dark:text-green-400',
-      icon: '🎧'
+      icon: <Headphones className="w-4 h-4 text-emerald-500" />
     },
     {
       name: 'Apple Music',
       url: 'https://music.apple.com/id/artist/newjeans/1635469693?l=id',
       handle: 'NewJeans on Apple',
       color: 'from-rose-500/15 to-red-500/5 border-rose-500/30 text-rose-500 dark:text-rose-400',
-      icon: '🍎'
+      icon: <Music className="w-4 h-4 text-rose-500" />
     },
     {
       name: 'Official Website',
       url: 'https://newjeans.kr',
       handle: 'newjeans.kr',
       color: 'from-indigo-500/15 to-purple-500/5 border-indigo-500/30 text-indigo-500 dark:text-indigo-400',
-      icon: '🌐'
+      icon: <Globe className="w-4 h-4 text-indigo-400" />
     }
   ];
 
@@ -183,7 +201,9 @@ export default function About() {
               className={`p-3.5 rounded-xl border bg-gradient-to-r ${item.color} flex items-center justify-between hover:scale-[1.02] transition-all group shadow-2xs`}
             >
               <div className="flex items-center gap-3">
-                <span className="text-lg">{item.icon}</span>
+                <div className="p-2 rounded-lg bg-[var(--bg-card)]/60 border border-[var(--border-color)] flex items-center justify-center">
+                  {item.icon}
+                </div>
                 <div className="flex flex-col text-left">
                   <span className="text-xs font-extrabold text-[var(--text-heading)]">{item.name}</span>
                   <span className="text-[10px] text-[var(--text-secondary)]">{item.handle}</span>
@@ -199,7 +219,7 @@ export default function About() {
       <section className="glass-surface p-6 rounded-2xl border flex flex-col md:flex-row items-center justify-between gap-6 bg-gradient-to-r from-pink-500/5 via-purple-500/5 to-indigo-500/5">
         <div className="flex items-center gap-4 text-center md:text-left">
           <div className="w-12 h-12 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 flex items-center justify-center text-white font-bold text-lg shadow-md flex-shrink-0">
-            👨‍💻
+            <User className="w-6 h-6 text-white" />
           </div>
           <div>
             <h3 className="text-sm font-extrabold text-[var(--text-heading)] uppercase tracking-wider">DEVELOPER & AI CHATBOT PORTAL</h3>
