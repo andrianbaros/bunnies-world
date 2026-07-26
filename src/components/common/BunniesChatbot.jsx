@@ -3,12 +3,16 @@ import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, Send, Trash2, Minus } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { sendMessageToAI, BYNARA_MODELS } from '../../services/aiService';
+import { useSettings } from '../../contexts/SettingsContext';
+import { sendMessageToAI } from '../../services/aiService';
 
 export default function BunniesChatbot() {
   const { t } = useTranslation();
+  const { settings } = useSettings();
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedModel, setSelectedModel] = useState('agnes-2.5-flash');
+
+  const selectedModel = settings.aiModel || 'mistral-medium-3-5';
+
   const [messages, setMessages] = useState(() => {
     try {
       const saved = localStorage.getItem('bunnies_ai_chat');
@@ -166,18 +170,6 @@ export default function BunniesChatbot() {
 
               {/* Controls */}
               <div className="flex items-center gap-1.5">
-                {/* Model Selector */}
-                <select
-                  value={selectedModel}
-                  onChange={(e) => setSelectedModel(e.target.value)}
-                  className="bg-[var(--bg-input)] text-[10px] text-[var(--text-primary)] border border-[var(--border-color)] rounded-lg px-2 py-1 outline-none font-semibold cursor-pointer hover:border-pink-500 transition-colors"
-                  title="Switch AI Model"
-                >
-                  {BYNARA_MODELS.map((m) => (
-                    <option key={m} value={m} className="bg-[var(--bg-popover)]">{m}</option>
-                  ))}
-                </select>
-
                 <button
                   onClick={handleClearChat}
                   className="p-1.5 rounded-lg text-[var(--text-muted)] hover:text-red-500 hover:bg-red-500/10 transition-colors"

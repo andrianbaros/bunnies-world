@@ -1,12 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { Bot, Sparkles, Send, Trash2, RefreshCw, Cpu } from 'lucide-react';
+import { Sparkles, Send, Trash2 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { sendMessageToAI, BYNARA_MODELS } from '../services/aiService';
+import { useSettings } from '../contexts/SettingsContext';
+import { sendMessageToAI } from '../services/aiService';
 
 export default function ChatbotPage() {
   const { t } = useTranslation();
-  const [selectedModel, setSelectedModel] = useState('agnes-2.5-flash');
+  const { settings } = useSettings();
+  const selectedModel = settings.aiModel || 'mistral-medium-3-5';
+
   const [messages, setMessages] = useState(() => {
     try {
       const saved = localStorage.getItem('bunnies_ai_chat');
@@ -129,20 +132,6 @@ export default function ChatbotPage() {
           </div>
 
           <div className="flex items-center gap-3">
-            <div className="flex items-center gap-2 bg-[var(--bg-card)] border border-[var(--border-color)] rounded-xl px-3 py-1.5">
-              <Cpu className="w-3.5 h-3.5 text-pink-500" />
-              <span className="text-xs text-[var(--text-muted)] font-medium">Model:</span>
-              <select
-                value={selectedModel}
-                onChange={(e) => setSelectedModel(e.target.value)}
-                className="bg-transparent text-xs font-bold text-[var(--text-heading)] outline-none cursor-pointer"
-              >
-                {BYNARA_MODELS.map((m) => (
-                  <option key={m} value={m} className="bg-[var(--bg-popover)]">{m}</option>
-                ))}
-              </select>
-            </div>
-
             <button
               onClick={handleClearChat}
               className="px-3.5 py-1.5 rounded-xl bg-red-500/10 border border-red-500/20 text-red-600 dark:text-red-400 text-xs font-semibold hover:bg-red-500 hover:text-white transition-colors flex items-center gap-1.5"

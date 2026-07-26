@@ -5,8 +5,10 @@ const DEFAULT_SETTINGS = {
   version: CURRENT_SCHEMA_VERSION,
   theme: 'dark', // 'dark', 'light', 'system'
   language: 'en',
+  aiModel: 'mistral-medium-3-5',
   reducedMotion: true,
   soundEffects: true,
+
   musicVolume: 0.7,
   particleQuality: 'high',
   lastRoute: '/',

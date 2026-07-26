@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { ShieldCheck, Lock, Trash2, Pin, RefreshCw, Database, MessageCircle, X } from 'lucide-react';
+import { ShieldCheck, Lock, Trash2, Pin, RefreshCw, Database, MessageCircle, X, Bot } from 'lucide-react';
 import { supabase, isSupabaseConfigured } from '../services/supabase';
 import { storageService } from '../services/storageService';
 import { useSettings } from '../contexts/SettingsContext';
+import { BYNARA_MODELS } from '../services/aiService';
 
 export default function Admin() {
-  const { showToast } = useSettings();
+  const { settings, updateSetting, showToast } = useSettings();
   const [passcode, setPasscode] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [posts, setPosts] = useState([]);
@@ -134,13 +135,11 @@ export default function Admin() {
     // 3. Supabase delete sync
     if (isSupabaseConfigured() && typeof postId === 'string' && !postId.startsWith('local-')) {
       try {
-        // Attempt A: update comments column on community_posts table
         await supabase
           .from('community_posts')
           .update({ comments: updatedComments })
           .eq('id', postId);
 
-        // Attempt B: delete from community_comments table if exists
         try {
           await supabase.from('community_comments').delete().eq('id', commentId);
         } catch (e) {}
@@ -227,6 +226,37 @@ export default function Admin() {
         </div>
       </div>
 
+      {/* AI Model Routing Control */}
+      <div className="glass-surface p-5 rounded-2xl border flex flex-wrap items-center justify-between gap-4">
+        <div className="flex items-center gap-3">
+          <div className="w-9 h-9 rounded-full bg-pink-500/10 border border-pink-500/20 flex items-center justify-center text-pink-500">
+            <Bot className="w-5 h-5" />
+          </div>
+          <div>
+            <h2 className="text-sm font-bold text-[var(--text-heading)] uppercase tracking-wider">BUNNY AI MODEL ROUTING</h2>
+            <p className="text-xs text-[var(--text-muted)]">Select active Bynara AI model used by Bunny AI chatbot across the app.</p>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-3">
+          <span className="text-xs text-[var(--text-muted)] font-medium">Active Model:</span>
+          <select
+            value={settings.aiModel || 'mistral-medium-3-5'}
+            onChange={(e) => {
+              updateSetting('aiModel', e.target.value);
+              showToast('info', `Bunny AI model switched to: ${e.target.value}`);
+            }}
+            className="bg-[var(--bg-card)] text-xs font-bold text-[var(--text-heading)] border border-[var(--border-color)] rounded-xl px-4 py-2 outline-none cursor-pointer focus:border-pink-500 transition-colors shadow-xs"
+          >
+            {BYNARA_MODELS.map((m) => (
+              <option key={m} value={m} className="bg-[var(--bg-popover)]">
+                {m} {m === 'mistral-medium-3-5' ? '(Default)' : ''}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
+
       {/* Connection Status */}
       <div className="glass-surface p-4 rounded-xl border flex items-center justify-between text-xs">
         <div className="flex items-center gap-2">
@@ -236,6 +266,7 @@ export default function Admin() {
         </div>
         <span className="text-[11px] text-[var(--text-muted)] font-medium">Total Posts: {posts.length}</span>
       </div>
+
 
       {/* Admin Posts & Comments Moderation Cards */}
       <div className="flex flex-col gap-4">
