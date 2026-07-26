@@ -142,6 +142,12 @@ export default function Community() {
 
     const finalAuthor = authorName.trim() || 'Anonymous Bunny';
 
+    // 1. Strict Profanity Check on Nickname & Content
+    if (hasProfanity(finalAuthor) || hasProfanity(content)) {
+      showToast('info', 'Postingan atau Nickname mengandung kata kasar & tidak dapat terkirim!');
+      return;
+    }
+
     const postPayload = {
       author_name: finalAuthor,
       member_tag: memberTag,
@@ -227,6 +233,12 @@ export default function Community() {
 
     const author = (commentAuthors[postId] || '').trim() || 'Anonymous Bunny';
 
+    // 1. Strict Profanity Check on Comment Nickname & Content
+    if (hasProfanity(author) || hasProfanity(text)) {
+      showToast('info', 'Komentar atau Nickname mengandung kata kasar & tidak dapat terkirim!');
+      return;
+    }
+
     const commentPayload = {
       postId,
       author,
@@ -241,6 +253,7 @@ export default function Community() {
 
     await executeAddComment(commentPayload);
   };
+
 
   const executeAddComment = async (payload) => {
     const { postId, author, content: sanitized } = payload;
