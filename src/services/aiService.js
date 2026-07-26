@@ -1,10 +1,10 @@
-// Bynara & Cerebras AI Router Service for Bunnies World
+// Bynara & Cerebras AI Router Service for Bunnies World (100% matched with BotKasepChat)
 
 export const BYNARA_MODELS = [
-  'agnes-2.5-flash',
   'agnes-2.0-flash',
   'mistral-large',
   'mistral-medium-3-5',
+  'agnes-2.5-flash',
   'grok-4.5'
 ];
 
