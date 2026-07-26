@@ -184,7 +184,7 @@ export default function Gallery() {
       {filteredItems.length > 0 ? (
         <div className="columns-1 sm:columns-2 md:columns-3 gap-6 space-y-6">
           {filteredItems.map((item, idx) => {
-            const isFav = settings.favorites?.gallery?.some((g) => g.id === item.id);
+            const isFav = settings.favorites?.gallery?.some((g) => (g.id && item.id ? g.id === item.id : g.title === item.title));
             return (
               <motion.div
                 key={item.id}
@@ -287,13 +287,24 @@ export default function Gallery() {
 
               {/* Action Toolbar */}
               <div className="flex items-center justify-between glass-surface p-4 rounded-3xl border border-pink-500/30 shadow-xl">
-                <button
-                  onClick={() => toggleFavorite('gallery', selectedImage)}
-                  className="px-4 py-2.5 rounded-full bg-slate-100 dark:bg-zinc-800 text-slate-950 dark:text-white font-extrabold text-xs flex items-center gap-2 hover:bg-pink-500 hover:text-white transition-colors cursor-pointer border border-pink-500/20"
-                >
-                  <Heart className={`w-4 h-4 ${settings.favorites?.gallery?.some((g) => g.id === selectedImage.id) ? 'fill-current text-pink-500' : ''}`} />
-                  <span>Bookmark</span>
-                </button>
+                {(() => {
+                  const isModalFav = settings.favorites?.gallery?.some((g) =>
+                    g.id && selectedImage.id ? g.id === selectedImage.id : g.title === selectedImage.title
+                  );
+                  return (
+                    <button
+                      onClick={() => toggleFavorite('gallery', selectedImage)}
+                      className={`px-4 py-2.5 rounded-full font-extrabold text-xs flex items-center gap-2 transition-all cursor-pointer border border-pink-500/20 ${
+                        isModalFav
+                          ? 'bg-pink-500 text-white shadow-xs'
+                          : 'bg-slate-100 dark:bg-zinc-800 text-slate-950 dark:text-white hover:bg-pink-500 hover:text-white'
+                      }`}
+                    >
+                      <Heart className={`w-4 h-4 ${isModalFav ? 'fill-current text-white' : ''}`} />
+                      <span>{isModalFav ? 'Bookmarked ❤️' : 'Bookmark'}</span>
+                    </button>
+                  );
+                })()}
 
                 <button
                   onClick={handleDownloadFrame}
