@@ -137,10 +137,13 @@ export const storageService = {
   toggleFavorite(category, item) {
     const current = this.getSettings();
     const list = current.favorites[category] || [];
-    const exists = list.some((i) => i.id === item.id);
+    const getItemKey = (i) => i?.id || i?.title || i?.name || String(i);
+    const targetKey = getItemKey(item);
+
+    const exists = list.some((i) => getItemKey(i) === targetKey);
 
     if (exists) {
-      current.favorites[category] = list.filter((i) => i.id !== item.id);
+      current.favorites[category] = list.filter((i) => getItemKey(i) !== targetKey);
     } else {
       current.favorites[category] = [item, ...list];
     }

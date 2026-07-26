@@ -26,7 +26,7 @@ export default function FloatingAudioPlayer() {
 
   const { settings, toggleFavorite } = useSettings();
 
-  const isFav = settings.favorites?.songs?.some((s) => s.id === currentTrack.id);
+  const isFav = settings.favorites?.songs?.some((s) => (s.id && currentTrack.id ? s.id === currentTrack.id : s.title === currentTrack.title));
 
   const formatTime = (secs) => {
     if (isNaN(secs)) return '0:00';

@@ -147,7 +147,7 @@ export default function Discography() {
         <div className="glass-surface p-6 rounded-3xl flex flex-col gap-3 border border-pink-500/25 shadow-md">
           {filteredSongs.map((track) => {
             const isPlaying = currentTrack.title === track.title;
-            const isFav = settings.favorites?.songs?.some((s) => s.id === track.id);
+            const isFav = settings.favorites?.songs?.some((s) => (s.id && track.id ? s.id === track.id : s.title === track.title));
 
             return (
               <div

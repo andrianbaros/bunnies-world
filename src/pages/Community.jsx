@@ -7,6 +7,19 @@ import { storageService } from '../services/storageService';
 import { cleanText, hasProfanity } from '../utils/profanityFilter';
 import { useSettings } from '../contexts/SettingsContext';
 
+function formatDateTime(isoString) {
+  if (!isoString) return '';
+  try {
+    const d = new Date(isoString);
+    if (isNaN(d.getTime())) return String(isoString);
+    const dateStr = d.toLocaleDateString([], { day: '2-digit', month: '2-digit', year: 'numeric' });
+    const timeStr = d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+    return `${dateStr} ${timeStr}`;
+  } catch (e) {
+    return String(isoString);
+  }
+}
+
 export default function Community() {
   const { t } = useTranslation();
   const { showToast } = useSettings();
@@ -23,6 +36,14 @@ export default function Community() {
   const [commentInputs, setCommentInputs] = useState({});
   const [commentAuthors, setCommentAuthors] = useState({});
   const [commentWarnings, setCommentWarnings] = useState({});
+  const [likedPostIds, setLikedPostIds] = useState(() => {
+    try {
+      const saved = localStorage.getItem('bunnies_liked_posts');
+      return saved ? JSON.parse(saved) : [];
+    } catch (e) {
+      return [];
+    }
+  });
 
   // Dev Passcode Verification Modal state
   const [showDevModal, setShowDevModal] = useState(false);
@@ -189,23 +210,49 @@ export default function Community() {
   };
 
   const handleLike = async (post) => {
-    const updatedLikes = (post.likes || 0) + 1;
+    if (!post || !post.id) return;
+
+    const isLiked = likedPostIds.includes(post.id);
+    const newLikedStatus = !isLiked;
+    const currentLikes = typeof post.likes === 'number' ? post.likes : parseInt(post.likes || 0, 10) || 0;
+    const updatedLikes = newLikedStatus ? currentLikes + 1 : Math.max(0, currentLikes - 1);
+
+    // Update local state instantly
+    setLikedPostIds((prev) =>
+      newLikedStatus ? [...prev, post.id] : prev.filter((id) => id !== post.id)
+    );
+
+    // Persist liked status in LocalStorage
+    try {
+      const storedLikes = JSON.parse(localStorage.getItem('bunnies_liked_posts') || '[]');
+      const updatedStored = newLikedStatus
+        ? [...storedLikes, post.id]
+        : storedLikes.filter((id) => id !== post.id);
+      localStorage.setItem('bunnies_liked_posts', JSON.stringify(updatedStored));
+    } catch (e) {}
+
+    // Update UI feed
     setPosts((prev) =>
       prev.map((p) => (p.id === post.id ? { ...p, likes: updatedLikes } : p))
     );
 
-    storageService.likeCommunityPost(post.id);
-
-    if (isSupabaseConfigured() && typeof post.id === 'string' && !post.id.startsWith('local-')) {
+    // Update Supabase Database
+    if (isSupabaseConfigured() && !String(post.id).startsWith('local-')) {
       try {
-        await supabase
+        const { error } = await supabase
           .from('community_posts')
           .update({ likes: updatedLikes })
           .eq('id', post.id);
+
+        if (error) {
+          console.warn('Supabase like update note:', error.message);
+        }
       } catch (err) {
         console.warn('Supabase like error:', err.message);
       }
     }
+
+    showToast('success', newLikedStatus ? 'Liked post! ❤️' : 'Unliked post');
   };
 
   const toggleComments = (postId) => {
@@ -443,7 +490,7 @@ export default function Community() {
                         )}
                       </h4>
                       <span className="text-[10px] text-slate-500 dark:text-zinc-400 font-medium">
-                        {new Date(postDate).toLocaleDateString()} • Tagged: <span className="font-bold text-pink-600 dark:text-pink-400">{postTag}</span>
+                        {formatDateTime(postDate)} • Tagged: <span className="font-bold text-pink-600 dark:text-pink-400">{postTag}</span>
                       </span>
                     </div>
                   </div>
@@ -457,9 +504,11 @@ export default function Community() {
                   <div className="flex items-center gap-3">
                     <button
                       onClick={() => handleLike(post)}
-                      className="flex items-center gap-1.5 text-xs font-extrabold text-slate-700 dark:text-zinc-300 hover:text-pink-500 transition-colors cursor-pointer"
+                      className={`flex items-center gap-1.5 text-xs font-extrabold transition-all cursor-pointer ${
+                        likedPostIds.includes(post.id) ? 'text-pink-500 font-black scale-105' : 'text-slate-700 dark:text-zinc-300 hover:text-pink-500'
+                      }`}
                     >
-                      <Heart className={`w-4 h-4 ${postLikes > 0 ? 'text-pink-500 fill-current' : ''}`} />
+                      <Heart className={`w-4 h-4 ${likedPostIds.includes(post.id) || postLikes > 0 ? 'text-pink-500 fill-current' : ''}`} />
                       <span>{postLikes}</span>
                     </button>
 
@@ -535,7 +584,7 @@ export default function Community() {
                                 )}
                               </div>
                               <span className="text-[10px] text-slate-500 dark:text-zinc-400 font-semibold">
-                                {new Date(c.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                {formatDateTime(c.created_at)}
                               </span>
                             </div>
                             <p className="text-slate-800 dark:text-zinc-100 font-bold text-xs leading-relaxed pl-6.5">
