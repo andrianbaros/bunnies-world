@@ -17,7 +17,8 @@ export default function Home() {
     { src: '/assets/Ditto era.jpg', title: 'Ditto Era' },
     { src: '/assets/getup.jpg', title: 'Get Up EP' },
     { src: '/assets/how sweet shoot.jpg', title: 'How Sweet Single' },
-    { src: '/assets/fanart collage.png', title: 'Bunnies Fanart Collage' }
+    { src: '/assets/summerofnewjeans22072026.jpg', title: 'Summer of NewJeans 2026 (Part 1)' },
+    { src: '/assets/summerofnewjeans22072026(2).jpg', title: 'Summer of NewJeans 2026 (Part 2)' }
   ];
 
   const quotes = [
