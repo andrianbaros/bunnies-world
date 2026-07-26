@@ -102,26 +102,80 @@ export default function BunniesChatbot() {
     }
   };
 
-  const renderMessageWithLinks = (text) => {
+  // Comprehensive renderer for Markdown links [label](url), raw URLs, bold **text**, and linebreaks
+  const renderFormattedMessage = (text) => {
     if (!text) return null;
-    const urlRegex = /(https?:\/\/[^\s!.,)]+)/g;
-    const parts = text.split(urlRegex);
 
-    return parts.map((part, i) => {
-      if (part.match(/^https?:\/\//)) {
-        return (
+    const lines = text.split('\n');
+
+    return lines.map((line, lineIdx) => {
+      const mdLinkRegex = /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g;
+      const tokens = [];
+      let lastIndex = 0;
+      let match;
+
+      const processSubString = (subStr, keyPrefix) => {
+        if (!subStr) return [];
+        const boldParts = subStr.split(/(\*\*[^*]+\*\*)/g);
+        return boldParts.map((bPart, bIdx) => {
+          if (bPart.startsWith('**') && bPart.endsWith('**')) {
+            const boldText = bPart.slice(2, -2);
+            return <strong key={`${keyPrefix}-b-${bIdx}`} className="font-extrabold text-[var(--text-heading)]">{boldText}</strong>;
+          }
+
+          const urlRegex = /(https?:\/\/[^\s!.,)]+)/g;
+          const urlParts = bPart.split(urlRegex);
+          return urlParts.map((uPart, uIdx) => {
+            if (uPart.match(/^https?:\/\//)) {
+              return (
+                <a
+                  key={`${keyPrefix}-u-${uIdx}`}
+                  href={uPart}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline font-extrabold text-pink-300 dark:text-pink-400 hover:opacity-80 transition-opacity break-all cursor-pointer"
+                >
+                  {uPart}
+                </a>
+              );
+            }
+            return uPart;
+          });
+        });
+      };
+
+      while ((match = mdLinkRegex.exec(line)) !== null) {
+        if (match.index > lastIndex) {
+          tokens.push(...processSubString(line.substring(lastIndex, match.index), `l${lineIdx}-p${lastIndex}`));
+        }
+
+        const label = match[1];
+        const url = match[2];
+        tokens.push(
           <a
-            key={i}
-            href={part}
+            key={`mdlink-${lineIdx}-${match.index}`}
+            href={url}
             target="_blank"
             rel="noopener noreferrer"
-            className="underline font-bold text-pink-300 dark:text-pink-400 hover:opacity-80 transition-opacity break-all cursor-pointer"
+            className="underline font-extrabold text-pink-300 dark:text-pink-400 hover:opacity-80 transition-opacity break-all cursor-pointer"
           >
-            {part}
+            {label}
           </a>
         );
+
+        lastIndex = mdLinkRegex.lastIndex;
       }
-      return part;
+
+      if (lastIndex < line.length) {
+        tokens.push(...processSubString(line.substring(lastIndex), `l${lineIdx}-rest`));
+      }
+
+      return (
+        <React.Fragment key={lineIdx}>
+          {lineIdx > 0 && <br />}
+          {tokens}
+        </React.Fragment>
+      );
     });
   };
 
@@ -133,29 +187,29 @@ export default function BunniesChatbot() {
 
   const chatbotContent = (
     <>
-      {/* Floating Collapsed Button */}
+      {/* Floating Collapsed Button (Positioned at bottom-left on mobile to sit opposite of music player) */}
       <AnimatePresence>
         {!isOpen && (
           <motion.div
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0, opacity: 0 }}
-            className="fixed bottom-44 sm:bottom-28 right-4 sm:right-6 z-[99999]"
+            className="fixed bottom-20 sm:bottom-6 left-3 sm:left-6 z-[9990]"
           >
             <button
               onClick={() => setIsOpen(true)}
-              className="group relative flex items-center gap-2 px-4 py-3 rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 text-white shadow-2xl hover:scale-105 transition-all duration-300 border-2 border-white/20 active:scale-95 cursor-pointer"
+              className="group relative flex items-center gap-1.5 px-3 py-2 sm:px-4 sm:py-3 rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 text-white shadow-2xl hover:scale-105 transition-all duration-300 border-2 border-white/20 active:scale-95 cursor-pointer"
               title="Bunny AI Assistant"
             >
               <div className="relative flex items-center justify-center">
-                <Sparkles className="w-5 h-5 animate-pulse text-white" />
+                <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 animate-pulse text-white" />
               </div>
-              <span className="font-extrabold text-xs tracking-wider uppercase pr-1">Bunny AI</span>
+              <span className="font-extrabold text-[11px] sm:text-xs tracking-wider uppercase pr-0.5">Bunny AI</span>
 
               {/* Pulsing indicator ring */}
-              <span className="absolute -top-1 -right-1 flex h-3 w-3">
+              <span className="absolute -top-1 -right-1 flex h-2.5 w-2.5 sm:h-3 sm:w-3">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-pink-400 opacity-75" />
-                <span className="relative inline-flex rounded-full h-3 w-3 bg-pink-500" />
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 sm:h-3 sm:w-3 bg-pink-500" />
               </span>
             </button>
           </motion.div>
@@ -170,7 +224,7 @@ export default function BunniesChatbot() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 40, scale: 0.95 }}
             transition={{ duration: 0.25 }}
-            className="fixed bottom-44 sm:bottom-28 right-3 sm:right-6 z-[99999] w-[calc(100%-1.5rem)] max-w-[380px] sm:w-[380px] h-[460px] max-h-[60vh] rounded-3xl border border-[var(--border-color)] bg-[var(--bg-card)] shadow-2xl flex flex-col overflow-hidden backdrop-blur-xl"
+            className="fixed bottom-20 sm:bottom-6 left-3 sm:left-6 z-[99995] w-[calc(100%-1.5rem)] max-w-[380px] sm:w-[380px] h-[460px] max-h-[65vh] rounded-3xl border border-[var(--border-color)] bg-[var(--bg-card)] shadow-2xl flex flex-col overflow-hidden backdrop-blur-xl"
           >
             {/* Header Bar */}
             <div className="p-4 bg-[var(--bg-subtle)] border-b border-[var(--border-color)] flex items-center justify-between">
@@ -232,7 +286,7 @@ export default function BunniesChatbot() {
                           : 'bg-[var(--bg-subtle)] text-[var(--text-heading)] border border-[var(--border-color)] rounded-bl-none'
                       }`}
                     >
-                      {renderMessageWithLinks(msg.content)}
+                      {renderFormattedMessage(msg.content)}
                     </div>
                   </div>
                 );

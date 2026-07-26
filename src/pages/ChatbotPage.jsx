@@ -95,26 +95,79 @@ export default function ChatbotPage() {
     }
   };
 
-  const renderMessageWithLinks = (text) => {
+  const renderFormattedMessage = (text) => {
     if (!text) return null;
-    const urlRegex = /(https?:\/\/[^\s!.,)]+)/g;
-    const parts = text.split(urlRegex);
 
-    return parts.map((part, i) => {
-      if (part.match(/^https?:\/\//)) {
-        return (
+    const lines = text.split('\n');
+
+    return lines.map((line, lineIdx) => {
+      const mdLinkRegex = /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g;
+      const tokens = [];
+      let lastIndex = 0;
+      let match;
+
+      const processSubString = (subStr, keyPrefix) => {
+        if (!subStr) return [];
+        const boldParts = subStr.split(/(\*\*[^*]+\*\*)/g);
+        return boldParts.map((bPart, bIdx) => {
+          if (bPart.startsWith('**') && bPart.endsWith('**')) {
+            const boldText = bPart.slice(2, -2);
+            return <strong key={`${keyPrefix}-b-${bIdx}`} className="font-extrabold text-[var(--text-heading)]">{boldText}</strong>;
+          }
+
+          const urlRegex = /(https?:\/\/[^\s!.,)]+)/g;
+          const urlParts = bPart.split(urlRegex);
+          return urlParts.map((uPart, uIdx) => {
+            if (uPart.match(/^https?:\/\//)) {
+              return (
+                <a
+                  key={`${keyPrefix}-u-${uIdx}`}
+                  href={uPart}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline font-extrabold text-pink-300 dark:text-pink-400 hover:opacity-80 transition-opacity break-all cursor-pointer"
+                >
+                  {uPart}
+                </a>
+              );
+            }
+            return uPart;
+          });
+        });
+      };
+
+      while ((match = mdLinkRegex.exec(line)) !== null) {
+        if (match.index > lastIndex) {
+          tokens.push(...processSubString(line.substring(lastIndex, match.index), `l${lineIdx}-p${lastIndex}`));
+        }
+
+        const label = match[1];
+        const url = match[2];
+        tokens.push(
           <a
-            key={i}
-            href={part}
+            key={`mdlink-${lineIdx}-${match.index}`}
+            href={url}
             target="_blank"
             rel="noopener noreferrer"
-            className="underline font-bold text-pink-300 dark:text-pink-400 hover:opacity-80 transition-opacity break-all cursor-pointer"
+            className="underline font-extrabold text-pink-300 dark:text-pink-400 hover:opacity-80 transition-opacity break-all cursor-pointer"
           >
-            {part}
+            {label}
           </a>
         );
+
+        lastIndex = mdLinkRegex.lastIndex;
       }
-      return part;
+
+      if (lastIndex < line.length) {
+        tokens.push(...processSubString(line.substring(lastIndex), `l${lineIdx}-rest`));
+      }
+
+      return (
+        <React.Fragment key={lineIdx}>
+          {lineIdx > 0 && <br />}
+          {tokens}
+        </React.Fragment>
+      );
     });
   };
 
@@ -188,7 +241,7 @@ export default function ChatbotPage() {
                       : 'bg-[var(--bg-subtle)] text-[var(--text-heading)] border border-[var(--border-color)] rounded-bl-none'
                   }`}
                 >
-                  {renderMessageWithLinks(msg.content)}
+                  {renderFormattedMessage(msg.content)}
                 </div>
               </motion.div>
             );
