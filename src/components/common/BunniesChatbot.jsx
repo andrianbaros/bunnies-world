@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Bot, Sparkles, Send, Trash2, X, Minus, ChevronDown, RefreshCw, MessageSquare } from 'lucide-react';
+import { Sparkles, Send, Trash2, Minus } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { sendMessageToAI, BYNARA_MODELS } from '../../services/aiService';
 
@@ -17,7 +17,7 @@ export default function BunniesChatbot() {
       {
         id: 'welcome',
         role: 'assistant',
-        content: t('chatbot_welcome', { defaultValue: 'Halo Bunny! 🐰✨ Saya Bunny AI, asistenmu di Bunnies World. Tanya saya apa saja tentang NewJeans!' }),
+        content: 'Halo Bunny! 🐰✨ Saya Bunny AI, asistenmu di Bunnies World. Tanya saya apa saja tentang NewJeans!',
         timestamp: new Date().toISOString()
       }
     ];
@@ -54,7 +54,6 @@ export default function BunniesChatbot() {
     setIsLoading(true);
 
     try {
-      // Format messages history for OpenAI format (role & content only)
       const apiMessages = newHistory
         .filter((m) => m.id !== 'welcome')
         .map((m) => ({ role: m.role, content: m.content }));
@@ -113,23 +112,23 @@ export default function BunniesChatbot() {
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0, opacity: 0 }}
-            className="fixed bottom-6 left-6 z-[9990]"
+            className="fixed bottom-20 sm:bottom-6 left-4 sm:left-6 z-[9990]"
           >
             <button
               onClick={() => setIsOpen(true)}
-              className="group relative flex items-center justify-center w-14 h-14 rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 text-white shadow-2xl hover:scale-105 transition-all duration-300 border-2 border-white/20 active:scale-95"
+              className="group relative flex items-center gap-2 px-4 py-3 rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 text-white shadow-2xl hover:scale-105 transition-all duration-300 border-2 border-white/20 active:scale-95 cursor-pointer"
               title="Bunny AI Assistant"
             >
-              <div className="absolute -top-1 -right-1 w-4 h-4 bg-pink-400 rounded-full animate-ping opacity-75" />
-              <div className="absolute -top-1 -right-1 w-4 h-4 bg-pink-500 rounded-full border-2 border-white flex items-center justify-center text-[8px] font-bold">
-                ✨
+              <div className="relative flex items-center justify-center">
+                <Sparkles className="w-5 h-5 animate-pulse" />
+                <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-emerald-400 rounded-full animate-ping" />
               </div>
-              <Sparkles className="w-6 h-6 animate-pulse" />
-              
-              {/* Tooltip Badge */}
-              <span className="absolute left-16 bg-[var(--bg-card)] border border-[var(--border-color)] text-[var(--text-heading)] text-xs font-bold px-3 py-1.5 rounded-full shadow-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none flex items-center gap-1.5">
-                <span>Bunny AI</span>
-                <span className="text-pink-500 font-extrabold text-[10px]">Bynara</span>
+              <span className="font-extrabold text-xs tracking-wider uppercase pr-1">Bunny AI</span>
+
+              {/* Pulsing indicator ring */}
+              <span className="absolute -top-1 -right-1 flex h-3 w-3">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-pink-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-pink-500" />
               </span>
             </button>
           </motion.div>
@@ -144,7 +143,7 @@ export default function BunniesChatbot() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 40, scale: 0.95 }}
             transition={{ duration: 0.25 }}
-            className="fixed bottom-6 left-4 sm:left-6 z-[9995] w-[92vw] sm:w-[380px] h-[520px] max-h-[82vh] rounded-3xl border border-[var(--border-color)] bg-[var(--bg-card)] shadow-2xl flex flex-col overflow-hidden backdrop-blur-xl"
+            className="fixed bottom-20 sm:bottom-6 left-3 sm:left-6 z-[9995] w-[calc(100%-1.5rem)] max-w-[380px] sm:w-[380px] h-[520px] max-h-[78vh] rounded-3xl border border-[var(--border-color)] bg-[var(--bg-card)] shadow-2xl flex flex-col overflow-hidden backdrop-blur-xl"
           >
             {/* Header Bar */}
             <div className="p-4 bg-[var(--bg-subtle)] border-b border-[var(--border-color)] flex items-center justify-between">
@@ -156,11 +155,9 @@ export default function BunniesChatbot() {
                   <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-emerald-500 rounded-full border-2 border-[var(--bg-card)]" title="Online" />
                 </div>
                 <div className="flex flex-col text-left">
-                  <div className="flex items-center gap-1.5">
-                    <h3 className="font-extrabold text-xs text-[var(--text-heading)] uppercase tracking-wider">
-                      {t('chatbot_title', { defaultValue: 'BUNNY AI ASSISTANT' })}
-                    </h3>
-                  </div>
+                  <h3 className="font-extrabold text-xs text-[var(--text-heading)] uppercase tracking-wider">
+                    {t('chatbot_title', { defaultValue: 'BUNNY AI ASSISTANT' })}
+                  </h3>
                   <span className="text-[9px] text-pink-600 dark:text-pink-400 font-bold">
                     Powered by Bynara AI Router
                   </span>
