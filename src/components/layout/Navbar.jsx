@@ -41,7 +41,7 @@ export default function Navbar() {
   };
 
   return (
-    <header className="sticky top-2 sm:top-3 z-40 w-[96%] max-w-6xl mx-auto mb-4 sm:mb-6">
+    <header className="fixed bottom-3 md:sticky md:top-3 md:bottom-auto left-1/2 -translate-x-1/2 md:left-auto md:translate-x-0 z-40 w-[96%] max-w-6xl mx-auto mb-0 md:mb-6">
       <nav className="glass-surface rounded-full px-3 sm:px-6 py-2 flex items-center justify-between shadow-md min-h-[50px] sm:min-h-[60px] relative border border-pink-500/25">
         {/* Brand Logo */}
         <NavLink to="/" className="flex items-center gap-1.5 sm:gap-2.5 font-extrabold tracking-tight text-current hover:opacity-90 transition-opacity flex-shrink-0">
@@ -160,7 +160,7 @@ export default function Navbar() {
 
         {/* Mobile Navigation Menu Dropdown */}
         {isMobileMoreOpen && (
-          <div className="md:hidden absolute top-14 left-0 right-0 bg-white dark:bg-zinc-900 p-4 rounded-3xl border border-pink-500/30 shadow-2xl flex flex-col gap-2 z-50">
+          <div className="md:hidden absolute bottom-16 left-0 right-0 bg-white dark:bg-zinc-900 p-4 rounded-3xl border border-pink-500/30 shadow-2xl flex flex-col gap-2 z-50">
             <div className="grid grid-cols-2 gap-2">
               {[...primaryNavItems, ...moreNavItems].map((item) => {
                 const Icon = item.icon;
