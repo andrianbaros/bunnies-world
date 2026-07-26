@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MessageSquare, Send, Heart, Shield, Lock, Pin, Filter, RefreshCw, MessageCircle, CornerDownRight } from 'lucide-react';
+import { MessageSquare, Send, Heart, Shield, Lock, Pin, Filter, RefreshCw, MessageCircle, CornerDownRight, Code } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { supabase, isSupabaseConfigured } from '../services/supabase';
 import { storageService } from '../services/storageService';
@@ -23,6 +23,16 @@ export default function Community() {
   const [commentInputs, setCommentInputs] = useState({});
   const [commentAuthors, setCommentAuthors] = useState({});
   const [commentWarnings, setCommentWarnings] = useState({});
+
+  const ADMIN_PASSCODE = import.meta.env.VITE_ADMIN_PASSCODE || 'bunnies2026';
+
+  // Exact (dev) tag check with parentheses to prevent filtering names like Devi or Devon
+  const hasDevTag = (name) => /\(dev\)/i.test(name);
+
+  const verifyAdminPasscode = () => {
+    const entered = window.prompt('Restricted Developer Tag Detected!\nMasukkan Passcode Admin untuk menggunakan badge (dev):');
+    return entered === ADMIN_PASSCODE;
+  };
 
   useEffect(() => {
     fetchPosts();
@@ -116,9 +126,19 @@ export default function Community() {
     e.preventDefault();
     if (!content.trim()) return;
 
+    const finalAuthor = authorName.trim() || 'Anonymous Bunny';
+
+    // Verify Admin passcode if name contains (dev)
+    if (hasDevTag(finalAuthor)) {
+      const isVerified = verifyAdminPasscode();
+      if (!isVerified) {
+        showToast('info', 'Passcode Admin salah. Kamu tidak bisa menggunakan tag (dev).');
+        return;
+      }
+    }
+
     setIsSubmitting(true);
     const sanitizedContent = cleanText(content);
-    const finalAuthor = authorName.trim() || 'Anonymous Bunny';
 
     const newPost = {
       author_name: finalAuthor,
@@ -191,8 +211,18 @@ export default function Community() {
     const text = (commentInputs[postId] || '').trim();
     if (!text) return;
 
-    const sanitized = cleanText(text);
     const author = (commentAuthors[postId] || '').trim() || 'Anonymous Bunny';
+
+    // Verify Admin passcode if comment nickname contains (dev)
+    if (hasDevTag(author)) {
+      const isVerified = verifyAdminPasscode();
+      if (!isVerified) {
+        showToast('info', 'Passcode Admin salah. Kamu tidak bisa menggunakan tag (dev).');
+        return;
+      }
+    }
+
+    const sanitized = cleanText(text);
 
     const newComment = {
       id: `comment-${Date.now()}`,
@@ -219,10 +249,9 @@ export default function Community() {
     // 2. LocalStorage Persistence
     storageService.addCommunityComment(postId, newComment);
 
-    // 3. Supabase Sync (Syncs to community_posts row AND/OR community_comments table)
+    // 3. Supabase Sync
     if (isSupabaseConfigured() && typeof postId === 'string' && !postId.startsWith('local-')) {
       try {
-        // Method A: Update comments column in community_posts table
         const { error: updateErr } = await supabase
           .from('community_posts')
           .update({ comments: updatedComments })
@@ -230,7 +259,6 @@ export default function Community() {
 
         if (updateErr) {
           console.warn('Supabase post.comments column sync note:', updateErr.message);
-          // Method B: Fallback to community_comments separate table insert
           await supabase.from('community_comments').insert([{
             post_id: postId,
             author_name: author,
@@ -343,6 +371,7 @@ export default function Community() {
         ) : (
           posts.map((post) => {
             const authorName = post.author_name || post.author || 'Anonymous Bunny';
+            const isDev = hasDevTag(authorName);
             const postContent = post.content || '';
             const postLikes = post.likes || 0;
             const postDate = post.created_at || post.date || new Date().toISOString();
@@ -367,6 +396,11 @@ export default function Community() {
                     <div>
                       <h4 className="font-bold text-xs text-[var(--text-heading)] flex items-center gap-1.5">
                         <span>{authorName}</span>
+                        {isDev && (
+                          <span className="px-2 py-0.5 rounded-full bg-pink-500 text-white text-[9px] font-extrabold flex items-center gap-0.5 shadow-xs">
+                            <Code className="w-2.5 h-2.5" /> DEV
+                          </span>
+                        )}
                         {post.is_pinned && (
                           <span className="px-2 py-0.5 rounded-full bg-pink-500/10 text-pink-600 dark:text-pink-400 text-[9px] font-bold flex items-center gap-0.5 border border-pink-500/20">
                             <Pin className="w-2.5 h-2.5" /> {t('community_pinned')}
@@ -459,23 +493,33 @@ export default function Community() {
                       {/* Comments List */}
                       <div className="flex flex-col gap-2">
                         {commentsList.length > 0 ? (
-                          commentsList.map((c) => (
-                            <div
-                              key={c.id || c.created_at}
-                              className="flex items-start gap-2.5 bg-[var(--bg-card)] p-3 rounded-xl border border-[var(--border-color)] shadow-xs"
-                            >
-                              <div className="w-6 h-6 rounded-full bg-pink-500/20 text-pink-600 dark:text-pink-400 font-bold text-[10px] flex items-center justify-center flex-shrink-0 mt-0.5 border border-pink-500/30">
-                                {(c.author_name || 'B')[0].toUpperCase()}
-                              </div>
-                              <div className="flex flex-col text-left gap-0.5 flex-grow">
-                                <div className="flex items-center justify-between">
-                                  <span className="font-bold text-[11px] text-[var(--text-heading)]">{c.author_name || 'Anonymous Bunny'}</span>
-                                  <span className="text-[9px] text-[var(--text-muted)]">{new Date(c.created_at || Date.now()).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                          commentsList.map((c) => {
+                            const isCommentDev = hasDevTag(c.author_name || '');
+                            return (
+                              <div
+                                key={c.id || c.created_at}
+                                className="flex items-start gap-2.5 bg-[var(--bg-card)] p-3 rounded-xl border border-[var(--border-color)] shadow-xs"
+                              >
+                                <div className="w-6 h-6 rounded-full bg-pink-500/20 text-pink-600 dark:text-pink-400 font-bold text-[10px] flex items-center justify-center flex-shrink-0 mt-0.5 border border-pink-500/30">
+                                  {(c.author_name || 'B')[0].toUpperCase()}
                                 </div>
-                                <p className="text-[11px] text-[var(--text-primary)] leading-relaxed">{c.content}</p>
+                                <div className="flex flex-col text-left gap-0.5 flex-grow">
+                                  <div className="flex items-center justify-between">
+                                    <span className="font-bold text-[11px] text-[var(--text-heading)] flex items-center gap-1">
+                                      <span>{c.author_name || 'Anonymous Bunny'}</span>
+                                      {isCommentDev && (
+                                        <span className="px-1.5 py-0.2 rounded-full bg-pink-500 text-white text-[8px] font-extrabold flex items-center gap-0.5 shadow-xs">
+                                          <Code className="w-2 h-2" /> DEV
+                                        </span>
+                                      )}
+                                    </span>
+                                    <span className="text-[9px] text-[var(--text-muted)]">{new Date(c.created_at || Date.now()).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                                  </div>
+                                  <p className="text-[11px] text-[var(--text-primary)] leading-relaxed">{c.content}</p>
+                                </div>
                               </div>
-                            </div>
-                          ))
+                            );
+                          })
                         ) : (
                           <div className="text-center py-3 text-[11px] text-[var(--text-muted)] italic">
                             {t('community_no_comments', { defaultValue: 'Belum ada komentar. Jadilah yang pertama membalas!' })}
