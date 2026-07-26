@@ -514,18 +514,33 @@ export default function Community() {
                         const rawCAuthor = c.author_name || c.author || 'Bunny';
                         const cAuthor = hasProfanity(rawCAuthor) ? cleanText(rawCAuthor) : rawCAuthor;
                         const cContent = cleanText(c.content || '');
+                        const isCDev = isDevNickname(rawCAuthor);
                         return (
                           <div
                             key={c.id}
-                            className="p-3 rounded-2xl bg-slate-100/90 dark:bg-zinc-800/90 border border-pink-500/20 flex flex-col gap-1 text-xs"
+                            className="p-3 rounded-2xl bg-slate-100/90 dark:bg-zinc-800/90 border border-pink-500/25 border-l-4 border-l-pink-500 flex flex-col gap-1.5 text-xs shadow-2xs"
                           >
-                            <div className="flex items-center justify-between font-black text-slate-950 dark:text-white">
-                              <span>{cAuthor}</span>
-                              <span className="text-[10px] text-slate-500 dark:text-zinc-400 font-medium">
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center gap-1.5">
+                                <span className="w-5 h-5 rounded-full bg-pink-500/20 text-pink-600 dark:text-pink-400 font-black text-[10px] flex items-center justify-center border border-pink-500/30 flex-shrink-0">
+                                  {cAuthor[0]?.toUpperCase() || 'B'}
+                                </span>
+                                <span className="font-black text-pink-600 dark:text-pink-400 text-xs tracking-tight">
+                                  {cAuthor}
+                                </span>
+                                {isCDev && (
+                                  <span className="px-1.5 py-0.2 rounded-full bg-pink-500/20 text-pink-600 dark:text-pink-400 text-[9px] font-black border border-pink-500/30">
+                                    DEV
+                                  </span>
+                                )}
+                              </div>
+                              <span className="text-[10px] text-slate-500 dark:text-zinc-400 font-semibold">
                                 {new Date(c.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                               </span>
                             </div>
-                            <p className="text-slate-800 dark:text-zinc-200 font-bold leading-relaxed">{cContent}</p>
+                            <p className="text-slate-800 dark:text-zinc-100 font-bold text-xs leading-relaxed pl-6.5">
+                              {cContent}
+                            </p>
                           </div>
                         );
                       })}
