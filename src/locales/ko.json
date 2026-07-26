@@ -117,5 +117,16 @@
   "community_comments": "댓글",
   "community_add_comment": "댓글 작성...",
   "community_reply_btn": "게시",
-  "community_no_comments": "아직 댓글이 없습니다."
+  "community_no_comments": "아직 댓글이 없습니다.",
+  "dev_modal_title": "개발자 태그 인증",
+  "dev_modal_subtitle": "제한된 이름 필터",
+  "dev_modal_desc": "닉네임에 예약된 태그 \"dev\"를 사용 중입니다. 개발자 신원을 확인하려면 관리자 암호를 입력하세요.",
+  "dev_modal_placeholder": "관리자 암호 입력...",
+  "dev_modal_error": "❌ 잘못된 관리자 암호입니다! (dev) 태그를 사용할 수 없습니다.",
+  "dev_modal_cancel": "취소",
+  "dev_modal_submit": "인증 및 제출",
+  "dev_modal_toast_success": "개발자 태그가 인증되었습니다!",
+  "dev_modal_toast_error": "잘못된 관리자 암호입니다!",
+  "community_profanity_blocked": "게시물/댓글 또는 닉네임에 부적절한 언어가 포함되어 전송할 수 없습니다!",
+  "community_comment_sent": "댓글이 성공적으로 등록되었습니다!"
 }

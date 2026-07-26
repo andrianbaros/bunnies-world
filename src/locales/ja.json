@@ -117,5 +117,16 @@
   "community_comments": "コメント",
   "community_add_comment": "コメントを追加...",
   "community_reply_btn": "返信",
-  "community_no_comments": "まだコメントはありません。"
+  "community_no_comments": "まだコメントはありません。",
+  "dev_modal_title": "開発者タグ認証",
+  "dev_modal_subtitle": "制限名フィルター",
+  "dev_modal_desc": "ニックネームに予約タグ「dev」が使用されています。開発者の身元を確認するには管理者パスコードを入力してください。",
+  "dev_modal_placeholder": "管理者パスコードを入力...",
+  "dev_modal_error": "❌ 管理者パスコードが正しくありません！ (dev) タグは使用できません。",
+  "dev_modal_cancel": "キャンセル",
+  "dev_modal_submit": "認証して送信",
+  "dev_modal_toast_success": "開発者タグが認証されました！",
+  "dev_modal_toast_error": "管理者パスコードが正しくありません！",
+  "community_profanity_blocked": "投稿/コメントまたはニックネームに不適切な言葉が含まれているため送信できません！",
+  "community_comment_sent": "コメントを投稿しました！"
 }

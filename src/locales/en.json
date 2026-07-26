@@ -117,5 +117,16 @@
   "community_comments": "Comments",
   "community_add_comment": "Add a comment...",
   "community_reply_btn": "Reply",
-  "community_no_comments": "No comments yet. Be the first to reply!"
+  "community_no_comments": "No comments yet. Be the first to reply!",
+  "dev_modal_title": "DEVELOPER TAG VERIFICATION",
+  "dev_modal_subtitle": "Restricted Name Filter",
+  "dev_modal_desc": "You are using the reserved tag \"dev\" in your nickname. Please enter the Admin Passcode to verify your developer identity.",
+  "dev_modal_placeholder": "Enter Admin Passcode...",
+  "dev_modal_error": "❌ Incorrect Admin Passcode! You cannot use the (dev) tag.",
+  "dev_modal_cancel": "Cancel",
+  "dev_modal_submit": "Verify & Submit",
+  "dev_modal_toast_success": "Developer Tag Verified!",
+  "dev_modal_toast_error": "Incorrect Admin Passcode!",
+  "community_profanity_blocked": "Post/Comment or Nickname contains toxic language & cannot be sent!",
+  "community_comment_sent": "Comment posted successfully!"
 }

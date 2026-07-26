@@ -117,5 +117,16 @@
   "community_comments": "Komentar",
   "community_add_comment": "Tulis komentar...",
   "community_reply_btn": "Kirim Balasan",
-  "community_no_comments": "Belum ada komentar. Jadilah yang pertama membalas!"
+  "community_no_comments": "Belum ada komentar. Jadilah yang pertama membalas!",
+  "dev_modal_title": "VERIFIKASI TAG DEVELOPER",
+  "dev_modal_subtitle": "Filter Nama Terbatas",
+  "dev_modal_desc": "Kamu menggunakan tag/kata terlarang \"dev\" pada Nickname-mu. Masukkan Admin Passcode untuk memverifikasi identitas developer.",
+  "dev_modal_placeholder": "Masukkan Admin Passcode...",
+  "dev_modal_error": "❌ Passcode Admin Salah! Kamu tidak bisa menggunakan tag (dev).",
+  "dev_modal_cancel": "Batal",
+  "dev_modal_submit": "Verifikasi & Kirim",
+  "dev_modal_toast_success": "Verifikasi Developer Berhasil!",
+  "dev_modal_toast_error": "Passcode Admin Salah!",
+  "community_profanity_blocked": "Postingan/Komentar atau Nickname mengandung kata kasar & tidak dapat terkirim!",
+  "community_comment_sent": "Komentar berhasil terkirim!"
 }

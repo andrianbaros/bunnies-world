@@ -144,9 +144,10 @@ export default function Community() {
 
     // 1. Strict Profanity Check on Nickname & Content
     if (hasProfanity(finalAuthor) || hasProfanity(content)) {
-      showToast('info', 'Postingan atau Nickname mengandung kata kasar & tidak dapat terkirim!');
+      showToast('info', t('community_profanity_blocked', { defaultValue: 'Post/Comment or Nickname contains toxic language & cannot be sent!' }));
       return;
     }
+
 
     const postPayload = {
       author_name: finalAuthor,
@@ -235,7 +236,7 @@ export default function Community() {
 
     // 1. Strict Profanity Check on Comment Nickname & Content
     if (hasProfanity(author) || hasProfanity(text)) {
-      showToast('info', 'Komentar atau Nickname mengandung kata kasar & tidak dapat terkirim!');
+      showToast('info', t('community_profanity_blocked', { defaultValue: 'Post/Comment or Nickname contains toxic language & cannot be sent!' }));
       return;
     }
 
@@ -253,7 +254,6 @@ export default function Community() {
 
     await executeAddComment(commentPayload);
   };
-
 
   const executeAddComment = async (payload) => {
     const { postId, author, content: sanitized } = payload;
@@ -303,7 +303,7 @@ export default function Community() {
 
     setCommentInputs((prev) => ({ ...prev, [postId]: '' }));
     setCommentWarnings((prev) => ({ ...prev, [postId]: false }));
-    showToast('success', 'Komentar terkirim!');
+    showToast('success', t('community_comment_sent', { defaultValue: 'Comment posted successfully!' }));
   };
 
   const handleDevModalSubmit = async (e) => {
@@ -320,12 +320,13 @@ export default function Community() {
       } else if (task?.type === 'comment') {
         await executeAddComment(task.payload);
       }
-      showToast('success', 'Verifikasi Developer Berhasil!');
+      showToast('success', t('dev_modal_toast_success', { defaultValue: 'Developer Tag Verified!' }));
     } else {
       setDevPasscodeError(true);
-      showToast('info', 'Passcode Admin Salah!');
+      showToast('info', t('dev_modal_toast_error', { defaultValue: 'Incorrect Admin Passcode!' }));
     }
   };
+
 
   return (
     <div className="flex flex-col gap-8 py-6 px-4 max-w-4xl mx-auto z-10 relative">
@@ -605,19 +606,19 @@ export default function Community() {
                 <Lock className="w-5 h-5" />
               </div>
               <div>
-                <h3 className="font-bold text-sm text-[var(--text-heading)] uppercase tracking-wider">VERIFIKASI TAG DEVELOPER</h3>
-                <span className="text-[10px] text-pink-500 font-bold">Restricted Name Filter</span>
+                <h3 className="font-bold text-sm text-[var(--text-heading)] uppercase tracking-wider">{t('dev_modal_title', { defaultValue: 'DEVELOPER TAG VERIFICATION' })}</h3>
+                <span className="text-[10px] text-pink-500 font-bold">{t('dev_modal_subtitle', { defaultValue: 'Restricted Name Filter' })}</span>
               </div>
             </div>
 
             <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
-              Kamu menggunakan tag/kata <span className="font-bold text-pink-500">"dev"</span> pada Nickname-mu. Masukkan <strong>Admin Passcode</strong> untuk memverifikasi identitas developer.
+              {t('dev_modal_desc', { defaultValue: 'You are using the reserved tag "dev" in your nickname. Please enter the Admin Passcode to verify your developer identity.' })}
             </p>
 
             <form onSubmit={handleDevModalSubmit} className="flex flex-col gap-3">
               <input
                 type="password"
-                placeholder="Masukkan Admin Passcode..."
+                placeholder={t('dev_modal_placeholder', { defaultValue: 'Enter Admin Passcode...' })}
                 value={devPasscode}
                 onChange={(e) => setDevPasscode(e.target.value)}
                 autoFocus
@@ -627,7 +628,7 @@ export default function Community() {
 
               {devPasscodeError && (
                 <span className="text-[11px] text-red-500 font-bold text-center">
-                  ❌ Passcode Admin Salah! Kamu tidak bisa menggunakan tag (dev).
+                  {t('dev_modal_error', { defaultValue: '❌ Incorrect Admin Passcode! You cannot use the (dev) tag.' })}
                 </span>
               )}
 
@@ -637,19 +638,20 @@ export default function Community() {
                   onClick={() => { setShowDevModal(false); setPendingSubmit(null); setDevPasscode(''); setDevPasscodeError(false); }}
                   className="px-4 py-2 rounded-full bg-[var(--bg-subtle)] text-xs text-[var(--text-secondary)] hover:text-[var(--text-heading)] font-semibold"
                 >
-                  Batal
+                  {t('dev_modal_cancel', { defaultValue: 'Cancel' })}
                 </button>
                 <button
                   type="submit"
                   className="px-6 py-2 rounded-full bg-pink-500 text-white text-xs font-bold hover:bg-pink-600 transition-colors shadow-sm"
                 >
-                  Verifikasi & Kirim
+                  {t('dev_modal_submit', { defaultValue: 'Verify & Submit' })}
                 </button>
               </div>
             </form>
           </motion.div>
         </div>
       )}
+
     </div>
   );
 }

@@ -208,7 +208,18 @@
     "community_comments": "Comments",
     "community_add_comment": "Add a comment...",
     "community_reply_btn": "Reply",
-    "community_no_comments": "No comments yet. Be the first to reply!"
+    "community_no_comments": "No comments yet. Be the first to reply!",
+    "dev_modal_title": "DEVELOPER TAG VERIFICATION",
+    "dev_modal_subtitle": "Restricted Name Filter",
+    "dev_modal_desc": "You are using the reserved tag \"dev\" in your nickname. Please enter the Admin Passcode to verify your developer identity.",
+    "dev_modal_placeholder": "Enter Admin Passcode...",
+    "dev_modal_error": "❌ Incorrect Admin Passcode! You cannot use the (dev) tag.",
+    "dev_modal_cancel": "Cancel",
+    "dev_modal_submit": "Verify & Submit",
+    "dev_modal_toast_success": "Developer Tag Verified!",
+    "dev_modal_toast_error": "Incorrect Admin Passcode!",
+    "community_profanity_blocked": "Post/Comment or Nickname contains toxic language & cannot be sent!",
+    "community_comment_sent": "Comment posted successfully!"
   },
   "id": {
     "nav_home": "BERANDA",
@@ -419,7 +430,18 @@
     "community_comments": "Komentar",
     "community_add_comment": "Tulis komentar...",
     "community_reply_btn": "Kirim Balasan",
-    "community_no_comments": "Belum ada komentar. Jadilah yang pertama membalas!"
+    "community_no_comments": "Belum ada komentar. Jadilah yang pertama membalas!",
+    "dev_modal_title": "VERIFIKASI TAG DEVELOPER",
+    "dev_modal_subtitle": "Filter Nama Terbatas",
+    "dev_modal_desc": "Kamu menggunakan tag/kata terlarang \"dev\" pada Nickname-mu. Masukkan Admin Passcode untuk memverifikasi identitas developer.",
+    "dev_modal_placeholder": "Masukkan Admin Passcode...",
+    "dev_modal_error": "❌ Passcode Admin Salah! Kamu tidak bisa menggunakan tag (dev).",
+    "dev_modal_cancel": "Batal",
+    "dev_modal_submit": "Verifikasi & Kirim",
+    "dev_modal_toast_success": "Verifikasi Developer Berhasil!",
+    "dev_modal_toast_error": "Passcode Admin Salah!",
+    "community_profanity_blocked": "Postingan/Komentar atau Nickname mengandung kata kasar & tidak dapat terkirim!",
+    "community_comment_sent": "Komentar berhasil terkirim!"
   },
   "ko": {
     "nav_home": "홈",
@@ -630,7 +652,18 @@
     "community_comments": "댓글",
     "community_add_comment": "댓글 작성...",
     "community_reply_btn": "게시",
-    "community_no_comments": "아직 댓글이 없습니다."
+    "community_no_comments": "아직 댓글이 없습니다.",
+    "dev_modal_title": "개발자 태그 인증",
+    "dev_modal_subtitle": "제한된 이름 필터",
+    "dev_modal_desc": "닉네임에 예약된 태그 \"dev\"를 사용 중입니다. 개발자 신원을 확인하려면 관리자 암호를 입력하세요.",
+    "dev_modal_placeholder": "관리자 암호 입력...",
+    "dev_modal_error": "❌ 잘못된 관리자 암호입니다! (dev) 태그를 사용할 수 없습니다.",
+    "dev_modal_cancel": "취소",
+    "dev_modal_submit": "인증 및 제출",
+    "dev_modal_toast_success": "개발자 태그가 인증되었습니다!",
+    "dev_modal_toast_error": "잘못된 관리자 암호입니다!",
+    "community_profanity_blocked": "게시물/댓글 또는 닉네임에 부적절한 언어가 포함되어 전송할 수 없습니다!",
+    "community_comment_sent": "댓글이 성공적으로 등록되었습니다!"
   },
   "ja": {
     "nav_home": "ホーム",
@@ -841,6 +874,17 @@
     "community_comments": "コメント",
     "community_add_comment": "コメントを追加...",
     "community_reply_btn": "返信",
-    "community_no_comments": "まだコメントはありません。"
+    "community_no_comments": "まだコメントはありません。",
+    "dev_modal_title": "開発者タグ認証",
+    "dev_modal_subtitle": "制限名フィルター",
+    "dev_modal_desc": "ニックネームに予約タグ「dev」が使用されています。開発者の身元を確認するには管理者パスコードを入力してください。",
+    "dev_modal_placeholder": "管理者パスコードを入力...",
+    "dev_modal_error": "❌ 管理者パスコードが正しくありません！ (dev) タグは使用できません。",
+    "dev_modal_cancel": "キャンセル",
+    "dev_modal_submit": "認証して送信",
+    "dev_modal_toast_success": "開発者タグが認証されました！",
+    "dev_modal_toast_error": "管理者パスコードが正しくありません！",
+    "community_profanity_blocked": "投稿/コメントまたはニックネームに不適切な言葉が含まれているため送信できません！",
+    "community_comment_sent": "コメントを投稿しました！"
   }
 }
