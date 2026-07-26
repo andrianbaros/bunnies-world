@@ -42,7 +42,7 @@ export default function Community() {
 
         if (postsError) throw postsError;
 
-        // Try fetching comments from community_comments table
+        // Try fetching separate comments table if available
         let commentsData = [];
         try {
           const { data: cData, error: cErr } = await supabase
@@ -51,7 +51,7 @@ export default function Community() {
             .order('created_at', { ascending: false });
           if (!cErr && cData) commentsData = cData;
         } catch (cFetchErr) {
-          console.warn('Could not fetch community_comments from Supabase:', cFetchErr.message);
+          console.warn('community_comments table query note:', cFetchErr.message);
         }
 
         const commentsByPost = {};
@@ -60,10 +60,19 @@ export default function Community() {
           commentsByPost[c.post_id].push(c);
         });
 
-        fetchedPosts = (postsData || []).map((p) => ({
-          ...p,
-          comments: commentsByPost[p.id] || p.comments || []
-        }));
+        fetchedPosts = (postsData || []).map((p) => {
+          let parsedComments = [];
+          if (Array.isArray(p.comments)) {
+            parsedComments = p.comments;
+          } else if (typeof p.comments === 'string') {
+            try { parsedComments = JSON.parse(p.comments); } catch (e) { parsedComments = []; }
+          }
+          const tableComments = commentsByPost[p.id] || [];
+          return {
+            ...p,
+            comments: [...parsedComments, ...tableComments]
+          };
+        });
       } catch (err) {
         console.warn('Supabase fetch failed, falling back to local storage:', err.message);
         fetchedPosts = storageService.getSettings().communityPosts || [];
@@ -193,39 +202,46 @@ export default function Community() {
       created_at: new Date().toISOString()
     };
 
-    // 1. LocalStorage Persistence
-    storageService.addCommunityComment(postId, newComment);
+    const targetPost = posts.find((p) => p.id === postId);
+    const existingComments = targetPost?.comments || [];
+    const updatedComments = [newComment, ...existingComments];
 
-    // 2. Supabase Database Sync if available
-    if (isSupabaseConfigured() && typeof postId === 'string' && !postId.startsWith('local-')) {
-      try {
-        const { data, error } = await supabase.from('community_comments').insert([{
-          post_id: postId,
-          author_name: author,
-          content: sanitized,
-          created_at: newComment.created_at
-        }]).select();
-
-        if (error) {
-          console.warn('Supabase comment insert warning:', error.message);
-        } else if (data && data[0]) {
-          newComment.id = data[0].id;
-        }
-      } catch (err) {
-        console.warn('Supabase comment error:', err.message);
-      }
-    }
-
-    // 3. React State Update
+    // 1. Update React State immediately
     setPosts((prevPosts) =>
       prevPosts.map((p) => {
         if (p.id === postId) {
-          const existing = p.comments || [];
-          return { ...p, comments: [newComment, ...existing] };
+          return { ...p, comments: updatedComments };
         }
         return p;
       })
     );
+
+    // 2. LocalStorage Persistence
+    storageService.addCommunityComment(postId, newComment);
+
+    // 3. Supabase Sync (Syncs to community_posts row AND/OR community_comments table)
+    if (isSupabaseConfigured() && typeof postId === 'string' && !postId.startsWith('local-')) {
+      try {
+        // Method A: Update comments column in community_posts table
+        const { error: updateErr } = await supabase
+          .from('community_posts')
+          .update({ comments: updatedComments })
+          .eq('id', postId);
+
+        if (updateErr) {
+          console.warn('Supabase post.comments column sync note:', updateErr.message);
+          // Method B: Fallback to community_comments separate table insert
+          await supabase.from('community_comments').insert([{
+            post_id: postId,
+            author_name: author,
+            content: sanitized,
+            created_at: newComment.created_at
+          }]);
+        }
+      } catch (err) {
+        console.warn('Supabase comment sync error:', err.message);
+      }
+    }
 
     // Reset inputs
     setCommentInputs((prev) => ({ ...prev, [postId]: '' }));
