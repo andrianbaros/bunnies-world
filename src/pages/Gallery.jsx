@@ -14,7 +14,7 @@ export default function Gallery() {
   const [isDownloading, setIsDownloading] = useState(false);
   const { settings, toggleFavorite, addRecentlyViewed, showToast } = useSettings();
 
-  const categories = ['All', 'Photocard', 'Concept Photo', 'Behind The Scenes', 'Fan Art', 'Magazine', 'Performance'];
+  const categories = ['All', 'Photocard', 'Selfie', 'Concept Photo', 'Behind The Scenes', 'Fan Art', 'Magazine', 'Performance'];
 
   useEffect(() => {
     if (selectedImage) {
