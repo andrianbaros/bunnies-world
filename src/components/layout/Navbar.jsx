@@ -35,7 +35,6 @@ export default function Navbar() {
     { path: '/settings', label: t('nav_settings'), icon: Settings }
   ];
 
-
   const toggleTheme = () => {
     const nextTheme = settings.theme === 'light' ? 'dark' : 'light';
     updateSetting('theme', nextTheme);
@@ -43,11 +42,11 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-2 sm:top-3 z-40 w-[96%] max-w-6xl mx-auto mb-4 sm:mb-6">
-      <nav className="glass-surface rounded-full px-2.5 sm:px-6 py-2 flex items-center justify-between shadow-sm min-h-[50px] sm:min-h-[60px] relative">
+      <nav className="glass-surface rounded-full px-3 sm:px-6 py-2 flex items-center justify-between shadow-md min-h-[50px] sm:min-h-[60px] relative border border-pink-500/25">
         {/* Brand Logo */}
-        <NavLink to="/" className="flex items-center gap-1.5 sm:gap-2.5 font-bold tracking-tight text-current hover:opacity-80 transition-opacity flex-shrink-0">
-          <img src="/assets/logo.png" alt="Bunnies World Logo" className="w-6 h-6 sm:w-8 sm:h-8 object-contain rounded-md shadow-xs flex-shrink-0" />
-          <span className="font-extrabold text-[11px] xs:text-xs sm:text-base tracking-normal sm:tracking-wider uppercase whitespace-nowrap text-[var(--text-heading)]">
+        <NavLink to="/" className="flex items-center gap-1.5 sm:gap-2.5 font-extrabold tracking-tight text-current hover:opacity-90 transition-opacity flex-shrink-0">
+          <img src="/assets/logo.png" alt="Bunnies World Logo" className="w-6 h-6 sm:w-8 sm:h-8 object-contain rounded-md shadow-2xs flex-shrink-0" />
+          <span className="font-black text-[11px] xs:text-xs sm:text-base tracking-normal sm:tracking-wider uppercase whitespace-nowrap text-slate-950 dark:text-white">
             BUNNIES WORLD
           </span>
         </NavLink>
@@ -61,10 +60,10 @@ export default function Navbar() {
                 key={item.path}
                 to={item.path}
                 className={({ isActive }) =>
-                  `flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all ${
+                  `flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-extrabold transition-all ${
                     isActive
-                      ? 'bg-pink-500/15 text-pink-600 dark:text-pink-400 border border-pink-500/30'
-                      : 'text-[var(--text-secondary)] hover:text-[var(--text-heading)] hover:bg-[var(--bg-subtle-hover)] dark:hover:bg-white/5'
+                      ? 'bg-pink-500 text-white shadow-xs'
+                      : 'text-slate-700 dark:text-zinc-300 hover:text-pink-500 hover:bg-pink-50 dark:hover:bg-pink-500/10'
                   }`
                 }
               >
@@ -78,10 +77,10 @@ export default function Navbar() {
           <div className="relative">
             <button
               onClick={() => setIsMoreOpen(!isMoreOpen)}
-              className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all ${
+              className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-extrabold transition-all cursor-pointer ${
                 isMoreOpen || moreNavItems.some((i) => location.pathname === i.path)
-                  ? 'bg-pink-500/15 text-pink-600 dark:text-pink-400 border border-pink-500/30'
-                  : 'text-[var(--text-secondary)] hover:text-[var(--text-heading)] hover:bg-[var(--bg-subtle-hover)] dark:hover:bg-white/5'
+                  ? 'bg-pink-500 text-white shadow-xs'
+                  : 'text-slate-700 dark:text-zinc-300 hover:text-pink-500 hover:bg-pink-50 dark:hover:bg-pink-500/10'
               }`}
             >
               <MoreHorizontal className="w-4 h-4" />
@@ -89,7 +88,7 @@ export default function Navbar() {
             </button>
 
             {isMoreOpen && (
-              <div className="absolute right-0 top-12 w-52 bg-[var(--bg-card)] p-2 rounded-2xl flex flex-col gap-1 border border-[var(--border-color)] shadow-2xl z-50">
+              <div className="absolute right-0 top-12 w-52 bg-white dark:bg-zinc-900 p-2 rounded-3xl flex flex-col gap-1 border border-pink-500/30 shadow-2xl z-50">
                 {moreNavItems.map((item) => {
                   const Icon = item.icon;
                   return (
@@ -98,10 +97,10 @@ export default function Navbar() {
                       to={item.path}
                       onClick={() => setIsMoreOpen(false)}
                       className={({ isActive }) =>
-                        `flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold transition-colors ${
+                        `flex items-center gap-2.5 px-3 py-2 rounded-2xl text-xs font-extrabold transition-colors ${
                           isActive
-                            ? 'bg-pink-500/15 text-pink-600 dark:text-pink-400 font-bold'
-                            : 'text-[var(--text-secondary)] hover:bg-[var(--bg-subtle-hover)]'
+                            ? 'bg-pink-500 text-white font-black'
+                            : 'text-slate-700 dark:text-zinc-300 hover:bg-pink-50 dark:hover:bg-pink-500/10 hover:text-pink-500'
                         }`
                       }
                     >
@@ -119,106 +118,74 @@ export default function Navbar() {
         <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
           <NavLink
             to="/search"
-            className="p-1.5 sm:p-2 rounded-full text-[var(--text-secondary)] hover:text-[var(--text-heading)] hover:bg-[var(--bg-subtle-hover)] dark:hover:bg-white/5 transition-colors"
+            className="p-2 rounded-full text-slate-700 dark:text-zinc-300 hover:text-pink-500 hover:bg-pink-50 dark:hover:bg-pink-500/10 transition-colors"
             title="Search"
           >
-            <Search className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+            <Search className="w-4 h-4" />
           </NavLink>
 
           <button
             onClick={toggleTheme}
-            className="p-1.5 sm:p-2 rounded-full text-[var(--text-secondary)] hover:bg-[var(--bg-subtle-hover)] dark:hover:bg-white/5 transition-colors"
+            className="p-2 rounded-full text-slate-700 dark:text-zinc-300 hover:bg-pink-50 dark:hover:bg-pink-500/10 transition-colors cursor-pointer"
             title="Toggle Theme"
           >
-            {settings.theme === 'light' ? <Sun className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-500" /> : <Moon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-indigo-300" />}
+            {settings.theme === 'light' ? <Sun className="w-4 h-4 text-amber-500" /> : <Moon className="w-4 h-4 text-indigo-300" />}
           </button>
 
           {/* Multi-Language Selector */}
-          <div className="flex items-center bg-[var(--bg-subtle)] rounded-full p-0.5 sm:p-1 border border-[var(--border-color)] flex-shrink-0">
+          <div className="flex items-center bg-slate-100 dark:bg-zinc-800/80 rounded-full p-1 border border-pink-500/20 flex-shrink-0">
             {['en', 'id', 'ko', 'ja'].map((lang) => (
               <button
                 key={lang}
                 onClick={() => updateSetting('language', lang)}
-                className={`px-1.5 sm:px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] font-bold uppercase transition-all ${
-                  settings.language === lang
-                    ? 'bg-pink-500 text-white shadow-sm'
-                    : 'text-[var(--text-muted)] hover:text-[var(--text-heading)]'
+                className={`px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-black transition-all uppercase cursor-pointer ${
+                  (settings.language || 'en') === lang
+                    ? 'bg-pink-500 text-white shadow-2xs'
+                    : 'text-slate-600 dark:text-zinc-400 hover:text-pink-500'
                 }`}
               >
                 {lang}
               </button>
             ))}
           </div>
+
+          {/* Mobile Drawer Toggle */}
+          <button
+            onClick={() => setIsMobileMoreOpen(!isMobileMoreOpen)}
+            className="md:hidden p-2 rounded-full text-slate-700 dark:text-zinc-300 hover:text-pink-500 transition-colors cursor-pointer ml-1"
+          >
+            <MoreHorizontal className="w-5 h-5" />
+          </button>
         </div>
-      </nav>
 
-      {/* Mobile Drawer Backdrop */}
-      {isMobileMoreOpen && (
-        <div
-          className="md:hidden fixed inset-0 bg-black/50 backdrop-blur-xs z-30"
-          onClick={() => setIsMobileMoreOpen(false)}
-        />
-      )}
-
-      {/* Mobile More Menu Panel */}
-      {isMobileMoreOpen && (
-        <div className="md:hidden fixed bottom-[140px] left-4 right-4 z-45 bg-[var(--bg-card)] p-4 rounded-3xl border border-[var(--border-color)] shadow-2xl flex flex-col gap-2 max-h-[50vh] overflow-y-auto">
-          <div className="grid grid-cols-2 gap-2">
-            {moreNavItems.map((item) => {
-              const Icon = item.icon;
-              const isItemActive = location.pathname === item.path;
-              return (
-                <NavLink
-                  key={item.path}
-                  to={item.path}
-                  onClick={() => setIsMobileMoreOpen(false)}
-                  className={`flex items-center gap-2.5 p-3 rounded-2xl text-xs font-semibold transition-all border ${
-                    isItemActive
-                      ? 'bg-pink-500/15 text-pink-600 dark:text-pink-400 border-pink-500/30'
-                      : 'bg-[var(--bg-subtle)] text-[var(--text-secondary)] border-transparent hover:text-[var(--text-heading)]'
-                  }`}
-                >
-                  <Icon className="w-4 h-4 opacity-70" />
-                  <span>{item.label}</span>
-                </NavLink>
-              );
-            })}
+        {/* Mobile Navigation Menu Dropdown */}
+        {isMobileMoreOpen && (
+          <div className="md:hidden absolute top-14 left-0 right-0 bg-white dark:bg-zinc-900 p-4 rounded-3xl border border-pink-500/30 shadow-2xl flex flex-col gap-2 z-50">
+            <div className="grid grid-cols-2 gap-2">
+              {[...primaryNavItems, ...moreNavItems].map((item) => {
+                const Icon = item.icon;
+                return (
+                  <NavLink
+                    key={item.path}
+                    to={item.path}
+                    onClick={() => setIsMobileMoreOpen(false)}
+                    className={({ isActive }) =>
+                      `flex items-center gap-2 p-2.5 rounded-2xl text-xs font-extrabold transition-colors ${
+                        isActive
+                          ? 'bg-pink-500 text-white'
+                          : 'bg-slate-100 dark:bg-zinc-800 text-slate-700 dark:text-zinc-300 hover:bg-pink-50 dark:hover:bg-pink-500/10'
+                      }`
+                    }
+                  >
+                    <Icon className="w-4 h-4" />
+                    <span>{item.label}</span>
+                  </NavLink>
+                );
+              })}
+            </div>
           </div>
-        </div>
-      )}
-
-      {/* Mobile Bottom Navigation Bar */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-[var(--bg-surface)] bg-[var(--bg-surface)] backdrop-blur-md border-t border-[var(--border-color)] px-2 py-1.5 flex items-center justify-around rounded-none">
-        {primaryNavItems.slice(0, 4).map((item) => {
-          const Icon = item.icon;
-          return (
-            <NavLink
-              key={item.path}
-              to={item.path}
-              className={({ isActive }) =>
-                `flex flex-col items-center gap-1 p-1 text-[10px] font-medium transition-colors ${
-                  isActive ? 'text-pink-500 font-bold' : 'text-[var(--text-muted)]'
-                }`
-              }
-            >
-              <Icon className="w-4 h-4" />
-              <span className="truncate max-w-[60px]">{item.label}</span>
-            </NavLink>
-          );
-        })}
-
-        <button
-          onClick={() => setIsMobileMoreOpen(!isMobileMoreOpen)}
-          className={`flex flex-col items-center gap-1 p-1 text-[10px] font-medium transition-colors ${
-            isMobileMoreOpen || moreNavItems.some((i) => location.pathname === i.path)
-              ? 'text-pink-500 font-bold'
-              : 'text-[var(--text-muted)]'
-          }`}
-        >
-          <MoreHorizontal className="w-4 h-4" />
-          <span className="truncate max-w-[60px]">{t('nav_more')}</span>
-        </button>
-      </div>
+        )}
+      </nav>
     </header>
   );
 }

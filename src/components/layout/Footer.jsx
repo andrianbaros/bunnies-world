@@ -14,17 +14,16 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="mt-auto border-t border-[var(--border-color)] glass-surface rounded-none border-x-0 border-b-0 py-8 text-xs text-[var(--text-secondary)] z-10 relative pb-24 sm:pb-8">
+    <footer className="mt-auto border-t border-pink-500/25 glass-surface rounded-none border-x-0 border-b-0 py-8 text-xs text-slate-700 dark:text-zinc-300 z-10 relative pb-24 sm:pb-8">
       <div className="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
         <div className="flex items-center gap-2.5">
-          <img src="/assets/logo.png" alt="Bunnies World Logo" className="w-6 h-6 object-contain rounded-md" />
-          <span className="font-bold text-[var(--text-heading)] tracking-wider text-sm uppercase">
+          <img src="/assets/logo.png" alt="Bunnies World Logo" className="w-6 h-6 object-contain rounded-md shadow-2xs" />
+          <span className="font-black text-slate-950 dark:text-white tracking-wider text-sm uppercase">
             BUNNIES WORLD
           </span>
         </div>
 
-
-        <p className="text-[var(--text-muted)] text-center">
+        <p className="text-slate-500 dark:text-zinc-400 text-center font-extrabold">
           © 2026 BUNNIES WORLD — Interactive Fan Portal
         </p>
 
@@ -39,7 +38,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 title={social.name}
-                className="p-2 rounded-full bg-[var(--bg-subtle)] border border-[var(--border-color)] text-[var(--text-secondary)] hover:text-pink-500 dark:hover:text-pink-400 hover:border-pink-500/30 transition-all"
+                className="p-2 rounded-full bg-slate-100 dark:bg-zinc-800 border border-pink-500/20 text-slate-700 dark:text-zinc-300 hover:text-pink-500 hover:border-pink-500/60 transition-all cursor-pointer shadow-2xs"
               >
                 <Icon className="w-4 h-4" />
               </a>
@@ -48,7 +47,7 @@ export default function Footer() {
 
           <button
             onClick={scrollToTop}
-            className="ml-1 p-2 rounded-full bg-[var(--bg-subtle)] border border-[var(--border-color)] text-[var(--text-secondary)] hover:text-pink-500 dark:hover:text-pink-400 transition-all"
+            className="ml-1 p-2 rounded-full bg-slate-100 dark:bg-zinc-800 border border-pink-500/20 text-slate-700 dark:text-zinc-300 hover:text-pink-500 transition-all cursor-pointer shadow-2xs"
             title="Back To Top"
           >
             <ArrowUp className="w-4 h-4" />

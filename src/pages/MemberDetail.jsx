@@ -76,26 +76,26 @@ export default function MemberDetail() {
       <div className="flex items-center justify-between">
         <button
           onClick={() => navigate('/members')}
-          className="flex items-center gap-2 text-xs font-semibold text-[var(--text-primary)] hover:text-pink-500 transition-colors glass-surface px-4 py-2 rounded-full border"
+          className="flex items-center gap-2 text-xs font-extrabold text-slate-950 dark:text-white hover:text-pink-500 transition-colors glass-surface px-5 py-2.5 rounded-full border border-pink-500/25 shadow-2xs cursor-pointer"
         >
-          <ArrowLeft className="w-4 h-4" />
+          <ArrowLeft className="w-4 h-4 text-pink-500" />
           <span>{t('member_back')}</span>
         </button>
 
         <div className="flex items-center gap-2">
           <button
             onClick={() => toggleFavorite('members', member)}
-            className={`p-2.5 rounded-full border transition-colors ${
+            className={`p-2.5 rounded-full border transition-colors cursor-pointer shadow-2xs ${
               isFav
                 ? 'bg-pink-500 text-white border-pink-500'
-                : 'bg-[var(--bg-subtle)] border-[var(--border-color)] text-[var(--text-muted)] hover:text-pink-500'
+                : 'bg-slate-100 dark:bg-zinc-800 border-pink-500/20 text-slate-500 dark:text-zinc-400 hover:text-pink-500'
             }`}
           >
             <Heart className={`w-4 h-4 ${isFav ? 'fill-current' : ''}`} />
           </button>
           <button
             onClick={handleShare}
-            className="p-2.5 rounded-full bg-[var(--bg-subtle)] border border-[var(--border-color)] text-[var(--text-muted)] hover:text-[var(--text-heading)] transition-colors"
+            className="p-2.5 rounded-full bg-slate-100 dark:bg-zinc-800 border border-pink-500/20 text-slate-600 dark:text-zinc-400 hover:text-pink-500 transition-colors cursor-pointer shadow-2xs"
           >
             <Share2 className="w-4 h-4" />
           </button>
@@ -104,23 +104,23 @@ export default function MemberDetail() {
 
       {/* Former Member Disclaimer */}
       {isFormer && (
-        <div className="glass-surface p-4 rounded-2xl border border-amber-500/30 bg-amber-500/10 flex items-center gap-3 text-amber-700 dark:text-amber-300 text-xs font-semibold">
+        <div className="glass-surface p-4 rounded-3xl border border-amber-500/40 bg-amber-500/10 flex items-center gap-3 text-amber-800 dark:text-amber-300 text-xs font-extrabold shadow-2xs">
           <ShieldAlert className="w-5 h-5 flex-shrink-0" />
           <span>{t('member_archive_notice')}</span>
         </div>
       )}
 
-      {/* Main Profile Showcase Card */}
+      {/* Main Profile Showcase Card (iPhone Frost Glass) */}
       <motion.div
         key={member.id}
         initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
-        className="glass-surface p-6 sm:p-8 rounded-3xl grid grid-cols-1 lg:grid-cols-12 gap-8 items-center border"
+        className="glass-surface p-6 sm:p-8 rounded-3xl grid grid-cols-1 lg:grid-cols-12 gap-8 items-center border border-pink-500/25 shadow-md"
       >
         {/* Photo Column */}
         <div className="lg:col-span-5 flex flex-col items-center gap-4">
-          <div className="relative w-64 h-64 sm:w-80 sm:h-80 rounded-2xl overflow-hidden border-2 border-[var(--border-color)] shadow-md group">
+          <div className="relative w-64 h-64 sm:w-80 sm:h-80 rounded-3xl overflow-hidden border-2 border-pink-500/30 shadow-md group">
             <AnimatePresence mode="wait">
               <motion.img
                 key={activeImageIdx}
@@ -134,12 +134,12 @@ export default function MemberDetail() {
               />
             </AnimatePresence>
 
-            <div className="absolute top-3 left-3 bg-black/70 backdrop-blur-md px-3 py-1 rounded-full text-xs font-semibold text-white border border-[var(--border-color)] z-10">
+            <div className="absolute top-3 left-3 bg-black/70 backdrop-blur-md px-3 py-1 rounded-full text-xs font-black text-white border border-pink-500/30 z-10 shadow-2xs">
               <span>{memberAnimal}</span>
             </div>
 
             {isFormer && (
-              <div className="absolute top-3 right-3 bg-amber-500 text-black font-bold text-[10px] px-2.5 py-0.5 rounded-full uppercase tracking-wider z-10">
+              <div className="absolute top-3 right-3 bg-amber-500 text-black font-black text-[10px] px-2.5 py-0.5 rounded-full uppercase tracking-wider z-10 shadow-2xs">
                 {t('former_member_badge', { defaultValue: 'ARCHIVE' })}
               </div>
             )}
@@ -148,13 +148,13 @@ export default function MemberDetail() {
               <>
                 <button
                   onClick={prevImage}
-                  className="absolute left-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/50 text-white opacity-0 group-hover:opacity-100 hover:bg-pink-500 transition-all z-10"
+                  className="absolute left-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/60 text-white opacity-0 group-hover:opacity-100 hover:bg-pink-500 transition-all z-10 cursor-pointer"
                 >
                   <ChevronLeft className="w-4 h-4" />
                 </button>
                 <button
                   onClick={nextImage}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/50 text-white opacity-0 group-hover:opacity-100 hover:bg-pink-500 transition-all z-10"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/60 text-white opacity-0 group-hover:opacity-100 hover:bg-pink-500 transition-all z-10 cursor-pointer"
                 >
                   <ChevronRight className="w-4 h-4" />
                 </button>
@@ -168,9 +168,9 @@ export default function MemberDetail() {
                 <button
                   key={i}
                   onClick={() => setActiveImageIdx(i)}
-                  className={`relative w-11 h-11 rounded-xl overflow-hidden border-2 transition-all cursor-pointer ${
+                  className={`relative w-11 h-11 rounded-2xl overflow-hidden border-2 transition-all cursor-pointer ${
                     activeImageIdx === i
-                      ? 'border-pink-500 scale-105 shadow-sm'
+                      ? 'border-pink-500 scale-105 shadow-xs'
                       : 'border-transparent opacity-60 hover:opacity-100'
                   }`}
                 >
@@ -185,55 +185,55 @@ export default function MemberDetail() {
         <div className="lg:col-span-7 flex flex-col gap-5 text-left">
           <div>
             <div className="flex items-baseline gap-3">
-              <h1 className="text-3xl sm:text-4xl font-extrabold text-[var(--text-heading)] tracking-tight">{member.name}</h1>
-              <span className="text-xl text-pink-600 dark:text-pink-400 font-bold">{member.koreanName}</span>
+              <h1 className="text-3xl sm:text-4xl font-black text-slate-950 dark:text-white tracking-tight">{member.name}</h1>
+              <span className="text-xl text-pink-600 dark:text-pink-400 font-extrabold">{member.koreanName}</span>
             </div>
-            <p className="text-xs text-[var(--text-muted)] font-semibold mt-1 uppercase tracking-wider">{memberPosition}</p>
+            <p className="text-xs text-slate-600 dark:text-zinc-400 font-extrabold mt-1 uppercase tracking-wider">{memberPosition}</p>
           </div>
 
           {/* Quote Block */}
-          <blockquote className="bg-[var(--bg-subtle)] p-4 rounded-xl border-l-4 border-pink-500 text-xs italic text-[var(--text-primary)]">
+          <blockquote className="bg-slate-100/90 dark:bg-zinc-800/90 p-4 rounded-2xl border-l-4 border-pink-500 text-xs italic font-bold text-slate-950 dark:text-white shadow-2xs">
             "{memberQuote}"
           </blockquote>
 
           {/* Biography Text */}
-          <p className="text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed bg-[var(--bg-subtle)] p-4 rounded-xl border border-[var(--border-color)]">
+          <p className="text-xs sm:text-sm text-slate-700 dark:text-zinc-300 leading-relaxed bg-slate-100/80 dark:bg-zinc-800/80 p-4 rounded-2xl border border-pink-500/20 font-medium">
             {memberBio}
           </p>
 
           {/* Biodata Grid */}
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
-            <div className="bg-[var(--bg-subtle)] p-3 rounded-xl border border-[var(--border-color)]">
-              <span className="text-[10px] text-[var(--text-muted)] block font-semibold">{t('member_full_name')}</span>
-              <span className="text-xs font-bold text-[var(--text-heading)] truncate block">{member.fullName}</span>
+            <div className="bg-slate-100/80 dark:bg-zinc-800/80 p-3 rounded-2xl border border-pink-500/20">
+              <span className="text-[10px] text-slate-500 dark:text-zinc-400 block font-bold">{t('member_full_name')}</span>
+              <span className="text-xs font-black text-slate-950 dark:text-white truncate block">{member.fullName}</span>
             </div>
-            <div className="bg-[var(--bg-subtle)] p-3 rounded-xl border border-[var(--border-color)]">
-              <span className="text-[10px] text-[var(--text-muted)] block font-semibold">{t('member_birth')}</span>
-              <span className="text-xs font-bold text-[var(--text-heading)] block">{memberBirth}</span>
+            <div className="bg-slate-100/80 dark:bg-zinc-800/80 p-3 rounded-2xl border border-pink-500/20">
+              <span className="text-[10px] text-slate-500 dark:text-zinc-400 block font-bold">{t('member_birth')}</span>
+              <span className="text-xs font-black text-slate-950 dark:text-white block">{memberBirth}</span>
             </div>
-            <div className="bg-[var(--bg-subtle)] p-3 rounded-xl border border-[var(--border-color)]">
-              <span className="text-[10px] text-[var(--text-muted)] block font-semibold">{t('member_nationality')}</span>
-              <span className="text-xs font-bold text-pink-600 dark:text-pink-400 block">{memberNationality}</span>
+            <div className="bg-slate-100/80 dark:bg-zinc-800/80 p-3 rounded-2xl border border-pink-500/20">
+              <span className="text-[10px] text-slate-500 dark:text-zinc-400 block font-bold">{t('member_nationality')}</span>
+              <span className="text-xs font-black text-pink-600 dark:text-pink-400 block">{memberNationality}</span>
             </div>
-            <div className="bg-[var(--bg-subtle)] p-3 rounded-xl border border-[var(--border-color)]">
-              <span className="text-[10px] text-[var(--text-muted)] block font-semibold">MBTI</span>
-              <span className="text-xs font-bold text-pink-600 dark:text-pink-400 block">{member.mbti}</span>
+            <div className="bg-slate-100/80 dark:bg-zinc-800/80 p-3 rounded-2xl border border-pink-500/20">
+              <span className="text-[10px] text-slate-500 dark:text-zinc-400 block font-bold">MBTI</span>
+              <span className="text-xs font-black text-pink-600 dark:text-pink-400 block">{member.mbti}</span>
             </div>
-            <div className="col-span-2 bg-[var(--bg-subtle)] p-3 rounded-xl border border-[var(--border-color)]">
-              <span className="text-[10px] text-[var(--text-muted)] block font-semibold">{signatureLabel}</span>
-              <span className="text-xs font-bold text-[var(--text-heading)] block">{memberSignature}</span>
+            <div className="col-span-2 bg-slate-100/80 dark:bg-zinc-800/80 p-3 rounded-2xl border border-pink-500/20">
+              <span className="text-[10px] text-slate-500 dark:text-zinc-400 block font-bold">{signatureLabel}</span>
+              <span className="text-xs font-black text-slate-950 dark:text-white block">{memberSignature}</span>
             </div>
           </div>
 
           {/* Favorite Songs Tag */}
           <div className="flex flex-col gap-2">
-            <span className="text-xs font-semibold text-[var(--text-muted)] flex items-center gap-1.5">
+            <span className="text-xs font-bold text-slate-600 dark:text-zinc-400 flex items-center gap-1.5">
               <Music className="w-3.5 h-3.5 text-pink-500" />
               <span>{t('member_fav_songs')}</span>
             </span>
             <div className="flex flex-wrap gap-2">
               {member.favoriteSongs?.map((song, i) => (
-                <span key={i} className="px-3 py-1 rounded-full bg-pink-500/10 border border-pink-500/20 text-pink-600 dark:text-pink-400 text-xs font-semibold">
+                <span key={i} className="px-3 py-1 rounded-full bg-pink-500/15 border border-pink-500/30 text-pink-600 dark:text-pink-400 text-xs font-extrabold shadow-2xs">
                   {song}
                 </span>
               ))}
@@ -243,25 +243,25 @@ export default function MemberDetail() {
       </motion.div>
 
       {/* Prev / Next Member Navigation */}
-      <div className="flex items-center justify-between border-t border-[var(--border-color)] pt-6">
+      <div className="flex items-center justify-between border-t border-pink-500/20 pt-6">
         <Link
           to={`/members/${prevMember.id}`}
-          className="flex items-center gap-3 glass-surface px-5 py-3 rounded-2xl hover:border-pink-500/30 transition-all text-left"
+          className="flex items-center gap-3 glass-surface px-5 py-3 rounded-3xl border border-pink-500/25 hover:border-pink-500/60 shadow-xs transition-all text-left"
         >
           <ArrowLeft className="w-4 h-4 text-pink-500" />
           <div>
-            <span className="text-[10px] text-[var(--text-muted)] block font-semibold">{t('member_prev')}</span>
-            <span className="text-xs font-bold text-[var(--text-heading)]">{prevMember.name}</span>
+            <span className="text-[10px] text-slate-500 dark:text-zinc-400 block font-bold">{t('member_prev')}</span>
+            <span className="text-xs font-black text-slate-950 dark:text-white">{prevMember.name}</span>
           </div>
         </Link>
 
         <Link
           to={`/members/${nextMember.id}`}
-          className="flex items-center gap-3 glass-surface px-5 py-3 rounded-2xl hover:border-pink-500/30 transition-all text-right"
+          className="flex items-center gap-3 glass-surface px-5 py-3 rounded-3xl border border-pink-500/25 hover:border-pink-500/60 shadow-xs transition-all text-right"
         >
           <div>
-            <span className="text-[10px] text-[var(--text-muted)] block font-semibold">{t('member_next')}</span>
-            <span className="text-xs font-bold text-[var(--text-heading)]">{nextMember.name}</span>
+            <span className="text-[10px] text-slate-500 dark:text-zinc-400 block font-bold">{t('member_next')}</span>
+            <span className="text-xs font-black text-slate-950 dark:text-white">{nextMember.name}</span>
           </div>
           <ArrowRight className="w-4 h-4 text-pink-500" />
         </Link>

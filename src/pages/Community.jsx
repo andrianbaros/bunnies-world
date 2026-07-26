@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MessageSquare, Send, Heart, Shield, Lock, Pin, Filter, RefreshCw, MessageCircle, CornerDownRight, Code, X } from 'lucide-react';
+import { MessageSquare, Send, Heart, Shield, Lock, Pin, Filter, RefreshCw, MessageCircle, CornerDownRight, Code, X, Sparkles } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { supabase, isSupabaseConfigured } from '../services/supabase';
 import { storageService } from '../services/storageService';
@@ -28,22 +28,16 @@ export default function Community() {
   const [showDevModal, setShowDevModal] = useState(false);
   const [devPasscode, setDevPasscode] = useState('');
   const [devPasscodeError, setDevPasscodeError] = useState(false);
-  const [pendingSubmit, setPendingSubmit] = useState(null); // { type: 'post' | 'comment', payload: ... }
+  const [pendingSubmit, setPendingSubmit] = useState(null);
 
   const ADMIN_PASSCODE = import.meta.env.VITE_ADMIN_PASSCODE || 'bunnies2026';
 
-  // Smart Dev Nickname Detection:
-  // Catches (dev), [dev], _dev, -dev, .dev, " dev", or ending with "dev"
-  // But EXCLUDES real names starting with Dev (Devi, Devon, Devin, Devan, Deva)
   const isDevNickname = (name) => {
     if (!name) return false;
     const trimmed = name.trim();
-
-    // Ignore legitimate real names starting with Dev
     if (/^(dev[iaon]|devin|devan|devon|devi|deva|device)$/i.test(trimmed)) {
       return false;
     }
-
     return /[\(\[\{\-_.\s]dev[\)\]\}]?$/i.test(trimmed) ||
            /\(dev\)/i.test(trimmed) ||
            /dev$/i.test(trimmed) ||
@@ -99,63 +93,38 @@ export default function Community() {
           };
         });
       } catch (err) {
-        console.warn('Supabase fetch failed, falling back to local storage:', err.message);
-        fetchedPosts = storageService.getSettings().communityPosts || [];
+        console.warn('Supabase fetch error, fallback to local:', err.message);
+        fetchedPosts = storageService.getCommunityPosts();
       }
     } else {
-      fetchedPosts = storageService.getSettings().communityPosts || [];
+      fetchedPosts = storageService.getCommunityPosts();
     }
 
-    const localPosts = storageService.getSettings().communityPosts || [];
-    const localCommentsMap = {};
-    localPosts.forEach((lp) => {
-      if (lp.comments && lp.comments.length > 0) {
-        localCommentsMap[lp.id] = lp.comments;
-      }
-    });
-
-    const postsWithComments = fetchedPosts.map((p) => {
-      const remoteComments = p.comments || [];
-      const localComments = localCommentsMap[p.id] || [];
-      const combined = [...remoteComments];
-      localComments.forEach((lc) => {
-        if (!combined.some((rc) => rc.id === lc.id || (rc.content === lc.content && rc.author_name === lc.author_name))) {
-          combined.push(lc);
-        }
-      });
-      return { ...p, comments: combined };
-    });
-
-    setPosts(postsWithComments);
+    setPosts(fetchedPosts);
     setLoading(false);
   };
 
   const handleContentChange = (e) => {
-    const val = e.target.value;
-    setContent(val);
-    setProfanityWarning(hasProfanity(val));
+    const text = e.target.value;
+    setContent(text);
+    setProfanityWarning(hasProfanity(text));
+  };
+
+  const handleCommentContentChange = (postId, text) => {
+    setCommentInputs((prev) => ({ ...prev, [postId]: text }));
+    setCommentWarnings((prev) => ({ ...prev, [postId]: hasProfanity(text) }));
   };
 
   const handleAddPost = async (e) => {
     e.preventDefault();
-    if (!content.trim()) return;
+    if (!content.trim() || isSubmitting) return;
 
-    const finalAuthor = authorName.trim() || 'Anonymous Bunny';
+    const name = authorName.trim() || 'Anonymous Bunny';
+    const sanitized = cleanText(content);
 
-    // 1. Strict Profanity Check on Nickname & Content
-    if (hasProfanity(finalAuthor) || hasProfanity(content)) {
-      showToast('info', t('community_profanity_blocked', { defaultValue: 'Post/Comment or Nickname contains toxic language & cannot be sent!' }));
-      return;
-    }
+    const postPayload = { author: name, memberTag, content: sanitized };
 
-
-    const postPayload = {
-      author_name: finalAuthor,
-      member_tag: memberTag,
-      content: cleanText(content)
-    };
-
-    if (isDevNickname(finalAuthor)) {
+    if (isDevNickname(name)) {
       setPendingSubmit({ type: 'post', payload: postPayload });
       setShowDevModal(true);
       return;
@@ -166,50 +135,68 @@ export default function Community() {
 
   const executeAddPost = async (payload) => {
     setIsSubmitting(true);
+    const { author, memberTag, content: sanitized } = payload;
+
     const newPost = {
-      ...payload,
+      id: `local-${Date.now()}`,
+      author_name: author,
+      member_tag: memberTag,
+      content: sanitized,
       likes: 0,
       is_pinned: false,
-      comments: [],
-      created_at: new Date().toISOString()
+      created_at: new Date().toISOString(),
+      comments: []
     };
 
     if (isSupabaseConfigured()) {
       try {
-        const { data, error } = await supabase.from('community_posts').insert([newPost]).select();
+        const { data, error } = await supabase
+          .from('community_posts')
+          .insert([
+            {
+              author_name: author,
+              member_tag: memberTag,
+              content: sanitized,
+              likes: 0,
+              is_pinned: false,
+              comments: []
+            }
+          ])
+          .select();
+
         if (error) throw error;
-        if (data) setPosts([{ ...data[0], comments: [] }, ...posts]);
-        showToast('info', 'Post published successfully!');
+        if (data && data[0]) {
+          newPost.id = data[0].id;
+        }
       } catch (err) {
-        console.error('Supabase insert error:', err.message);
-        saveLocalPost(newPost);
+        console.warn('Supabase insert error, saved locally:', err.message);
       }
-    } else {
-      saveLocalPost(newPost);
     }
 
+    storageService.addCommunityPost(newPost);
+    setPosts((prev) => [newPost, ...prev]);
     setContent('');
     setProfanityWarning(false);
     setIsSubmitting(false);
+    showToast('success', t('community_post_sent', { defaultValue: 'Post published successfully!' }));
   };
 
-  const saveLocalPost = (post) => {
-    const localPost = { ...post, id: 'local-' + Date.now() };
-    const updated = [localPost, ...posts];
-    setPosts(updated);
-    storageService.saveCommunityPosts(updated);
-    showToast('info', 'Post saved locally!');
-  };
+  const handleLike = async (post) => {
+    const updatedLikes = (post.likes || 0) + 1;
+    setPosts((prev) =>
+      prev.map((p) => (p.id === post.id ? { ...p, likes: updatedLikes } : p))
+    );
 
-  const handleLike = async (postId, currentLikes) => {
-    const newLikes = currentLikes + 1;
-    setPosts(posts.map((p) => (p.id === postId ? { ...p, likes: newLikes } : p)));
+    storageService.likeCommunityPost(post.id);
 
-    if (isSupabaseConfigured() && typeof postId === 'string' && !postId.startsWith('local-')) {
+    if (isSupabaseConfigured() && typeof post.id === 'string' && !post.id.startsWith('local-')) {
       try {
-        await supabase.from('community_posts').update({ likes: newLikes }).eq('id', postId);
+        await supabase
+          .from('community_posts')
+          .update({ likes: updatedLikes })
+          .eq('id', post.id);
       } catch (err) {
-        console.error('Error updating likes:', err.message);
+        console.warn('Supabase like error:', err.message);
       }
     }
   };
@@ -218,35 +205,16 @@ export default function Community() {
     setOpenComments((prev) => ({ ...prev, [postId]: !prev[postId] }));
   };
 
-  const handleCommentTextChange = (postId, val) => {
-    setCommentInputs((prev) => ({ ...prev, [postId]: val }));
-    setCommentWarnings((prev) => ({ ...prev, [postId]: hasProfanity(val) }));
-  };
+  const handleAddComment = async (postId) => {
+    const rawComment = commentInputs[postId] || '';
+    if (!rawComment.trim()) return;
 
-  const handleCommentAuthorChange = (postId, val) => {
-    setCommentAuthors((prev) => ({ ...prev, [postId]: val }));
-  };
+    const name = (commentAuthors[postId] || authorName || 'Anonymous Bunny').trim();
+    const sanitized = cleanText(rawComment);
 
-  const handleAddComment = async (e, postId) => {
-    e.preventDefault();
-    const text = (commentInputs[postId] || '').trim();
-    if (!text) return;
+    const commentPayload = { postId, author: name, content: sanitized };
 
-    const author = (commentAuthors[postId] || '').trim() || 'Anonymous Bunny';
-
-    // 1. Strict Profanity Check on Comment Nickname & Content
-    if (hasProfanity(author) || hasProfanity(text)) {
-      showToast('info', t('community_profanity_blocked', { defaultValue: 'Post/Comment or Nickname contains toxic language & cannot be sent!' }));
-      return;
-    }
-
-    const commentPayload = {
-      postId,
-      author,
-      content: cleanText(text)
-    };
-
-    if (isDevNickname(author)) {
+    if (isDevNickname(name)) {
       setPendingSubmit({ type: 'comment', payload: commentPayload });
       setShowDevModal(true);
       return;
@@ -327,44 +295,44 @@ export default function Community() {
     }
   };
 
-
   return (
     <div className="flex flex-col gap-8 py-6 px-4 max-w-4xl mx-auto z-10 relative">
       {/* Header Banner */}
       <div className="text-center flex flex-col items-center gap-3">
-        <span className="px-3.5 py-1 rounded-full bg-pink-500/10 border border-pink-500/20 text-pink-600 dark:text-pink-400 text-xs font-bold tracking-widest uppercase">
-          {t('community_tag')}
+        <span className="px-3.5 py-1 rounded-full bg-pink-500/20 border border-pink-500/40 text-pink-700 dark:text-pink-300 text-xs font-black tracking-widest uppercase flex items-center gap-1.5 shadow-2xs">
+          <Sparkles className="w-3.5 h-3.5" />
+          <span>{t('community_tag')}</span>
         </span>
-        <h1 className="text-hero">
+        <h1 className="text-hero font-black text-slate-950 dark:text-white">
           {t('community_title')}
         </h1>
-        <p className="text-sm text-[var(--text-secondary)] max-w-md">
+        <p className="text-sm text-slate-700 dark:text-zinc-300 max-w-md font-bold">
           {t('community_sub')}
         </p>
       </div>
 
-      {/* Post Submission Form */}
-      <form onSubmit={handleAddPost} className="glass-surface p-6 rounded-2xl border flex flex-col gap-4">
+      {/* Post Submission Form (iPhone Frost Glass Style) */}
+      <form onSubmit={handleAddPost} className="glass-surface p-6 sm:p-8 rounded-3xl border border-pink-500/25 hover:border-pink-500/50 shadow-md flex flex-col gap-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <input
             type="text"
             placeholder={t('community_nickname_ph')}
             value={authorName}
             onChange={(e) => setAuthorName(e.target.value)}
-            className="bg-[var(--bg-subtle)] border border-[var(--border-color)] rounded-xl px-4 py-2.5 text-xs text-[var(--text-heading)] placeholder-[var(--text-muted)] outline-none focus:border-pink-500"
+            className="bg-slate-100 dark:bg-zinc-800/80 border border-pink-500/20 rounded-2xl px-4 py-3 text-xs font-extrabold text-slate-950 dark:text-white placeholder-slate-400 dark:placeholder-zinc-400 outline-none focus:border-pink-500 shadow-2xs"
           />
 
           <select
             value={memberTag}
             onChange={(e) => setMemberTag(e.target.value)}
-            className="bg-[var(--bg-subtle)] border border-[var(--border-color)] rounded-xl px-4 py-2.5 text-xs text-[var(--text-heading)] outline-none cursor-pointer focus:border-pink-500"
+            className="bg-slate-100 dark:bg-zinc-800/80 border border-pink-500/20 rounded-2xl px-4 py-3 text-xs font-extrabold text-slate-950 dark:text-white outline-none cursor-pointer focus:border-pink-500 shadow-2xs"
           >
-            <option value="NewJeans" className="bg-[var(--bg-popover)]">NewJeans Overall</option>
-            <option value="Minji" className="bg-[var(--bg-popover)]">Minji</option>
-            <option value="Hanni" className="bg-[var(--bg-popover)]">Hanni</option>
-            <option value="Haerin" className="bg-[var(--bg-popover)]">Haerin</option>
-            <option value="Hyein" className="bg-[var(--bg-popover)]">Hyein</option>
-            <option value="Bunnies" className="bg-[var(--bg-popover)]">Bunnies Fandom</option>
+            <option value="NewJeans" className="bg-white dark:bg-zinc-900 text-slate-950 dark:text-white">NewJeans Overall</option>
+            <option value="Minji" className="bg-white dark:bg-zinc-900 text-slate-950 dark:text-white">Minji</option>
+            <option value="Hanni" className="bg-white dark:bg-zinc-900 text-slate-950 dark:text-white">Hanni</option>
+            <option value="Haerin" className="bg-white dark:bg-zinc-900 text-slate-950 dark:text-white">Haerin</option>
+            <option value="Hyein" className="bg-white dark:bg-zinc-900 text-slate-950 dark:text-white">Hyein</option>
+            <option value="Bunnies" className="bg-white dark:bg-zinc-900 text-slate-950 dark:text-white">Bunnies Fandom</option>
           </select>
         </div>
 
@@ -375,10 +343,10 @@ export default function Community() {
             value={content}
             onChange={handleContentChange}
             required
-            className="w-full bg-[var(--bg-subtle)] border border-[var(--border-color)] rounded-xl p-4 text-xs text-[var(--text-heading)] placeholder-[var(--text-muted)] outline-none focus:border-pink-500 resize-none"
+            className="w-full bg-slate-100 dark:bg-zinc-800/80 border border-pink-500/20 rounded-2xl p-4 text-xs font-bold text-slate-950 dark:text-white placeholder-slate-400 dark:placeholder-zinc-400 outline-none focus:border-pink-500 resize-none shadow-2xs"
           />
           {profanityWarning && (
-            <span className="absolute right-3 bottom-3 text-[10px] text-pink-600 dark:text-pink-400 font-semibold bg-pink-500/10 px-2.5 py-1 rounded-full border border-pink-500/20 flex items-center gap-1">
+            <span className="absolute right-3 bottom-3 text-[10px] text-pink-600 dark:text-pink-400 font-extrabold bg-pink-500/10 px-2.5 py-1 rounded-full border border-pink-500/20 flex items-center gap-1">
               <Filter className="w-3 h-3" />
               <span>{t('community_censored')}</span>
             </span>
@@ -386,7 +354,7 @@ export default function Community() {
         </div>
 
         <div className="flex items-center justify-between pt-1">
-          <div className="flex items-center gap-2 text-[11px] text-[var(--text-muted)]">
+          <div className="flex items-center gap-2 text-[11px] text-slate-600 dark:text-zinc-400 font-bold">
             <Shield className="w-3.5 h-3.5 text-pink-500" />
             <span>{t('community_shield')}</span>
           </div>
@@ -394,7 +362,7 @@ export default function Community() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="px-6 py-2.5 rounded-full bg-pink-500 text-white font-bold text-xs hover:bg-pink-600 transition-colors flex items-center gap-2 disabled:opacity-50 shadow-sm"
+            className="px-6 py-3 rounded-full bg-pink-500 text-white font-extrabold text-xs hover:bg-pink-600 transition-colors flex items-center gap-2 disabled:opacity-50 shadow-sm cursor-pointer"
           >
             <Send className="w-3.5 h-3.5" />
             <span>{isSubmitting ? t('community_publishing') : t('community_post_btn')}</span>
@@ -405,24 +373,24 @@ export default function Community() {
       {/* Posts Feed */}
       <div className="flex flex-col gap-4">
         <div className="flex items-center justify-between">
-          <h3 className="font-bold text-sm text-[var(--text-heading)] flex items-center gap-2">
+          <h3 className="font-black text-sm text-slate-950 dark:text-white flex items-center gap-2 uppercase tracking-wider">
             <MessageSquare className="w-4 h-4 text-pink-500" />
             <span>{t('community_fan_posts')} ({posts.length})</span>
           </h3>
 
-          <button onClick={fetchPosts} className="p-2 rounded-full bg-[var(--bg-subtle)] text-[var(--text-secondary)] hover:text-[var(--text-heading)] transition-colors" title="Refresh Feed">
+          <button onClick={fetchPosts} className="p-2.5 rounded-full bg-slate-100 dark:bg-zinc-800 text-slate-700 dark:text-zinc-300 hover:text-pink-500 transition-colors shadow-2xs cursor-pointer" title="Refresh Feed">
             <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
           </button>
         </div>
 
         {loading ? (
-          <div className="text-center py-10 text-xs text-[var(--text-muted)]">{t('community_loading')}</div>
+          <div className="text-center py-10 text-xs font-bold text-slate-600 dark:text-zinc-400">{t('community_loading')}</div>
         ) : posts.length === 0 ? (
-          <div className="text-center py-10 text-xs text-[var(--text-muted)] glass-surface rounded-2xl">{t('community_no_posts')}</div>
+          <div className="text-center py-10 text-xs font-bold text-slate-600 dark:text-zinc-400 glass-surface rounded-3xl border border-pink-500/25">{t('community_no_posts')}</div>
         ) : (
           posts.map((post) => {
-            const authorName = post.author_name || post.author || 'Anonymous Bunny';
-            const isDev = isDevNickname(authorName);
+            const name = post.author_name || post.author || 'Anonymous Bunny';
+            const isDev = isDevNickname(name);
             const postContent = post.content || '';
             const postLikes = post.likes || 0;
             const postDate = post.created_at || post.date || new Date().toISOString();
@@ -435,223 +403,158 @@ export default function Community() {
                 key={post.id}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className={`glass-surface p-5 rounded-2xl flex flex-col gap-3 border transition-all ${
-                  post.is_pinned ? 'border-pink-500/40 bg-pink-500/5' : 'border-[var(--border-color)]'
+                className={`glass-surface p-6 rounded-3xl flex flex-col gap-4 border border-pink-500/25 hover:border-pink-500/60 shadow-md transition-all ${
+                  post.is_pinned ? 'border-pink-500/50 bg-pink-500/10' : ''
                 }`}
               >
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2.5">
-                    <div className="w-8 h-8 rounded-full bg-pink-500 flex items-center justify-center font-bold text-xs text-white">
-                      {authorName[0].toUpperCase()}
+                  <div className="flex items-center gap-3">
+                    <div className="w-9 h-9 rounded-full bg-pink-500 flex items-center justify-center font-black text-xs text-white shadow-xs">
+                      {name[0].toUpperCase()}
                     </div>
                     <div>
-                      <h4 className="font-bold text-xs text-[var(--text-heading)] flex items-center gap-1.5">
-                        <span>{authorName}</span>
+                      <h4 className="font-extrabold text-sm text-slate-950 dark:text-white flex items-center gap-1.5">
+                        <span>{name}</span>
                         {isDev && (
-                          <span className="px-2 py-0.5 rounded-full bg-pink-500 text-white text-[9px] font-extrabold flex items-center gap-0.5 shadow-xs">
-                            <Code className="w-2.5 h-2.5" /> DEV
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-pink-500/20 text-pink-600 dark:text-pink-400 text-[10px] font-black border border-pink-500/40">
+                            <Code className="w-3 h-3" />
+                            <span>DEV</span>
                           </span>
                         )}
                         {post.is_pinned && (
-                          <span className="px-2 py-0.5 rounded-full bg-pink-500/10 text-pink-600 dark:text-pink-400 text-[9px] font-bold flex items-center gap-0.5 border border-pink-500/20">
-                            <Pin className="w-2.5 h-2.5" /> {t('community_pinned')}
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-pink-500 text-white text-[10px] font-black shadow-2xs">
+                            <Pin className="w-3 h-3" />
+                            <span>PINNED</span>
                           </span>
                         )}
                       </h4>
-                      <span className="text-[10px] text-[var(--text-muted)] font-medium">
-                        {new Date(postDate).toLocaleDateString()} • {postTag}
+                      <span className="text-[10px] text-slate-500 dark:text-zinc-400 font-medium">
+                        {new Date(postDate).toLocaleDateString()} • Tagged: <span className="font-bold text-pink-600 dark:text-pink-400">{postTag}</span>
                       </span>
                     </div>
                   </div>
-
-                  <div className="flex items-center gap-1 text-[10px] text-[var(--text-muted)]" title="Regular users cannot delete posts">
-                    <Lock className="w-3 h-3" />
-                    <span className="hidden sm:inline">{t('community_admin_protected')}</span>
-                  </div>
                 </div>
 
-                <p className="text-xs text-[var(--text-primary)] leading-relaxed font-sans">{postContent}</p>
+                <p className="text-xs sm:text-sm text-slate-900 dark:text-zinc-100 leading-relaxed font-bold">
+                  {postContent}
+                </p>
 
-                {/* Post Footer Action Bar */}
-                <div className="flex items-center justify-between pt-2 border-t border-[var(--border-color)] text-xs">
-                  <div className="flex items-center gap-4">
+                <div className="flex items-center justify-between pt-2 border-t border-pink-500/20">
+                  <div className="flex items-center gap-3">
                     <button
-                      onClick={() => handleLike(post.id, postLikes)}
-                      className="flex items-center gap-1.5 text-xs text-[var(--text-muted)] hover:text-pink-500 transition-colors"
+                      onClick={() => handleLike(post)}
+                      className="flex items-center gap-1.5 text-xs font-extrabold text-slate-700 dark:text-zinc-300 hover:text-pink-500 transition-colors cursor-pointer"
                     >
-                      <Heart className="w-4 h-4 text-pink-500 hover:fill-current" />
-                      <span>{postLikes} {t('community_likes')}</span>
+                      <Heart className={`w-4 h-4 ${postLikes > 0 ? 'text-pink-500 fill-current' : ''}`} />
+                      <span>{postLikes}</span>
                     </button>
 
                     <button
                       onClick={() => toggleComments(post.id)}
-                      className={`flex items-center gap-1.5 text-xs transition-colors ${
-                        isCommentsOpen ? 'text-pink-500 font-bold' : 'text-[var(--text-muted)] hover:text-[var(--text-heading)]'
-                      }`}
+                      className="flex items-center gap-1.5 text-xs font-extrabold text-slate-700 dark:text-zinc-300 hover:text-pink-500 transition-colors cursor-pointer"
                     >
-                      <MessageCircle className="w-4 h-4" />
-                      <span>{commentsList.length} {t('community_comments', { defaultValue: 'Comments' })}</span>
+                      <MessageCircle className="w-4 h-4 text-pink-500" />
+                      <span>{commentsList.length} Comments</span>
                     </button>
                   </div>
                 </div>
 
-                {/* Comment Section (Expandable Drawer) */}
-                <AnimatePresence>
-                  {isCommentsOpen && (
-                    <motion.div
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: 'auto' }}
-                      exit={{ opacity: 0, height: 0 }}
-                      transition={{ duration: 0.2 }}
-                      className="flex flex-col gap-3 pt-3 border-t border-[var(--border-color)] overflow-hidden"
-                    >
-                      {/* Responsive Add Comment Form */}
-                      <form onSubmit={(e) => handleAddComment(e, post.id)} className="flex flex-col gap-2.5 bg-[var(--bg-subtle)] p-3.5 rounded-xl border border-[var(--border-color)]">
-                        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+                {/* Comment Drawer */}
+                {isCommentsOpen && (
+                  <div className="flex flex-col gap-3 pt-3 border-t border-pink-500/20">
+                    <div className="flex flex-col gap-2">
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                        <input
+                          type="text"
+                          placeholder="Your Nickname"
+                          value={commentAuthors[post.id] || ''}
+                          onChange={(e) =>
+                            setCommentAuthors((prev) => ({ ...prev, [post.id]: e.target.value }))
+                          }
+                          className="bg-slate-100 dark:bg-zinc-800/80 border border-pink-500/20 rounded-xl px-3 py-2 text-xs text-slate-950 dark:text-white outline-none focus:border-pink-500 font-bold"
+                        />
+                        <div className="sm:col-span-2 flex items-center gap-2">
                           <input
                             type="text"
-                            placeholder={t('community_nickname_ph', { defaultValue: 'Nickname...' })}
-                            value={commentAuthors[post.id] || ''}
-                            onChange={(e) => handleCommentAuthorChange(post.id, e.target.value)}
-                            className="w-full sm:w-1/3 bg-[var(--bg-input)] border border-[var(--border-color)] rounded-xl sm:rounded-lg px-3 py-2 sm:py-1.5 text-xs sm:text-[11px] text-[var(--text-heading)] placeholder-[var(--text-muted)] outline-none focus:border-pink-500"
+                            placeholder="Write a comment..."
+                            value={commentInputs[post.id] || ''}
+                            onChange={(e) => handleCommentContentChange(post.id, e.target.value)}
+                            onKeyDown={(e) => {
+                              if (e.key === 'Enter') handleAddComment(post.id);
+                            }}
+                            className="w-full bg-slate-100 dark:bg-zinc-800/80 border border-pink-500/20 rounded-xl px-3 py-2 text-xs text-slate-950 dark:text-white outline-none focus:border-pink-500 font-bold"
                           />
-                          <div className="flex items-center gap-2 flex-grow">
-                            <input
-                              type="text"
-                              placeholder={t('community_add_comment', { defaultValue: 'Tulis komentar...' })}
-                              value={commentInputs[post.id] || ''}
-                              onChange={(e) => handleCommentTextChange(post.id, e.target.value)}
-                              required
-                              className="flex-grow bg-[var(--bg-input)] border border-[var(--border-color)] rounded-xl sm:rounded-lg px-3 py-2 sm:py-1.5 text-xs sm:text-[11px] text-[var(--text-heading)] placeholder-[var(--text-muted)] outline-none focus:border-pink-500"
-                            />
-                            <button
-                              type="submit"
-                              className="px-4 py-2 sm:py-1.5 rounded-full bg-pink-500 text-white font-bold text-xs sm:text-[11px] hover:bg-pink-600 transition-colors flex items-center justify-center gap-1 flex-shrink-0 shadow-sm"
-                            >
-                              <span>{t('community_reply_btn', { defaultValue: 'Kirim' })}</span>
-                              <CornerDownRight className="w-3.5 h-3.5" />
-                            </button>
-                          </div>
+                          <button
+                            onClick={() => handleAddComment(post.id)}
+                            className="p-2 rounded-xl bg-pink-500 text-white hover:bg-pink-600 transition-colors shadow-2xs cursor-pointer flex-shrink-0"
+                          >
+                            <Send className="w-3.5 h-3.5" />
+                          </button>
                         </div>
-                        {commentWarnings[post.id] && (
-                          <span className="text-[10px] text-pink-600 dark:text-pink-400 font-semibold flex items-center gap-1">
-                            <Filter className="w-3 h-3" />
-                            <span>{t('community_censored')}</span>
-                          </span>
-                        )}
-                      </form>
-
-                      {/* Comments List */}
-                      <div className="flex flex-col gap-2">
-                        {commentsList.length > 0 ? (
-                          commentsList.map((c) => {
-                            const isCommentDev = isDevNickname(c.author_name || '');
-                            return (
-                              <div
-                                key={c.id || c.created_at}
-                                className="flex items-start gap-2.5 bg-[var(--bg-card)] p-3 rounded-xl border border-[var(--border-color)] shadow-xs"
-                              >
-                                <div className="w-6 h-6 rounded-full bg-pink-500/20 text-pink-600 dark:text-pink-400 font-bold text-[10px] flex items-center justify-center flex-shrink-0 mt-0.5 border border-pink-500/30">
-                                  {(c.author_name || 'B')[0].toUpperCase()}
-                                </div>
-                                <div className="flex flex-col text-left gap-0.5 flex-grow">
-                                  <div className="flex items-center justify-between">
-                                    <span className="font-bold text-[11px] text-[var(--text-heading)] flex items-center gap-1">
-                                      <span>{c.author_name || 'Anonymous Bunny'}</span>
-                                      {isCommentDev && (
-                                        <span className="px-1.5 py-0.2 rounded-full bg-pink-500 text-white text-[8px] font-extrabold flex items-center gap-0.5 shadow-xs">
-                                          <Code className="w-2 h-2" /> DEV
-                                        </span>
-                                      )}
-                                    </span>
-                                    <span className="text-[9px] text-[var(--text-muted)]">{new Date(c.created_at || Date.now()).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
-                                  </div>
-                                  <p className="text-[11px] text-[var(--text-primary)] leading-relaxed">{c.content}</p>
-                                </div>
-                              </div>
-                            );
-                          })
-                        ) : (
-                          <div className="text-center py-3 text-[11px] text-[var(--text-muted)] italic">
-                            {t('community_no_comments', { defaultValue: 'Belum ada komentar. Jadilah yang pertama membalas!' })}
-                          </div>
-                        )}
                       </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                    </div>
+
+                    {/* Comments List */}
+                    <div className="flex flex-col gap-2 max-h-60 overflow-y-auto pt-1">
+                      {commentsList.map((c) => (
+                        <div
+                          key={c.id}
+                          className="p-3 rounded-2xl bg-slate-100/90 dark:bg-zinc-800/90 border border-pink-500/20 flex flex-col gap-1 text-xs"
+                        >
+                          <div className="flex items-center justify-between font-black text-slate-950 dark:text-white">
+                            <span>{c.author_name || c.author || 'Bunny'}</span>
+                            <span className="text-[10px] text-slate-500 dark:text-zinc-400 font-medium">
+                              {new Date(c.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                            </span>
+                          </div>
+                          <p className="text-slate-800 dark:text-zinc-200 font-bold leading-relaxed">{c.content}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </motion.div>
             );
           })
         )}
       </div>
 
-      {/* Dev Passcode Verification Modal */}
+      {/* Dev Passcode Modal */}
       {showDevModal && (
-        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs">
-          <motion.div
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            className="glass-surface p-6 sm:p-8 rounded-2xl border border-pink-500/40 max-w-md w-full flex flex-col gap-4 shadow-2xl relative bg-[var(--bg-card)]"
-          >
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/75 backdrop-blur-md">
+          <div className="relative w-full max-w-sm bg-white dark:bg-zinc-900 p-6 rounded-3xl border-2 border-pink-500 flex flex-col gap-4 shadow-2xl">
             <button
-              onClick={() => { setShowDevModal(false); setPendingSubmit(null); setDevPasscode(''); setDevPasscodeError(false); }}
-              className="absolute top-4 right-4 text-[var(--text-muted)] hover:text-[var(--text-heading)]"
+              onClick={() => setShowDevModal(false)}
+              className="absolute top-4 right-4 p-1.5 rounded-full bg-slate-100 dark:bg-zinc-800 text-slate-600 dark:text-zinc-300 hover:text-pink-500 transition-colors cursor-pointer"
             >
-              <X className="w-5 h-5" />
+              <X className="w-4 h-4" />
             </button>
-
-            <div className="flex items-center gap-3 text-pink-500">
-              <div className="w-10 h-10 rounded-full bg-pink-500/10 flex items-center justify-center border border-pink-500/20">
-                <Lock className="w-5 h-5" />
-              </div>
-              <div>
-                <h3 className="font-bold text-sm text-[var(--text-heading)] uppercase tracking-wider">{t('dev_modal_title', { defaultValue: 'DEVELOPER TAG VERIFICATION' })}</h3>
-                <span className="text-[10px] text-pink-500 font-bold">{t('dev_modal_subtitle', { defaultValue: 'Restricted Name Filter' })}</span>
-              </div>
+            <div className="flex items-center gap-2 text-pink-500 font-black text-sm uppercase">
+              <Code className="w-5 h-5" />
+              <span>Developer Verification</span>
             </div>
-
-            <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
-              {t('dev_modal_desc', { defaultValue: 'You are using the reserved tag "dev" in your nickname. Please enter the Admin Passcode to verify your developer identity.' })}
+            <p className="text-xs text-slate-700 dark:text-zinc-300 font-bold">
+              Entering a Developer nickname requires entering the Admin Passcode.
             </p>
-
             <form onSubmit={handleDevModalSubmit} className="flex flex-col gap-3">
               <input
                 type="password"
-                placeholder={t('dev_modal_placeholder', { defaultValue: 'Enter Admin Passcode...' })}
+                placeholder="Enter Admin Passcode"
                 value={devPasscode}
                 onChange={(e) => setDevPasscode(e.target.value)}
-                autoFocus
-                required
-                className="w-full bg-[var(--bg-subtle)] border border-[var(--border-color)] rounded-xl px-4 py-2.5 text-xs text-[var(--text-heading)] placeholder-[var(--text-muted)] outline-none focus:border-pink-500 text-center font-medium"
+                className="w-full bg-slate-100 dark:bg-zinc-800 border border-pink-500/30 rounded-2xl px-4 py-2.5 text-xs font-black text-slate-950 dark:text-white outline-none focus:border-pink-500"
               />
-
-              {devPasscodeError && (
-                <span className="text-[11px] text-red-500 font-bold text-center">
-                  {t('dev_modal_error', { defaultValue: '❌ Incorrect Admin Passcode! You cannot use the (dev) tag.' })}
-                </span>
-              )}
-
-              <div className="flex items-center justify-end gap-2 pt-2">
-                <button
-                  type="button"
-                  onClick={() => { setShowDevModal(false); setPendingSubmit(null); setDevPasscode(''); setDevPasscodeError(false); }}
-                  className="px-4 py-2 rounded-full bg-[var(--bg-subtle)] text-xs text-[var(--text-secondary)] hover:text-[var(--text-heading)] font-semibold"
-                >
-                  {t('dev_modal_cancel', { defaultValue: 'Cancel' })}
-                </button>
-                <button
-                  type="submit"
-                  className="px-6 py-2 rounded-full bg-pink-500 text-white text-xs font-bold hover:bg-pink-600 transition-colors shadow-sm"
-                >
-                  {t('dev_modal_submit', { defaultValue: 'Verify & Submit' })}
-                </button>
-              </div>
+              {devPasscodeError && <span className="text-[10px] text-rose-500 font-bold">Incorrect passcode. Try again.</span>}
+              <button
+                type="submit"
+                className="w-full py-2.5 rounded-full bg-pink-500 text-white font-extrabold text-xs hover:bg-pink-600 transition-colors shadow-xs cursor-pointer"
+              >
+                Verify & Submit
+              </button>
             </form>
-          </motion.div>
+          </div>
         </div>
       )}
-
     </div>
   );
 }

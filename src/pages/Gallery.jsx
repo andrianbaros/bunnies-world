@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Heart, Download, X, Loader2 } from 'lucide-react';
+import { Search, Heart, Download, X, Loader2, Sparkles } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import galleryData from '../data/json/gallery.json';
 import { useSettings } from '../contexts/SettingsContext';
@@ -38,6 +38,56 @@ export default function Gallery() {
     addRecentlyViewed('gallery', item);
   };
 
+  const generateFramedPolaroid = (item) => {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.src = item.image;
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+
+        const cardWidth = 1000;
+        const cardHeight = 1350;
+        canvas.width = cardWidth;
+        canvas.height = cardHeight;
+
+        ctx.fillStyle = '#FFFFFF';
+        ctx.fillRect(0, 0, cardWidth, cardHeight);
+
+        ctx.strokeStyle = 'rgba(236, 72, 153, 0.3)';
+        ctx.lineWidth = 10;
+        ctx.strokeRect(5, 5, cardWidth - 10, cardHeight - 10);
+
+        const photoMargin = 60;
+        const photoWidth = cardWidth - photoMargin * 2;
+        const photoHeight = 960;
+
+        ctx.drawImage(img, photoMargin, photoMargin, photoWidth, photoHeight);
+
+        ctx.fillStyle = '#ec4899';
+        ctx.font = 'bold 30px sans-serif';
+        ctx.fillText((item.category || 'NEWJEANS').toUpperCase(), photoMargin, 1100);
+
+        ctx.fillStyle = '#0f172a';
+        ctx.font = 'bold 44px sans-serif';
+        ctx.fillText(item.title, photoMargin, 1160);
+
+        ctx.fillStyle = '#64748b';
+        ctx.font = '500 28px sans-serif';
+        ctx.fillText(item.date || 'NewJeans Era', photoMargin, 1210);
+
+        ctx.fillStyle = '#ec4899';
+        ctx.font = 'bold 26px sans-serif';
+        ctx.textAlign = 'right';
+        ctx.fillText('BUNNIES WORLD OFFICIAL', cardWidth - photoMargin, 1210);
+
+        resolve(canvas.toDataURL('image/png'));
+      };
+      img.onerror = (err) => reject(err);
+    });
+  };
+
   const handleDownloadFrame = async () => {
     if (!selectedImage) return;
     try {
@@ -59,148 +109,41 @@ export default function Gallery() {
       showToast('info', 'Downloading raw image fallback...');
       const link = document.createElement('a');
       link.href = selectedImage.image;
-      link.download = `${selectedImage.title}.jpg`;
+      link.download = `${selectedImage.title.toLowerCase().replace(/[^a-z0-9]/g, '_')}.jpg`;
+      document.body.appendChild(link);
       link.click();
+      document.body.removeChild(link);
     } finally {
       setIsDownloading(false);
     }
-  };
-
-  // Pure Canvas API HD Framed Polaroid Generator
-  const generateFramedPolaroid = (item) => {
-    return new Promise((resolve, reject) => {
-      const canvas = document.createElement('canvas');
-      const width = 800;
-      const height = 1040;
-      canvas.width = width;
-      canvas.height = height;
-      const ctx = canvas.getContext('2d');
-
-      // 1. Draw outer Polaroid card background
-      ctx.fillStyle = '#ffffff';
-      ctx.beginPath();
-      if (ctx.roundRect) {
-        ctx.roundRect(0, 0, width, height, 32);
-      } else {
-        ctx.rect(0, 0, width, height);
-      }
-      ctx.fill();
-
-      // Outer border
-      ctx.strokeStyle = '#e5e7eb';
-      ctx.lineWidth = 4;
-      ctx.stroke();
-
-      // 2. Load Image
-      const img = new Image();
-      img.crossOrigin = 'anonymous';
-
-      img.onload = () => {
-        const imgX = 40;
-        const imgY = 40;
-        const imgW = 720;
-        const imgH = 720;
-
-        ctx.save();
-        ctx.beginPath();
-        if (ctx.roundRect) {
-          ctx.roundRect(imgX, imgY, imgW, imgH, 24);
-        } else {
-          ctx.rect(imgX, imgY, imgW, imgH);
-        }
-        ctx.clip();
-
-        // Aspect ratio cover fill calculation
-        const imgAspect = img.width / img.height;
-        const boxAspect = imgW / imgH;
-        let drawW, drawH, drawX, drawY;
-
-        if (imgAspect > boxAspect) {
-          drawH = imgH;
-          drawW = imgH * imgAspect;
-          drawX = imgX - (drawW - imgW) / 2;
-          drawY = imgY;
-        } else {
-          drawW = imgW;
-          drawH = imgW / imgAspect;
-          drawX = imgX;
-          drawY = imgY - (drawH - imgH) / 2;
-        }
-
-        ctx.drawImage(img, drawX, drawY, drawW, drawH);
-        ctx.restore();
-
-        // Image inner stroke
-        ctx.strokeStyle = 'rgba(0,0,0,0.06)';
-        ctx.lineWidth = 2;
-        ctx.strokeRect(imgX, imgY, imgW, imgH);
-
-        // 3. Draw Footer Metadata
-        const footerY = 800;
-
-        // Category Badge
-        ctx.fillStyle = '#db2777'; // pink-600
-        ctx.font = 'bold 20px sans-serif';
-        ctx.textAlign = 'left';
-        ctx.fillText((item.category || 'PHOTOCARD').toUpperCase(), 48, footerY + 40);
-
-        // Title
-        ctx.fillStyle = '#111827'; // gray-900
-        ctx.font = '900 32px sans-serif';
-
-        let titleText = item.title || 'NewJeans Photocard';
-        if (titleText.length > 28) {
-          titleText = titleText.substring(0, 26) + '...';
-        }
-        ctx.fillText(titleText, 48, footerY + 88);
-
-        // Date
-        ctx.fillStyle = '#6b7280'; // gray-500
-        ctx.font = '600 20px sans-serif';
-        ctx.fillText(item.date || '2026', 48, footerY + 130);
-
-        // Brand Stamp on Bottom Right
-        ctx.fillStyle = '#9ca3af'; // gray-400
-        ctx.font = 'bold 22px sans-serif';
-        ctx.textAlign = 'right';
-        ctx.fillText('BUNNIES WORLD', width - 48, footerY + 130);
-
-        resolve(canvas.toDataURL('image/png'));
-      };
-
-      img.onerror = (err) => {
-        reject(err);
-      };
-
-      img.src = item.image;
-    });
   };
 
   return (
     <div className="flex flex-col gap-8 py-8 px-4 max-w-6xl mx-auto z-10 relative">
       {/* Hero Header */}
       <div className="text-center flex flex-col items-center gap-3">
-        <span className="px-3.5 py-1 rounded-full bg-pink-500/10 border border-pink-500/20 text-pink-600 dark:text-pink-400 text-xs font-bold tracking-widest uppercase">
-          {t('gallery_tag')}
+        <span className="px-3.5 py-1 rounded-full bg-pink-500/20 border border-pink-500/40 text-pink-700 dark:text-pink-300 text-xs font-black tracking-widest uppercase flex items-center gap-1.5 shadow-2xs">
+          <Sparkles className="w-3.5 h-3.5" />
+          <span>{t('gallery_tag')}</span>
         </span>
-        <h1 className="text-hero">
+        <h1 className="text-hero font-black text-slate-950 dark:text-white">
           {t('gallery_title')}
         </h1>
-        <p className="text-sm text-[var(--text-secondary)] max-w-md">
+        <p className="text-sm text-slate-700 dark:text-zinc-300 max-w-md font-bold">
           {t('gallery_sub')}
         </p>
       </div>
 
-      {/* Search & Filter Bar */}
-      <div className="glass-surface p-4 flex flex-wrap items-center justify-between gap-4 border">
-        <div className="flex items-center gap-2.5 bg-[var(--bg-subtle)] px-4 py-2.5 rounded-xl border border-[var(--border-color)] flex-grow max-w-md">
-          <Search className="w-4 h-4 text-[var(--text-muted)]" />
+      {/* Search & Filter Bar (iPhone Frost Glass) */}
+      <div className="glass-surface p-4 sm:p-5 rounded-3xl flex flex-wrap items-center justify-between gap-4 border border-pink-500/25 shadow-md">
+        <div className="flex items-center gap-2.5 bg-slate-100 dark:bg-zinc-800/80 px-4 py-2.5 rounded-2xl border border-pink-500/20 focus-within:border-pink-500 flex-grow max-w-md shadow-2xs transition-colors">
+          <Search className="w-4 h-4 text-pink-500" />
           <input
             type="text"
             placeholder={t('gallery_search_ph')}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="bg-transparent text-xs font-medium text-[var(--text-heading)] placeholder-[var(--text-muted)] outline-none w-full"
+            className="bg-transparent text-xs font-extrabold text-slate-950 dark:text-white placeholder-slate-400 dark:placeholder-zinc-400 outline-none w-full"
           />
         </div>
         <div className="flex justify-center flex-wrap gap-1.5">
@@ -208,10 +151,10 @@ export default function Gallery() {
             <button
               key={cat}
               onClick={() => setCategoryFilter(cat)}
-              className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all ${
+              className={`px-3.5 py-2 rounded-xl text-xs font-extrabold transition-all cursor-pointer ${
                 categoryFilter === cat
-                  ? 'bg-pink-500 text-white shadow-sm'
-                  : 'bg-[var(--bg-subtle)] text-[var(--text-secondary)] hover:text-[var(--text-heading)] border border-transparent'
+                  ? 'bg-pink-500 text-white shadow-xs'
+                  : 'bg-slate-100 dark:bg-zinc-800/80 text-slate-600 dark:text-zinc-400 hover:text-pink-500 border border-pink-500/20'
               }`}
             >
               {cat === 'All' ? t('gallery_cat_all') : cat}
@@ -232,9 +175,9 @@ export default function Gallery() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: idx * 0.05 }}
                 onClick={() => openLightbox(item)}
-                className="bg-white text-gray-900 p-4 rounded-2xl shadow-md border border-gray-200 hover:shadow-xl transition-all duration-300 flex flex-col gap-3 group cursor-pointer break-inside-avoid"
+                className="glass-surface p-4.5 rounded-3xl shadow-md border border-pink-500/25 hover:border-pink-500/60 hover:-translate-y-1.5 transition-all duration-300 flex flex-col gap-3 group cursor-pointer break-inside-avoid"
               >
-                <div className="aspect-square rounded-xl overflow-hidden relative bg-gray-100">
+                <div className="aspect-square rounded-2xl overflow-hidden relative border border-pink-500/20 shadow-xs">
                   <img
                     src={item.image}
                     alt={item.title}
@@ -242,11 +185,11 @@ export default function Gallery() {
                     loading="lazy"
                     decoding="async"
                   />
-                  <div className="absolute top-2 right-2 flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div className="absolute top-2.5 right-2.5 flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
                     <button
                       onClick={(e) => { e.stopPropagation(); toggleFavorite('gallery', item); }}
-                      className={`p-2 rounded-full backdrop-blur-md transition-colors ${
-                        isFav ? 'bg-pink-500 text-white' : 'bg-black/50 text-white hover:bg-pink-500'
+                      className={`p-2 rounded-full backdrop-blur-md transition-colors cursor-pointer ${
+                        isFav ? 'bg-pink-500 text-white' : 'bg-black/60 text-white hover:bg-pink-500'
                       }`}
                     >
                       <Heart className={`w-3.5 h-3.5 ${isFav ? 'fill-current' : ''}`} />
@@ -254,28 +197,28 @@ export default function Gallery() {
                   </div>
                 </div>
                 <div className="flex flex-col text-left px-1">
-                  <span className="text-[10px] font-bold text-pink-600 uppercase tracking-wider">{item.category}</span>
-                  <h3 className="font-bold text-sm text-gray-900 leading-snug">{item.title}</h3>
-                  <span className="text-[10px] text-gray-500 font-semibold mt-0.5">{item.date}</span>
+                  <span className="text-[10px] font-black text-pink-600 dark:text-pink-400 uppercase tracking-wider">{item.category}</span>
+                  <h3 className="font-extrabold text-sm text-slate-950 dark:text-white leading-snug">{item.title}</h3>
+                  <span className="text-[10px] text-slate-500 dark:text-zinc-400 font-bold mt-0.5">{item.date}</span>
                 </div>
               </motion.div>
             );
           })}
         </div>
       ) : (
-        <div className="glass-surface p-12 rounded-3xl text-center flex flex-col items-center gap-3">
-          <h3 className="text-lg font-bold text-[var(--text-heading)]">{t('gallery_no_photo')}</h3>
-          <p className="text-xs text-[var(--text-muted)]">{t('gallery_no_photo_sub')}</p>
+        <div className="glass-surface p-12 rounded-3xl text-center flex flex-col items-center gap-3 border border-pink-500/25 shadow-md">
+          <h3 className="text-lg font-black text-slate-950 dark:text-white">{t('gallery_no_photo')}</h3>
+          <p className="text-xs text-slate-600 dark:text-zinc-400 font-bold">{t('gallery_no_photo_sub')}</p>
           <button
             onClick={() => { setSearchTerm(''); setCategoryFilter('All'); }}
-            className="px-5 py-2 rounded-full bg-pink-500 text-white text-xs font-semibold"
+            className="px-5 py-2.5 rounded-full bg-pink-500 text-white text-xs font-extrabold shadow-xs cursor-pointer"
           >
             {t('gallery_reset')}
           </button>
         </div>
       )}
 
-      {/* Portal-rendered Lightbox Modal: Locked to Viewport Screen Center */}
+      {/* Portal-rendered Lightbox Modal */}
       {selectedImage &&
         createPortal(
           <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
@@ -298,14 +241,14 @@ export default function Gallery() {
               {/* Close Button */}
               <button
                 onClick={() => setSelectedImage(null)}
-                className="absolute -top-12 right-0 p-2 rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors z-20"
+                className="absolute -top-12 right-0 p-2 rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors z-20 cursor-pointer"
                 title="Close"
               >
                 <X className="w-5 h-5" />
               </button>
 
               {/* Rendered Polaroid Card */}
-              <div className="bg-white text-gray-900 p-5 sm:p-6 rounded-3xl shadow-2xl flex flex-col gap-4 border-8 border-white">
+              <div className="bg-white text-gray-900 p-5 sm:p-6 rounded-3xl shadow-2xl flex flex-col gap-4 border-4 border-pink-500/30">
                 <div className="w-full max-h-[55vh] rounded-2xl overflow-hidden bg-gray-100 flex items-center justify-center">
                   <img
                     src={selectedImage.image}
@@ -315,21 +258,21 @@ export default function Gallery() {
                 </div>
                 <div className="flex items-center justify-between pt-1">
                   <div>
-                    <span className="text-[11px] font-extrabold text-pink-600 uppercase tracking-wider">{selectedImage.category}</span>
+                    <span className="text-[11px] font-black text-pink-600 uppercase tracking-wider">{selectedImage.category}</span>
                     <h3 className="text-lg font-black text-gray-900 leading-snug">{selectedImage.title}</h3>
-                    <span className="text-xs text-gray-500 font-semibold">{selectedImage.date}</span>
+                    <span className="text-xs text-gray-500 font-bold">{selectedImage.date}</span>
                   </div>
                   <div className="text-right">
-                    <span className="text-[10px] font-bold text-[var(--text-muted)] tracking-widest block uppercase">BUNNIES WORLD</span>
+                    <span className="text-[10px] font-black text-pink-500 tracking-widest block uppercase">BUNNIES WORLD</span>
                   </div>
                 </div>
               </div>
 
               {/* Action Toolbar */}
-              <div className="flex items-center justify-between glass-surface p-4 rounded-2xl border">
+              <div className="flex items-center justify-between glass-surface p-4 rounded-3xl border border-pink-500/30 shadow-xl">
                 <button
                   onClick={() => toggleFavorite('gallery', selectedImage)}
-                  className="px-4 py-2 rounded-full bg-[var(--bg-subtle)] text-[var(--text-heading)] font-semibold text-xs flex items-center gap-2 hover:bg-pink-500 hover:text-white transition-colors"
+                  className="px-4 py-2.5 rounded-full bg-slate-100 dark:bg-zinc-800 text-slate-950 dark:text-white font-extrabold text-xs flex items-center gap-2 hover:bg-pink-500 hover:text-white transition-colors cursor-pointer border border-pink-500/20"
                 >
                   <Heart className={`w-4 h-4 ${settings.favorites?.gallery?.some((g) => g.id === selectedImage.id) ? 'fill-current text-pink-500' : ''}`} />
                   <span>Bookmark</span>
@@ -338,7 +281,7 @@ export default function Gallery() {
                 <button
                   onClick={handleDownloadFrame}
                   disabled={isDownloading}
-                  className="px-5 py-2.5 rounded-full bg-pink-500 text-white font-bold text-xs flex items-center gap-2 hover:bg-pink-600 transition-colors shadow-md disabled:opacity-50"
+                  className="px-5 py-2.5 rounded-full bg-pink-500 text-white font-extrabold text-xs flex items-center gap-2 hover:bg-pink-600 transition-colors shadow-xs disabled:opacity-50 cursor-pointer"
                 >
                   {isDownloading ? (
                     <Loader2 className="w-4 h-4 animate-spin" />

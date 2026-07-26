@@ -59,26 +59,27 @@ export default function BunniesChatbot() {
     setIsLoading(true);
 
     try {
-      const apiMessages = newHistory
-        .filter((m) => m.id !== 'welcome')
-        .map((m) => ({ role: m.role, content: m.content }));
+      const formattedHistory = newHistory.map((m) => ({
+        role: m.role,
+        content: m.content
+      }));
 
-      const replyText = await sendMessageToAI(apiMessages, selectedModel);
+      const aiReplyText = await sendMessageToAI(formattedHistory, selectedModel);
 
       const aiMessage = {
-        id: `msg-${Date.now() + 1}`,
+        id: `ai-${Date.now()}`,
         role: 'assistant',
-        content: replyText,
+        content: aiReplyText,
         timestamp: new Date().toISOString()
       };
 
       setMessages((prev) => [...prev, aiMessage]);
     } catch (err) {
-      console.error('Chatbot error:', err);
+      console.error('Chatbot API error:', err);
       const errorMessage = {
-        id: `msg-${Date.now() + 1}`,
+        id: `err-${Date.now()}`,
         role: 'assistant',
-        content: `⚠️ ${err.message || 'Maaf, terjadi kesalahan pada server AI.'}`,
+        content: 'Maaf Bunny, koneksi AI sedang sibuk. Coba lagi beberapa saat ya! 🐰💖',
         timestamp: new Date().toISOString()
       };
       setMessages((prev) => [...prev, errorMessage]);
@@ -88,94 +89,38 @@ export default function BunniesChatbot() {
   };
 
   const handleClearChat = () => {
-    if (window.confirm(t('chatbot_clear_confirm', { defaultValue: 'Hapus semua riwayat percakapan?' }))) {
-      const resetMsg = [
-        {
-          id: 'welcome',
-          role: 'assistant',
-          content: t('chatbot_welcome', { defaultValue: 'Halo Bunny! 🐰✨ Saya Bunny AI, asistenmu di Bunnies World. Tanya saya apa saja tentang NewJeans!' }),
-          timestamp: new Date().toISOString()
-        }
-      ];
-      setMessages(resetMsg);
-      localStorage.removeItem('bunnies_ai_chat');
-    }
+    const reset = [
+      {
+        id: 'welcome',
+        role: 'assistant',
+        content: 'Halo Bunny! 🐰✨ Chat telah dibersihkan. Tanya saya apa saja tentang NewJeans!',
+        timestamp: new Date().toISOString()
+      }
+    ];
+    setMessages(reset);
+    localStorage.removeItem('bunnies_ai_chat');
   };
 
-  // Comprehensive renderer for Markdown links [label](url), raw URLs, bold **text**, and linebreaks
-  const renderFormattedMessage = (text) => {
+  const parseLinksInText = (text) => {
     if (!text) return null;
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+    const parts = text.split(urlRegex);
 
-    const lines = text.split('\n');
-
-    return lines.map((line, lineIdx) => {
-      const mdLinkRegex = /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g;
-      const tokens = [];
-      let lastIndex = 0;
-      let match;
-
-      const processSubString = (subStr, keyPrefix) => {
-        if (!subStr) return [];
-        const boldParts = subStr.split(/(\*\*[^*]+\*\*)/g);
-        return boldParts.map((bPart, bIdx) => {
-          if (bPart.startsWith('**') && bPart.endsWith('**')) {
-            const boldText = bPart.slice(2, -2);
-            return <strong key={`${keyPrefix}-b-${bIdx}`} className="font-extrabold text-[var(--text-heading)]">{boldText}</strong>;
-          }
-
-          const urlRegex = /(https?:\/\/[^\s!.,)]+)/g;
-          const urlParts = bPart.split(urlRegex);
-          return urlParts.map((uPart, uIdx) => {
-            if (uPart.match(/^https?:\/\//)) {
-              return (
-                <a
-                  key={`${keyPrefix}-u-${uIdx}`}
-                  href={uPart}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="underline font-extrabold text-pink-300 dark:text-pink-400 hover:opacity-80 transition-opacity break-all cursor-pointer"
-                >
-                  {uPart}
-                </a>
-              );
-            }
-            return uPart;
-          });
-        });
-      };
-
-      while ((match = mdLinkRegex.exec(line)) !== null) {
-        if (match.index > lastIndex) {
-          tokens.push(...processSubString(line.substring(lastIndex, match.index), `l${lineIdx}-p${lastIndex}`));
-        }
-
-        const label = match[1];
-        const url = match[2];
-        tokens.push(
+    return parts.map((part, index) => {
+      if (part.match(urlRegex)) {
+        return (
           <a
-            key={`mdlink-${lineIdx}-${match.index}`}
-            href={url}
+            key={index}
+            href={part}
             target="_blank"
             rel="noopener noreferrer"
-            className="underline font-extrabold text-pink-300 dark:text-pink-400 hover:opacity-80 transition-opacity break-all cursor-pointer"
+            className="text-pink-600 dark:text-pink-400 font-extrabold underline hover:text-pink-700 dark:hover:text-pink-300 transition-colors inline-flex items-center gap-0.5 break-all"
           >
-            {label}
+            {part}
           </a>
         );
-
-        lastIndex = mdLinkRegex.lastIndex;
       }
-
-      if (lastIndex < line.length) {
-        tokens.push(...processSubString(line.substring(lastIndex), `l${lineIdx}-rest`));
-      }
-
-      return (
-        <React.Fragment key={lineIdx}>
-          {lineIdx > 0 && <br />}
-          {tokens}
-        </React.Fragment>
-      );
+      return part;
     });
   };
 
@@ -187,7 +132,7 @@ export default function BunniesChatbot() {
 
   const chatbotContent = (
     <>
-      {/* Floating Collapsed Button (Solid pink theme without gradients) */}
+      {/* Floating Collapsed Button */}
       <AnimatePresence>
         {!isOpen && (
           <motion.div
@@ -198,15 +143,14 @@ export default function BunniesChatbot() {
           >
             <button
               onClick={() => setIsOpen(true)}
-              className="group relative flex items-center justify-center gap-2 w-11 h-11 sm:w-auto sm:h-auto sm:px-4 sm:py-2.5 rounded-full bg-pink-500 hover:bg-pink-600 text-white shadow-2xl hover:scale-105 transition-all duration-300 border-2 border-white/20 active:scale-95 cursor-pointer"
+              className="group relative flex items-center justify-center gap-2 w-11 h-11 sm:w-auto sm:h-auto sm:px-4 sm:py-2.5 rounded-full bg-pink-500 hover:bg-pink-600 text-white shadow-2xl hover:scale-105 transition-all duration-300 border-2 border-pink-300/40 active:scale-95 cursor-pointer"
               title="Bunny AI Assistant"
             >
               <div className="relative flex items-center justify-center">
                 <Sparkles className="w-5 h-5 animate-pulse text-white" />
               </div>
-              <span className="hidden sm:inline font-extrabold text-xs tracking-wider uppercase pr-1">Bunny AI</span>
+              <span className="hidden sm:inline font-black text-xs tracking-wider uppercase pr-1">Bunny AI</span>
 
-              {/* Pulsing indicator ring */}
               <span className="absolute -top-1 -right-1 flex h-3 w-3">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-pink-400 opacity-75" />
                 <span className="relative inline-flex rounded-full h-3 w-3 bg-pink-500" />
@@ -216,7 +160,7 @@ export default function BunniesChatbot() {
         )}
       </AnimatePresence>
 
-      {/* Expanded Chat Window */}
+      {/* Expanded iPhone Frost Glass Chat Window */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -224,22 +168,22 @@ export default function BunniesChatbot() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 40, scale: 0.95 }}
             transition={{ duration: 0.25 }}
-            className="fixed bottom-20 sm:bottom-6 left-3 sm:left-6 z-[99995] w-[calc(100%-1.5rem)] max-w-[380px] sm:w-[380px] h-[460px] max-h-[65vh] rounded-3xl border border-[var(--border-color)] bg-[var(--bg-card)] shadow-2xl flex flex-col overflow-hidden backdrop-blur-xl"
+            className="fixed bottom-20 sm:bottom-6 left-3 sm:left-6 z-[99995] w-[calc(100%-1.5rem)] max-w-[380px] sm:w-[380px] h-[460px] max-h-[65vh] rounded-3xl border border-pink-500/30 bg-white/95 dark:bg-zinc-900/95 shadow-2xl flex flex-col overflow-hidden backdrop-blur-2xl"
           >
             {/* Header Bar */}
-            <div className="p-4 bg-[var(--bg-subtle)] border-b border-[var(--border-color)] flex items-center justify-between">
+            <div className="p-4 bg-slate-100/90 dark:bg-zinc-800/90 border-b border-pink-500/20 flex items-center justify-between">
               <div className="flex items-center gap-2.5">
                 <div className="relative">
                   <div className="w-9 h-9 rounded-full bg-pink-500 flex items-center justify-center text-white font-bold text-sm shadow-xs">
                     🐰
                   </div>
-                  <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-emerald-500 rounded-full border-2 border-[var(--bg-card)]" title="Online" />
+                  <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-emerald-500 rounded-full border-2 border-white dark:border-zinc-900" title="Online" />
                 </div>
                 <div className="flex flex-col text-left">
-                  <h3 className="font-extrabold text-xs text-[var(--text-heading)] uppercase tracking-wider">
+                  <h3 className="font-black text-xs text-slate-950 dark:text-white uppercase tracking-wider">
                     {t('chatbot_title', { defaultValue: 'BUNNY AI ASSISTANT' })}
                   </h3>
-                  <span className="text-[9px] text-pink-600 dark:text-pink-400 font-bold">
+                  <span className="text-[9px] text-pink-600 dark:text-pink-400 font-extrabold">
                     Powered by Bynara AI Router
                   </span>
                 </div>
@@ -249,7 +193,7 @@ export default function BunniesChatbot() {
               <div className="flex items-center gap-1.5">
                 <button
                   onClick={handleClearChat}
-                  className="p-1.5 rounded-lg text-[var(--text-muted)] hover:text-red-500 hover:bg-red-500/10 transition-colors"
+                  className="p-1.5 rounded-lg text-slate-500 dark:text-zinc-400 hover:text-rose-500 hover:bg-rose-500/10 transition-colors cursor-pointer"
                   title={t('chatbot_clear', { defaultValue: 'Clear Chat' })}
                 >
                   <Trash2 className="w-3.5 h-3.5" />
@@ -257,83 +201,82 @@ export default function BunniesChatbot() {
 
                 <button
                   onClick={() => setIsOpen(false)}
-                  className="p-1.5 rounded-lg text-[var(--text-muted)] hover:text-[var(--text-heading)] hover:bg-[var(--bg-subtle-hover)] transition-colors"
-                  title="Minimize"
+                  className="p-1.5 rounded-lg text-slate-500 dark:text-zinc-400 hover:text-slate-950 dark:hover:text-white transition-colors cursor-pointer"
+                  title={t('chatbot_minimize', { defaultValue: 'Minimize' })}
                 >
                   <Minus className="w-4 h-4" />
                 </button>
               </div>
             </div>
 
-            {/* Chat History Area */}
-            <div className="flex-1 p-4 overflow-y-auto flex flex-col gap-3 scrollbar-thin">
-              {messages.map((msg) => {
-                const isUser = msg.role === 'user';
+            {/* Messages Body */}
+            <div className="flex-grow p-4 overflow-y-auto flex flex-col gap-3">
+              {messages.map((m) => {
+                const isUser = m.role === 'user';
                 return (
                   <div
-                    key={msg.id}
-                    className={`flex items-start gap-2 ${isUser ? 'flex-row-reverse' : 'flex-row'}`}
+                    key={m.id}
+                    className={`flex flex-col max-w-[85%] ${isUser ? 'self-end items-end' : 'self-start items-start'}`}
                   >
-                    {!isUser && (
-                      <div className="w-7 h-7 rounded-full bg-pink-500/20 text-pink-600 dark:text-pink-400 font-bold text-xs flex items-center justify-center flex-shrink-0 mt-0.5 border border-pink-500/30">
-                        🐰
-                      </div>
-                    )}
                     <div
-                      className={`max-w-[80%] p-3 rounded-2xl text-xs leading-relaxed font-sans shadow-xs whitespace-pre-wrap break-words ${
+                      className={`px-3.5 py-2.5 rounded-2xl text-xs font-bold leading-relaxed shadow-2xs ${
                         isUser
-                          ? 'bg-pink-500 text-white rounded-br-none font-medium'
-                          : 'bg-[var(--bg-subtle)] text-[var(--text-heading)] border border-[var(--border-color)] rounded-bl-none'
+                          ? 'bg-pink-500 text-white rounded-br-xs'
+                          : 'bg-slate-100 dark:bg-zinc-800 text-slate-950 dark:text-white border border-pink-500/20 rounded-bl-xs'
                       }`}
                     >
-                      {renderFormattedMessage(msg.content)}
+                      {parseLinksInText(m.content)}
                     </div>
+                    <span className="text-[9px] text-slate-500 dark:text-zinc-500 mt-1 px-1 font-medium">
+                      {new Date(m.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    </span>
                   </div>
                 );
               })}
 
-              {/* Loading Indicator */}
               {isLoading && (
-                <div className="flex items-center gap-2 text-xs text-[var(--text-muted)] italic">
-                  <div className="w-6 h-6 rounded-full bg-pink-500/20 flex items-center justify-center text-xs animate-bounce">
-                    🐰
-                  </div>
-                  <span className="text-[11px] font-medium">{t('chatbot_thinking', { defaultValue: 'Bunny AI sedang berpikir... 🐰✨' })}</span>
+                <div className="self-start flex items-center gap-1.5 bg-slate-100 dark:bg-zinc-800 text-slate-700 dark:text-zinc-300 px-3 py-2 rounded-2xl border border-pink-500/20 text-xs">
+                  <Sparkles className="w-3.5 h-3.5 text-pink-500 animate-spin" />
+                  <span className="font-extrabold">{t('chatbot_thinking', { defaultValue: 'Bunny AI lagi ngetik...' })}</span>
                 </div>
               )}
-
               <div ref={messagesEndRef} />
             </div>
 
-            {/* Quick Suggestions Chips */}
+            {/* Quick Suggestions (if few messages) */}
             {messages.length <= 2 && (
-              <div className="px-3 py-2 bg-[var(--bg-subtle)]/50 border-t border-[var(--border-color)] flex items-center gap-1.5 overflow-x-auto scrollbar-none">
-                {suggestions.map((s, idx) => (
+              <div className="px-3 pb-2 flex flex-wrap gap-1.5 justify-center">
+                {suggestions.map((s, i) => (
                   <button
-                    key={idx}
+                    key={i}
                     onClick={() => handleSend(s)}
-                    className="px-2.5 py-1 rounded-full bg-[var(--bg-card)] border border-[var(--border-color)] text-[10px] text-[var(--text-secondary)] hover:text-pink-500 hover:border-pink-500/40 whitespace-nowrap transition-all shadow-2xs font-medium"
+                    className="text-[10px] px-2.5 py-1 rounded-full bg-slate-100 dark:bg-zinc-800/80 hover:bg-pink-50 dark:hover:bg-pink-500/10 text-slate-950 dark:text-white font-extrabold border border-pink-500/20 transition-all cursor-pointer shadow-2xs"
                   >
-                    ✨ {s}
+                    {s}
                   </button>
                 ))}
               </div>
             )}
 
-            {/* Input Bar */}
-            <form onSubmit={(e) => { e.preventDefault(); handleSend(); }} className="p-3 bg-[var(--bg-subtle)] border-t border-[var(--border-color)] flex items-center gap-2">
+            {/* Input Box */}
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleSend();
+              }}
+              className="p-3 bg-slate-100/90 dark:bg-zinc-800/90 border-t border-pink-500/20 flex items-center gap-2"
+            >
               <input
                 type="text"
-                placeholder={t('chatbot_placeholder', { defaultValue: 'Tanya Bunny AI sesuatu...' })}
+                placeholder={t('chatbot_input_ph', { defaultValue: 'Tanya Bunny AI...' })}
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                disabled={isLoading}
-                className="flex-grow bg-[var(--bg-input)] border border-[var(--border-color)] rounded-full px-4 py-2 text-xs text-[var(--text-heading)] placeholder-[var(--text-muted)] outline-none focus:border-pink-500 transition-colors"
+                className="flex-grow bg-white dark:bg-zinc-900 border border-pink-500/20 rounded-2xl px-3.5 py-2 text-xs font-bold text-slate-950 dark:text-white placeholder-slate-400 dark:placeholder-zinc-400 outline-none focus:border-pink-500"
               />
               <button
                 type="submit"
                 disabled={!input.trim() || isLoading}
-                className="w-8 h-8 rounded-full bg-pink-500 text-white flex items-center justify-center hover:bg-pink-600 transition-colors disabled:opacity-40 flex-shrink-0 shadow-sm"
+                className="p-2 rounded-xl bg-pink-500 text-white hover:bg-pink-600 transition-colors disabled:opacity-50 flex-shrink-0 cursor-pointer shadow-2xs"
               >
                 <Send className="w-3.5 h-3.5" />
               </button>

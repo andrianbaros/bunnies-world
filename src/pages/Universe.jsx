@@ -61,7 +61,6 @@ export default function Universe() {
   };
 
   const resetQuiz = () => {
-    // Re-shuffle question bank and pick 5 new random questions
     setSessionQuestions(shuffleArray(quizData).slice(0, 5));
     setCurrentQuizIdx(0);
     setSelectedOption(null);
@@ -87,13 +86,13 @@ export default function Universe() {
         </p>
       </div>
 
-      {/* Quiz Card Container */}
+      {/* Quiz Card Container (iPhone Frost Glass) */}
       <motion.div
         initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
-        className="rounded-3xl p-6 sm:p-8 flex flex-col gap-6 border border-slate-200 dark:border-zinc-800 shadow-md bg-white dark:bg-zinc-900"
+        className="glass-surface rounded-3xl p-6 sm:p-8 flex flex-col gap-6 border border-pink-500/25 hover:border-pink-500/50 shadow-md"
       >
-        <div className="flex items-center justify-between border-b border-slate-200 dark:border-zinc-800 pb-3">
+        <div className="flex items-center justify-between border-b border-pink-500/20 pb-3">
           <div className="flex items-center gap-2">
             <HelpCircle className="w-5 h-5 text-pink-500" />
             <h2 className="text-sm font-black text-slate-950 dark:text-white uppercase tracking-wider">TRIVIA CHALLENGE</h2>
@@ -117,10 +116,10 @@ export default function Universe() {
               {currentQ.question}
             </h3>
 
-            {/* High-contrast solid options grid 100% visible in Day & Night mode */}
+            {/* High-contrast options grid with soft pink borders */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-1">
               {currentQ.options.map((opt, idx) => {
-                let btnStyle = 'bg-slate-100 dark:bg-zinc-800 text-slate-950 dark:text-white border-2 border-slate-300 dark:border-zinc-700 hover:border-pink-500 hover:bg-pink-50 dark:hover:bg-pink-500/20';
+                let btnStyle = 'bg-slate-100/90 dark:bg-zinc-800/90 text-slate-950 dark:text-white border-2 border-pink-500/25 hover:border-pink-500 hover:bg-pink-50 dark:hover:bg-pink-500/20';
 
                 if (selectedOption !== null) {
                   if (idx === currentQ.answer) {
@@ -128,7 +127,7 @@ export default function Universe() {
                   } else if (selectedOption === idx) {
                     btnStyle = 'bg-rose-600 text-white border-2 border-rose-700 font-black shadow-sm';
                   } else {
-                    btnStyle = 'opacity-40 bg-slate-100 dark:bg-zinc-800 text-slate-600 dark:text-gray-400 border-2 border-slate-200 dark:border-zinc-800';
+                    btnStyle = 'opacity-40 bg-slate-100 dark:bg-zinc-800 text-slate-600 dark:text-gray-400 border-2 border-pink-500/10';
                   }
                 }
 
@@ -155,7 +154,7 @@ export default function Universe() {
             </p>
 
             {soulBunny && (
-              <div className="bg-slate-100 dark:bg-zinc-800 p-5 rounded-2xl border-2 border-slate-300 dark:border-zinc-700 max-w-md text-center flex flex-col gap-1.5 shadow-2xs">
+              <div className="bg-slate-100/90 dark:bg-zinc-800/90 p-5 rounded-2xl border-2 border-pink-500/30 max-w-md text-center flex flex-col gap-1.5 shadow-2xs">
                 <span className="text-[10px] font-black text-pink-600 dark:text-pink-400 uppercase tracking-widest">Fandom Result</span>
                 <h4 className="text-base font-black text-slate-950 dark:text-white">{soulBunny.title}</h4>
                 <p className="text-xs text-slate-800 dark:text-zinc-200 leading-relaxed font-bold">{soulBunny.desc}</p>
@@ -174,7 +173,7 @@ export default function Universe() {
       </motion.div>
 
       {/* Highscore Leaderboard */}
-      <div className="p-5 rounded-2xl flex items-center justify-between border border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-xs">
+      <div className="glass-surface p-5 rounded-3xl flex items-center justify-between border border-pink-500/25 hover:border-pink-500/50 shadow-xs">
         <div className="flex items-center gap-3">
           <Award className="w-5 h-5 text-pink-500" />
           <div>
