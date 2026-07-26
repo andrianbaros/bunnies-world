@@ -139,7 +139,7 @@ export default function BunniesChatbot() {
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0, opacity: 0 }}
-            className="fixed bottom-20 sm:bottom-6 left-3 sm:left-6 z-[9990]"
+            className="fixed bottom-20 lg:bottom-6 left-2 sm:left-6 z-[9990]"
           >
             <button
               onClick={() => setIsOpen(true)}
@@ -168,7 +168,7 @@ export default function BunniesChatbot() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 40, scale: 0.95 }}
             transition={{ duration: 0.25 }}
-            className="fixed bottom-20 sm:bottom-6 left-3 sm:left-6 z-[99995] w-[calc(100%-1.5rem)] max-w-[380px] sm:w-[380px] h-[460px] max-h-[65vh] rounded-3xl border border-pink-500/30 bg-white/95 dark:bg-zinc-900/95 shadow-2xl flex flex-col overflow-hidden backdrop-blur-2xl"
+            className="fixed bottom-20 lg:bottom-6 left-2 sm:left-6 z-[99995] w-[calc(100%-1rem)] max-w-[380px] sm:w-[380px] h-[460px] max-h-[65vh] rounded-3xl border border-pink-500/30 bg-white/95 dark:bg-zinc-900/95 shadow-2xl flex flex-col overflow-hidden backdrop-blur-2xl"
           >
             {/* Header Bar */}
             <div className="p-4 bg-slate-100/90 dark:bg-zinc-800/90 border-b border-pink-500/20 flex items-center justify-between">
