@@ -1,16 +1,59 @@
 {
-  "name": "BUNNIES WORLD",
+  "id": "bunnies-world-pwa",
+  "name": "BUNNIES WORLD - NewJeans Fan Universe",
   "short_name": "BUNNIES",
-  "description": "Official Interactive World for NewJeans & Bunnies",
+  "description": "Official Interactive World & Fan Sanctuary for NewJeans & Bunnies.",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "portrait-primary",
   "background_color": "#0d0b14",
   "theme_color": "#0d0b14",
+  "lang": "en",
+  "dir": "ltr",
+  "categories": ["entertainment", "music", "lifestyle"],
   "icons": [
     {
-      "src": "data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐰</text></svg>",
-      "sizes": "192x192 512x512",
-      "type": "image/svg+xml"
+      "src": "/assets/logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Discography & Music",
+      "short_name": "Discography",
+      "description": "Stream official NewJeans track previews",
+      "url": "/discography",
+      "icons": [{ "src": "/assets/logo.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Member Profiles",
+      "short_name": "Members",
+      "description": "View NewJeans member profiles",
+      "url": "/members",
+      "icons": [{ "src": "/assets/logo.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Community Fan Wall",
+      "short_name": "Community",
+      "description": "Join global Bunnies fan messages",
+      "url": "/community",
+      "icons": [{ "src": "/assets/logo.png", "sizes": "192x192" }]
     }
   ]
 }
