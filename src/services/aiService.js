@@ -8,6 +8,8 @@ export const BYNARA_MODELS = [
   'grok-4.5'
 ];
 
+const DEFAULT_BYNARA_KEY = 'sk-nry-SeBr4oWCAcOhc3agiETfc7vrw2o3k9OATLPppaLj1mY';
+
 const SYSTEM_PROMPT = `You are Bunny AI, the enthusiastic, friendly, and helpful AI assistant for Bunnies World — the ultimate NewJeans fan portal! 
 You know everything about NewJeans (Minji, Hanni, Danielle, Haerin, Hyein), their discography (Get Up, OMG, Ditto, How Sweet, Supernatural, Attention, Hype Boy, etc.), achievements, lyrics, events, and community.
 Be helpful, cheerful, and use cute Bunny emojis (🐰✨)! Always respond in the language used by the user (English, Indonesian, Korean, Japanese, etc.).`;
@@ -51,7 +53,7 @@ async function callProvider(provider, messages) {
 }
 
 export async function sendMessageToAI(messages, model = 'agnes-2.5-flash') {
-  const bynaraKey = import.meta.env.VITE_BYNARA_API_KEY || '';
+  const bynaraKey = import.meta.env.VITE_BYNARA_API_KEY || DEFAULT_BYNARA_KEY;
   const cerebrasKey = import.meta.env.VITE_CEREBRAS_API_KEY || '';
 
   const isBynara = BYNARA_MODELS.includes(model);
@@ -80,10 +82,13 @@ export async function sendMessageToAI(messages, model = 'agnes-2.5-flash') {
 
   // Try Fallback Provider
   try {
-    const reply = await callProvider(fallback, messages);
-    if (reply) return reply;
+    if (fallback.key) {
+      const reply = await callProvider(fallback, messages);
+      if (reply) return reply;
+    }
   } catch (err) {
     console.error(`Fallback provider (${fallback.name}) failed:`, err.message);
-    throw new Error('Maaf, Bunny AI sedang sibuk. Silakan coba beberapa saat lagi! 🐰');
   }
+
+  throw new Error('Maaf, Bunny AI sedang sibuk. Silakan coba beberapa saat lagi! 🐰');
 }
