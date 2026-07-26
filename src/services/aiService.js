@@ -65,9 +65,10 @@ export async function sendMessageToAI(messages, model = 'agnes-2.5-flash') {
     if (res.ok) {
       const data = await res.json();
       if (data.reply) return data.reply;
+      if (data.error) throw new Error(data.error);
     }
   } catch (serverlessErr) {
-    console.warn('Serverless proxy /api/chat unavailable, falling back to direct fetch:', serverlessErr.message);
+    console.warn('Serverless proxy /api/chat error:', serverlessErr.message);
   }
 
   // Method 2: Direct Provider Call (for local static dev fallback)

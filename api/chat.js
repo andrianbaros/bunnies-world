@@ -19,7 +19,12 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { messages, model } = req.body || {};
+    let body = req.body;
+    if (typeof body === 'string') {
+      try { body = JSON.parse(body); } catch (e) {}
+    }
+    const { messages, model } = body || {};
+
     const bynaraKey = process.env.VITE_BYNARA_API_KEY || process.env.BYNARA_API_KEY || 'sk-nry-SeBr4oWCAcOhc3agiETfc7vrw2o3k9OATLPppaLj1mY';
 
     const SYSTEM_PROMPT = `You are Bunny AI, the enthusiastic, friendly, and helpful AI assistant for Bunnies World — the ultimate NewJeans fan portal! 
