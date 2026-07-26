@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, Send, Trash2, Minus } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -103,16 +104,16 @@ export default function BunniesChatbot() {
     t('chatbot_suggestion_3', { defaultValue: 'Ceritakan tentang Hanni' })
   ];
 
-  return (
+  const chatbotContent = (
     <>
-      {/* Floating Collapsed Button */}
+      {/* Floating Collapsed Button (Portal attached directly to document.body) */}
       <AnimatePresence>
         {!isOpen && (
           <motion.div
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0, opacity: 0 }}
-            className="fixed bottom-20 sm:bottom-6 left-4 sm:left-6 z-[9990]"
+            className="fixed bottom-6 left-4 sm:left-6 z-[99999]"
           >
             <button
               onClick={() => setIsOpen(true)}
@@ -120,8 +121,7 @@ export default function BunniesChatbot() {
               title="Bunny AI Assistant"
             >
               <div className="relative flex items-center justify-center">
-                <Sparkles className="w-5 h-5 animate-pulse" />
-                <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-emerald-400 rounded-full animate-ping" />
+                <Sparkles className="w-5 h-5 animate-pulse text-white" />
               </div>
               <span className="font-extrabold text-xs tracking-wider uppercase pr-1">Bunny AI</span>
 
@@ -135,7 +135,7 @@ export default function BunniesChatbot() {
         )}
       </AnimatePresence>
 
-      {/* Expanded Chat Window */}
+      {/* Expanded Chat Window (Portal attached directly to document.body) */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -143,7 +143,7 @@ export default function BunniesChatbot() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 40, scale: 0.95 }}
             transition={{ duration: 0.25 }}
-            className="fixed bottom-20 sm:bottom-6 left-3 sm:left-6 z-[9995] w-[calc(100%-1.5rem)] max-w-[380px] sm:w-[380px] h-[520px] max-h-[78vh] rounded-3xl border border-[var(--border-color)] bg-[var(--bg-card)] shadow-2xl flex flex-col overflow-hidden backdrop-blur-xl"
+            className="fixed bottom-6 left-3 sm:left-6 z-[99999] w-[calc(100%-1.5rem)] max-w-[380px] sm:w-[380px] h-[520px] max-h-[78vh] rounded-3xl border border-[var(--border-color)] bg-[var(--bg-card)] shadow-2xl flex flex-col overflow-hidden backdrop-blur-xl"
           >
             {/* Header Bar */}
             <div className="p-4 bg-[var(--bg-subtle)] border-b border-[var(--border-color)] flex items-center justify-between">
@@ -274,4 +274,6 @@ export default function BunniesChatbot() {
       </AnimatePresence>
     </>
   );
+
+  return createPortal(chatbotContent, document.body);
 }
