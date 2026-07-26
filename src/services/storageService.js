@@ -203,6 +203,20 @@ export const storageService = {
     return current.communityPosts;
   },
 
+  deleteCommunityComment(postId, commentId) {
+    const current = this.getSettings();
+    current.communityPosts = (current.communityPosts || []).map((p) => {
+      if (p.id === postId) {
+        const comments = (p.comments || []).filter((c) => c.id !== commentId);
+        return { ...p, comments };
+      }
+      return p;
+    });
+    this.saveSettings(current);
+    return current.communityPosts;
+  },
+
+
 
   resetAll() {
     this.saveSettings(DEFAULT_SETTINGS);

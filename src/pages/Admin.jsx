@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ShieldCheck, Lock, Trash2, Pin, RefreshCw, Database } from 'lucide-react';
+import { ShieldCheck, Lock, Trash2, Pin, RefreshCw, Database, MessageCircle, X } from 'lucide-react';
 import { supabase, isSupabaseConfigured } from '../services/supabase';
 import { storageService } from '../services/storageService';
 import { useSettings } from '../contexts/SettingsContext';
@@ -10,6 +10,7 @@ export default function Admin() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [expandedComments, setExpandedComments] = useState({});
 
   const ADMIN_PASSCODE = import.meta.env.VITE_ADMIN_PASSCODE || 'bunnies2026';
 
@@ -26,21 +27,74 @@ export default function Admin() {
 
   const fetchAdminPosts = async () => {
     setLoading(true);
+    let fetchedPosts = [];
+
     if (isSupabaseConfigured()) {
       try {
-        const { data, error } = await supabase
+        const { data: postsData, error: postsError } = await supabase
           .from('community_posts')
           .select('*')
           .order('created_at', { ascending: false });
-        if (error) throw error;
-        setPosts(data || []);
+        if (postsError) throw postsError;
+
+        let commentsData = [];
+        try {
+          const { data: cData } = await supabase
+            .from('community_comments')
+            .select('*')
+            .order('created_at', { ascending: false });
+          if (cData) commentsData = cData;
+        } catch (e) {}
+
+        const commentsByPost = {};
+        commentsData.forEach((c) => {
+          if (!commentsByPost[c.post_id]) commentsByPost[c.post_id] = [];
+          commentsByPost[c.post_id].push(c);
+        });
+
+        fetchedPosts = (postsData || []).map((p) => {
+          let parsedComments = [];
+          if (Array.isArray(p.comments)) {
+            parsedComments = p.comments;
+          } else if (typeof p.comments === 'string') {
+            try { parsedComments = JSON.parse(p.comments); } catch (e) { parsedComments = []; }
+          }
+          const tableComments = commentsByPost[p.id] || [];
+          return {
+            ...p,
+            comments: [...parsedComments, ...tableComments]
+          };
+        });
       } catch (err) {
         console.error('Error fetching admin posts:', err.message);
-        setPosts(storageService.getSettings().communityPosts || []);
+        fetchedPosts = storageService.getSettings().communityPosts || [];
       }
     } else {
-      setPosts(storageService.getSettings().communityPosts || []);
+      fetchedPosts = storageService.getSettings().communityPosts || [];
     }
+
+    // Merge comments from local storage
+    const localPosts = storageService.getSettings().communityPosts || [];
+    const localCommentsMap = {};
+    localPosts.forEach((lp) => {
+      if (lp.comments && lp.comments.length > 0) {
+        localCommentsMap[lp.id] = lp.comments;
+      }
+    });
+
+    const postsWithComments = fetchedPosts.map((p) => {
+      const remoteComments = p.comments || [];
+      const localComments = localCommentsMap[p.id] || [];
+      const combined = [...remoteComments];
+      localComments.forEach((lc) => {
+        if (!combined.some((rc) => rc.id === lc.id || (rc.content === lc.content && rc.author_name === lc.author_name))) {
+          combined.push(lc);
+        }
+      });
+      return { ...p, comments: combined };
+    });
+
+    setPosts(postsWithComments);
     setLoading(false);
   };
 
@@ -63,6 +117,39 @@ export default function Admin() {
       storageService.saveCommunityPosts(updated);
       showToast('info', 'Post deleted locally!');
     }
+  };
+
+  const handleDeleteComment = async (postId, commentId) => {
+    if (!window.confirm('Are you sure you want to delete this comment?')) return;
+
+    const targetPost = posts.find((p) => p.id === postId);
+    const updatedComments = (targetPost?.comments || []).filter((c) => c.id !== commentId);
+
+    // 1. Update React state
+    setPosts(posts.map((p) => (p.id === postId ? { ...p, comments: updatedComments } : p)));
+
+    // 2. LocalStorage delete
+    storageService.deleteCommunityComment(postId, commentId);
+
+    // 3. Supabase delete sync
+    if (isSupabaseConfigured() && typeof postId === 'string' && !postId.startsWith('local-')) {
+      try {
+        // Attempt A: update comments column on community_posts table
+        await supabase
+          .from('community_posts')
+          .update({ comments: updatedComments })
+          .eq('id', postId);
+
+        // Attempt B: delete from community_comments table if exists
+        try {
+          await supabase.from('community_comments').delete().eq('id', commentId);
+        } catch (e) {}
+      } catch (err) {
+        console.error('Error deleting comment in Supabase:', err.message);
+      }
+    }
+
+    showToast('info', 'Komentar berhasil dihapus!');
   };
 
   const handleTogglePin = async (postId, currentPinState) => {
@@ -88,7 +175,7 @@ export default function Admin() {
           </div>
           <div>
             <h1 className="text-lg font-bold text-[var(--text-heading)] uppercase tracking-wider">ADMIN MANAGEMENT PORTAL</h1>
-            <p className="text-xs text-[var(--text-muted)] mt-1">Enter admin passcode to moderate community posts.</p>
+            <p className="text-xs text-[var(--text-muted)] mt-1">Enter admin passcode to moderate community posts & comments.</p>
           </div>
 
           <input
@@ -119,7 +206,7 @@ export default function Admin() {
           <ShieldCheck className="w-7 h-7 text-pink-500" />
           <div>
             <h1 className="text-lg font-bold text-[var(--text-heading)] uppercase tracking-wider">ADMIN MODERATION CONTROL</h1>
-            <p className="text-xs text-[var(--text-muted)]">Full admin privileges to delete or pin community posts.</p>
+            <p className="text-xs text-[var(--text-muted)]">Full admin privileges to delete posts & moderate comments.</p>
           </div>
         </div>
 
@@ -150,43 +237,93 @@ export default function Admin() {
         <span className="text-[11px] text-[var(--text-muted)] font-medium">Total Posts: {posts.length}</span>
       </div>
 
-      {/* Admin Posts Moderation Cards */}
-      <div className="flex flex-col gap-3">
-        {posts.map((post) => (
-          <div key={post.id} className="glass-surface p-4 sm:p-5 rounded-xl border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-            <div className="flex flex-col gap-1 overflow-hidden">
-              <div className="flex items-center gap-2">
-                <span className="font-bold text-xs text-[var(--text-heading)]">{post.author_name}</span>
-                <span className="text-[10px] px-2 py-0.5 rounded-full bg-pink-500/10 text-pink-600 dark:text-pink-400 font-semibold">{post.member_tag}</span>
-                {post.is_pinned && <span className="text-[10px] px-2 py-0.5 rounded-full bg-pink-500 text-white font-bold">PINNED</span>}
+      {/* Admin Posts & Comments Moderation Cards */}
+      <div className="flex flex-col gap-4">
+        {posts.map((post) => {
+          const commentsList = post.comments || [];
+          const isCommentsExpanded = !!expandedComments[post.id];
+
+          return (
+            <div key={post.id} className="glass-surface p-4 sm:p-5 rounded-xl border flex flex-col gap-3">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div className="flex flex-col gap-1 overflow-hidden">
+                  <div className="flex items-center gap-2">
+                    <span className="font-bold text-xs text-[var(--text-heading)]">{post.author_name}</span>
+                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-pink-500/10 text-pink-600 dark:text-pink-400 font-semibold">{post.member_tag}</span>
+                    {post.is_pinned && <span className="text-[10px] px-2 py-0.5 rounded-full bg-pink-500 text-white font-bold">PINNED</span>}
+                  </div>
+                  <p className="text-xs text-[var(--text-secondary)] truncate max-w-xl">{post.content}</p>
+                  <div className="flex items-center gap-3 text-[10px] text-[var(--text-muted)] font-medium">
+                    <span>{new Date(post.created_at).toLocaleString()}</span>
+                    <span>• {post.likes} Likes</span>
+                    <span>• {commentsList.length} Comments</span>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2 flex-shrink-0">
+                  <button
+                    onClick={() => setExpandedComments((prev) => ({ ...prev, [post.id]: !prev[post.id] }))}
+                    className="p-2 rounded-lg bg-[var(--bg-subtle)] text-[var(--text-primary)] border border-transparent hover:border-[var(--border-color)] text-xs font-semibold flex items-center gap-1"
+                    title="View & Moderate Comments"
+                  >
+                    <MessageCircle className="w-3.5 h-3.5 text-pink-500" />
+                    <span>Comments ({commentsList.length})</span>
+                  </button>
+
+                  <button
+                    onClick={() => handleTogglePin(post.id, post.is_pinned)}
+                    className={`p-2 rounded-lg text-xs font-semibold transition-all flex items-center gap-1 border ${
+                      post.is_pinned ? 'bg-pink-500 text-white border-pink-500' : 'bg-[var(--bg-subtle)] text-[var(--text-primary)] border-transparent hover:border-[var(--border-color)]'
+                    }`}
+                    title="Toggle Pin"
+                  >
+                    <Pin className="w-3.5 h-3.5" />
+                    <span>{post.is_pinned ? 'Unpin' : 'Pin'}</span>
+                  </button>
+
+                  <button
+                    onClick={() => handleDeletePost(post.id)}
+                    className="p-2 rounded-lg bg-red-500/10 border border-red-500/20 text-red-600 dark:text-red-400 text-xs font-semibold hover:bg-red-500 hover:text-white transition-colors flex items-center gap-1"
+                    title="Delete Post"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                    <span>Delete</span>
+                  </button>
+                </div>
               </div>
-              <p className="text-xs text-[var(--text-secondary)] truncate max-w-xl">{post.content}</p>
-              <span className="text-[10px] text-[var(--text-muted)] font-medium">{new Date(post.created_at).toLocaleString()} • {post.likes} Likes</span>
-            </div>
 
-            <div className="flex items-center gap-2 flex-shrink-0">
-              <button
-                onClick={() => handleTogglePin(post.id, post.is_pinned)}
-                className={`p-2 rounded-lg text-xs font-semibold transition-all flex items-center gap-1 border ${
-                  post.is_pinned ? 'bg-pink-500 text-white border-pink-500' : 'bg-[var(--bg-subtle)] text-[var(--text-primary)] border-transparent hover:border-[var(--border-color)]'
-                }`}
-                title="Toggle Pin"
-              >
-                <Pin className="w-3.5 h-3.5" />
-                <span>{post.is_pinned ? 'Unpin' : 'Pin'}</span>
-              </button>
-
-              <button
-                onClick={() => handleDeletePost(post.id)}
-                className="p-2 rounded-lg bg-red-500/10 border border-red-500/20 text-red-600 dark:text-red-400 text-xs font-semibold hover:bg-red-500 hover:text-white transition-colors flex items-center gap-1"
-                title="Delete Post"
-              >
-                <Trash2 className="w-3.5 h-3.5" />
-                <span>Delete</span>
-              </button>
+              {/* Admin Comments Moderation List */}
+              {isCommentsExpanded && (
+                <div className="flex flex-col gap-2 pt-3 border-t border-[var(--border-color)] bg-[var(--bg-subtle)] p-3 rounded-xl">
+                  <span className="text-[11px] font-bold text-[var(--text-heading)] uppercase tracking-wider">MODERATE COMMENTS</span>
+                  {commentsList.length > 0 ? (
+                    commentsList.map((c) => (
+                      <div key={c.id || c.created_at} className="flex items-center justify-between bg-[var(--bg-card)] p-2.5 rounded-lg border border-[var(--border-color)] text-xs">
+                        <div className="flex flex-col text-left gap-0.5 overflow-hidden">
+                          <div className="flex items-center gap-2">
+                            <span className="font-bold text-[11px] text-[var(--text-heading)]">{c.author_name}</span>
+                            <span className="text-[9px] text-[var(--text-muted)]">{new Date(c.created_at || Date.now()).toLocaleTimeString()}</span>
+                          </div>
+                          <p className="text-[11px] text-[var(--text-primary)] truncate">{c.content}</p>
+                        </div>
+                        <button
+                          onClick={() => handleDeleteComment(post.id, c.id)}
+                          className="px-2.5 py-1 rounded-md bg-red-500/10 border border-red-500/20 text-red-600 dark:text-red-400 text-[10px] font-semibold hover:bg-red-500 hover:text-white transition-colors flex items-center gap-1 flex-shrink-0"
+                          title="Delete Comment"
+                        >
+                          <X className="w-3 h-3" />
+                          <span>Delete</span>
+                        </button>
+                      </div>
+                    ))
+                  ) : (
+                    <span className="text-xs text-[var(--text-muted)] italic">No comments on this post.</span>
+                  )}
+                </div>
+              )}
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
