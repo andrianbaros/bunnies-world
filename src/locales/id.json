@@ -12,7 +12,6 @@
   "nav_settings": "PENGATURAN",
   "nav_about": "TENTANG",
   "nav_more": "LAINNYA",
-
   "hero_tag": "DUNIA PENGGEMAR BUNNIES RESMI",
   "hero_title": "BUNNIES WORLD",
   "hero_subtitle": "Dunia Interaktif Resmi untuk NewJeans & Bunnies",
@@ -26,7 +25,6 @@
   "home_wallpaper": "WALLPAPER HARI INI",
   "home_top_audio": "PREVIEW AUDIO TERATAS",
   "home_all_songs": "Semua Lagu",
-
   "members_title": "ANGGOTA NEWJEANS",
   "members_sub": "Temukan bintang-bintang bersinar dari NewJeans",
   "members_search_ph": "Cari anggota berdasarkan nama atau MBTI...",
@@ -34,13 +32,10 @@
   "former_members": "Mantan Anggota",
   "former_member_badge": "ARSIP",
   "members_details": "Detail",
-
   "discography_title": "DISKOGRAFI & MUSIK",
   "discography_sub": "Dengarkan preview resmi & jelajahi piringan hitam",
-
   "timeline_title": "LINIMASA NEWJEANS",
   "timeline_sub": "Perjalanan nostalgia dari debut kejutan NewJeans tahun 2022 hingga pencapaian terbaru.",
-
   "gallery_tag": "KOLEKSI POLAROID MASONRY",
   "gallery_title": "GALERI BUNNIES",
   "gallery_sub": "Scrapbook digital Y2K berisi photocard, foto konsep, dan karya seni penggemar.",
@@ -50,12 +45,10 @@
   "gallery_reset": "Reset Filter",
   "gallery_download": "Unduh",
   "gallery_cat_all": "Semua",
-
   "news_tag": "SIARAN PERS & PENGUMUMAN RESMI",
   "news_title": "BERITA TERBARU",
   "news_sub": "Tetap update dengan berita penghargaan, comeback, dan update Bunnies World.",
   "news_search_ph": "Cari berita...",
-
   "search_tag": "PENEMUAN REALTIME",
   "search_title": "PENCARIAN UNIVERSE GLOBAL",
   "search_sub": "Cari anggota, album, lagu, photocard & galeri secara instan.",
@@ -66,7 +59,6 @@
   "search_empty_sub": "Coba cari 'Ditto', 'Minji', 'Super Shy', atau 'Attention'.",
   "search_start_title": "Mulai Mencari Universe",
   "search_start_sub": "Ketik kata kunci di atas untuk mencari anggota, album, dan lagu secara langsung.",
-
   "fav_tag": "KOLEKSI SAYA",
   "fav_title": "FAVORIT SAYA",
   "fav_sub": "Anggota, album, lagu & photocard yang kamu tandai.",
@@ -74,7 +66,6 @@
   "fav_songs": "LAGU FAVORIT",
   "fav_empty_title": "Belum Ada Favorit",
   "fav_empty_sub": "Klik ikon hati pada anggota, lagu, atau photocard untuk menandainya di sini.",
-
   "community_tag": "KOMUNITAS FAN BUNNIES",
   "community_title": "DINDING PENGGEMAR BUNNIES",
   "community_sub": "Bagikan cinta untuk NewJeans ke seluruh dunia. Filter kata kasar & sinkronisasi live.",
@@ -90,10 +81,8 @@
   "community_pinned": "Disematkan",
   "community_admin_protected": "Dilindungi Admin",
   "community_censored": "Kata-kata toxic akan disensor menjadi ***",
-
   "affinity_title": "KALKULATOR AFINITAS BUNNY",
   "affinity_sub": "Hitung gaya tarik matematis Anda menggunakan persamaan fisika",
-
   "settings_title": "PENGATURAN",
   "settings_sub": "Sesuaikan pengalaman Bunnies World Anda",
   "theme_mode": "Mode Tema",
@@ -104,7 +93,6 @@
   "reduced_motion_sub": "Nonaktifkan efek partikel latar untuk preferensi gerak tereduksi.",
   "reset_data": "Reset Semua Data",
   "reset_data_sub": "Reset semua pengaturan tersimpan ke default pabrik.",
-
   "about_tag": "ENSIKLOPEDIA & SANCTUARY DIGITAL",
   "about_title": "ENSIKLOPEDIA NEWJEANS (NJZ)",
   "about_sub": "Sejarah resmi, filosofi penamaan, keanggotaan aktif, arsip mantan anggota, dan pencapaian karier lengkap.",
@@ -117,7 +105,6 @@
   "about_portal_sub": "Diperbarui secara rutin dari siaran pers resmi & data ensiklopedia global.",
   "about_official_web": "Website Resmi (newjeans.kr)",
   "about_weverse": "Komunitas Weverse Resmi",
-
   "member_back": "Kembali ke Anggota",
   "member_archive_notice": "PEMBERITAHUAN ARSIP RESMI: Profil ini mewakili Danielle sebagai mantan anggota NewJeans. Konten disimpan sebagai arsip fandom historis.",
   "member_prev": "ANGGOTA SEBELUMNYA",
@@ -126,6 +113,9 @@
   "member_birth": "Tanggal Lahir",
   "member_nationality": "Kewarganegaraan",
   "member_fav_songs": "Lagu Favorit",
-
-  "footer_text": "© 2026 BUNNIES WORLD - Dibuat dengan Cinta untuk NewJeans"
+  "footer_text": "© 2026 BUNNIES WORLD - Dibuat dengan Cinta untuk NewJeans",
+  "community_comments": "Komentar",
+  "community_add_comment": "Tulis komentar...",
+  "community_reply_btn": "Kirim Balasan",
+  "community_no_comments": "Belum ada komentar. Jadilah yang pertama membalas!"
 }

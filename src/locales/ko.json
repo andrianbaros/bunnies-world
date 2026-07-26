@@ -12,7 +12,6 @@
   "nav_settings": "설정",
   "nav_about": "소개",
   "nav_more": "더보기",
-
   "hero_tag": "공식 버니즈 팬 유니버스",
   "hero_title": "BUNNIES WORLD",
   "hero_subtitle": "뉴진스와 버니즈를 위한 공식 인터랙티브 월드",
@@ -26,7 +25,6 @@
   "home_wallpaper": "오늘의 배경화면",
   "home_top_audio": "인기 오디오 미리듣기",
   "home_all_songs": "모든 곡",
-
   "members_title": "뉴진스 멤버",
   "members_sub": "뉴진스의 빛나는 멤버들을 만나보세요",
   "members_search_ph": "이름 또는 MBTI로 멤버 검색...",
@@ -34,13 +32,10 @@
   "former_members": "전 멤버",
   "former_member_badge": "아카이브",
   "members_details": "자세히",
-
   "discography_title": "디스코그래피 & 뮤직",
   "discography_sub": "공식 미리듣기와 바이닐 레코드를 감상하세요",
-
   "timeline_title": "뉴진스 타임라인",
   "timeline_sub": "2022년 깜짝 데뷔부터 최신 성과까지의 추억 여행.",
-
   "gallery_tag": "폴라로이드 매소너리 컬렉션",
   "gallery_title": "버니즈 갤러리",
   "gallery_sub": "포토카드, 컨셉 사진, 팬아트를 담은 Y2K 디지털 스크랩북.",
@@ -50,12 +45,10 @@
   "gallery_reset": "필터 초기화",
   "gallery_download": "다운로드",
   "gallery_cat_all": "전체",
-
   "news_tag": "공식 보도자료 & 공지",
   "news_title": "최신 뉴스",
   "news_sub": "공식 수상, 컴백 뉴스, 버니즈 유니버스 업데이트를 확인하세요.",
   "news_search_ph": "뉴스 검색...",
-
   "search_tag": "실시간 검색",
   "search_title": "글로벌 유니버스 검색",
   "search_sub": "멤버, 앨범, 곡, 포토카드 & 갤러리를 즉시 검색하세요.",
@@ -66,7 +59,6 @@
   "search_empty_sub": "'Ditto', '민지', 'Super Shy', 'Attention' 등을 검색해보세요.",
   "search_start_title": "유니버스 검색 시작",
   "search_start_sub": "위에 키워드를 입력하면 멤버, 앨범, 곡을 실시간으로 검색할 수 있습니다.",
-
   "fav_tag": "나의 컬렉션",
   "fav_title": "나의 즐겨찾기",
   "fav_sub": "즐겨찾기한 멤버, 앨범, 곡 & 포토카드.",
@@ -74,7 +66,6 @@
   "fav_songs": "즐겨찾기 곡",
   "fav_empty_title": "즐겨찾기 없음",
   "fav_empty_sub": "멤버, 곡, 포토카드의 하트 아이콘을 눌러 북마크하세요.",
-
   "community_tag": "수파베이스 라이브 커뮤니티",
   "community_title": "버니즈 팬 월",
   "community_sub": "전 세계에 뉴진스에 대한 사랑을 나눠보세요. 다국어 필터 & 실시간 동기화.",
@@ -90,10 +81,8 @@
   "community_pinned": "고정됨",
   "community_admin_protected": "관리자 보호",
   "community_censored": "욕설은 ***로 검열됩니다",
-
   "affinity_title": "버니 친화도 계산기",
   "affinity_sub": "물리학 방정식을 사용하여 나의 친화도를 계산해보세요",
-
   "settings_title": "설정",
   "settings_sub": "버니즈 유니버스 경험을 맞춤 설정하세요",
   "theme_mode": "테마 모드",
@@ -104,7 +93,6 @@
   "reduced_motion_sub": "모션 감소 선호를 위해 파티클 배경 효과를 비활성화합니다.",
   "reset_data": "모든 데이터 초기화",
   "reset_data_sub": "저장된 모든 설정을 기본값으로 초기화합니다.",
-
   "about_tag": "백과사전 & 디지털 성소",
   "about_title": "뉴진스 (NJZ) 백과사전",
   "about_sub": "공식 역사, 그룹 명칭 철학, 활동 멤버십, 전 멤버 아카이브, 완전한 커리어 이정표.",
@@ -117,7 +105,6 @@
   "about_portal_sub": "공식 보도자료 & 글로벌 백과사전 데이터에서 정기적으로 업데이트됩니다.",
   "about_official_web": "공식 웹사이트 (newjeans.kr)",
   "about_weverse": "공식 위버스 커뮤니티",
-
   "member_back": "멤버 목록으로",
   "member_archive_notice": "공식 아카이브 공지: 이 프로필은 뉴진스의 전 멤버 다니엘을 나타냅니다. 콘텐츠는 역사적 팬덤 아카이브로 보존됩니다.",
   "member_prev": "이전 멤버",
@@ -126,6 +113,9 @@
   "member_birth": "생년월일",
   "member_nationality": "국적",
   "member_fav_songs": "좋아하는 곡",
-
-  "footer_text": "© 2026 BUNNIES WORLD - 뉴진스를 위해 사랑으로 제작됨"
+  "footer_text": "© 2026 BUNNIES WORLD - 뉴진스를 위해 사랑으로 제작됨",
+  "community_comments": "댓글",
+  "community_add_comment": "댓글 작성...",
+  "community_reply_btn": "게시",
+  "community_no_comments": "아직 댓글이 없습니다."
 }

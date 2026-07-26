@@ -204,7 +204,11 @@
     "member_danielle_signature": "Sunshine Vibe & Bright Energy",
     "member_danielle_nationality": "Korean-Australian",
     "member_danielle_animal": "Sunflower",
-    "member_danielle_birth": "April 11, 2005"
+    "member_danielle_birth": "April 11, 2005",
+    "community_comments": "Comments",
+    "community_add_comment": "Add a comment...",
+    "community_reply_btn": "Reply",
+    "community_no_comments": "No comments yet. Be the first to reply!"
   },
   "id": {
     "nav_home": "BERANDA",
@@ -411,7 +415,11 @@
     "member_danielle_signature": "Energi Cerah & Positif",
     "member_danielle_nationality": "Korea-Australia",
     "member_danielle_animal": "Bunga Matahari",
-    "member_danielle_birth": "11 April 2005"
+    "member_danielle_birth": "11 April 2005",
+    "community_comments": "Komentar",
+    "community_add_comment": "Tulis komentar...",
+    "community_reply_btn": "Kirim Balasan",
+    "community_no_comments": "Belum ada komentar. Jadilah yang pertama membalas!"
   },
   "ko": {
     "nav_home": "홈",
@@ -618,7 +626,11 @@
     "member_danielle_signature": "밝은 에너지 & 해바라기 감성",
     "member_danielle_nationality": "한국·호주",
     "member_danielle_animal": "해바라기",
-    "member_danielle_birth": "2005년 4월 11일"
+    "member_danielle_birth": "2005년 4월 11일",
+    "community_comments": "댓글",
+    "community_add_comment": "댓글 작성...",
+    "community_reply_btn": "게시",
+    "community_no_comments": "아직 댓글이 없습니다."
   },
   "ja": {
     "nav_home": "ホーム",
@@ -825,6 +837,10 @@
     "member_danielle_signature": "サンシャインバイブ＆ブライトエナジー",
     "member_danielle_nationality": "韓国・オーストラリア",
     "member_danielle_animal": "ヒマワリ",
-    "member_danielle_birth": "2005年4月11日"
+    "member_danielle_birth": "2005年4月11日",
+    "community_comments": "コメント",
+    "community_add_comment": "コメントを追加...",
+    "community_reply_btn": "返信",
+    "community_no_comments": "まだコメントはありません。"
   }
 }

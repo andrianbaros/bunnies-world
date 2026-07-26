@@ -12,7 +12,6 @@
   "nav_settings": "設定",
   "nav_about": "概要",
   "nav_more": "その他",
-
   "hero_tag": "公式バニーズファンユニバース",
   "hero_title": "BUNNIES WORLD",
   "hero_subtitle": "NewJeans & Bunniesのための公式インタラクティブワールド",
@@ -26,7 +25,6 @@
   "home_wallpaper": "今日の壁紙",
   "home_top_audio": "人気オーディオプレビュー",
   "home_all_songs": "すべての曲",
-
   "members_title": "NEWJEANS メンバー",
   "members_sub": "NewJeansの輝くスターをご覧ください",
   "members_search_ph": "名前またはMBTIでメンバーを検索...",
@@ -34,13 +32,10 @@
   "former_members": "元メンバー",
   "former_member_badge": "アーカイブ",
   "members_details": "詳細",
-
   "discography_title": "ディスコグラフィー＆ミュージック",
   "discography_sub": "公式試聴とアナログレコードを試聴・探索",
-
   "timeline_title": "NewJeansタイムライン",
   "timeline_sub": "2022年の驚きのデビューから最新の成果までのノスタルジックな旅。",
-
   "gallery_tag": "ポラロイドマソンリーコレクション",
   "gallery_title": "バニーズギャラリー",
   "gallery_sub": "フォトカード、コンセプト写真、ファンアートのY2Kデジタルスクラップブック。",
@@ -50,12 +45,10 @@
   "gallery_reset": "フィルターをリセット",
   "gallery_download": "ダウンロード",
   "gallery_cat_all": "すべて",
-
   "news_tag": "公式プレスリリース＆お知らせ",
   "news_title": "最新ニュース",
   "news_sub": "公式受賞、カムバックニュース、バニーズユニバースの更新情報を確認。",
   "news_search_ph": "ニュースを検索...",
-
   "search_tag": "リアルタイム検索",
   "search_title": "グローバルユニバース検索",
   "search_sub": "メンバー、アルバム、曲、フォトカード & ギャラリーを即座に検索。",
@@ -66,7 +59,6 @@
   "search_empty_sub": "'Ditto'、'ミンジ'、'Super Shy'、'Attention'を検索してみてください。",
   "search_start_title": "ユニバース検索を開始",
   "search_start_sub": "上にキーワードを入力してメンバー、アルバム、曲をリアルタイムで検索。",
-
   "fav_tag": "マイコレクション",
   "fav_title": "お気に入り",
   "fav_sub": "ブックマークしたメンバー、アルバム、曲 & フォトカード。",
@@ -74,7 +66,6 @@
   "fav_songs": "お気に入りの曲",
   "fav_empty_title": "お気に入りなし",
   "fav_empty_sub": "メンバー、曲、フォトカードのハートアイコンをクリックしてブックマーク。",
-
   "community_tag": "Liveライブコミュニティ",
   "community_title": "バニーズファンウォール",
   "community_sub": "NewJeansへの愛を世界中でシェアしよう。多言語フィルター & ライブ同期。",
@@ -90,10 +81,8 @@
   "community_pinned": "固定済み",
   "community_admin_protected": "管理者保護",
   "community_censored": "不適切な言葉は***に検閲されます",
-
   "affinity_title": "バニー親和性計算機",
   "affinity_sub": "物理方程式を使用してあなたの親和性を計算",
-
   "settings_title": "設定",
   "settings_sub": "バニーズユニバースのエクスペリエンスをカスタマイズ",
   "theme_mode": "テーマモード",
@@ -104,7 +93,6 @@
   "reduced_motion_sub": "モーション軽減のためにパーティクル背景エフェクトを無効化。",
   "reset_data": "全データリセット",
   "reset_data_sub": "保存されたすべての設定をデフォルトにリセット。",
-
   "about_tag": "百科事典 & デジタルサンクチュアリ",
   "about_title": "NewJeans (NJZ) 百科事典",
   "about_sub": "公式の歴史、グループ命名哲学、活動メンバー、元メンバーアーカイブ、完全なキャリアマイルストーン。",
@@ -117,7 +105,6 @@
   "about_portal_sub": "公式プレスリリース & グローバル百科事典データから定期的に更新。",
   "about_official_web": "公式ウェブサイト (newjeans.kr)",
   "about_weverse": "公式Weverseコミュニティ",
-
   "member_back": "メンバー一覧へ",
   "member_archive_notice": "公式アーカイブ通知：このプロフィールはNewJeansの元メンバーであるDanielleを表しています。コンテンツは歴史的ファンダムアーカイブとして保存されています。",
   "member_prev": "前のメンバー",
@@ -126,6 +113,9 @@
   "member_birth": "生年月日",
   "member_nationality": "国籍",
   "member_fav_songs": "好きな曲",
-
-  "footer_text": "© 2026 BUNNIES WORLD - NewJeansへの愛を込めて制作"
+  "footer_text": "© 2026 BUNNIES WORLD - NewJeansへの愛を込めて制作",
+  "community_comments": "コメント",
+  "community_add_comment": "コメントを追加...",
+  "community_reply_btn": "返信",
+  "community_no_comments": "まだコメントはありません。"
 }

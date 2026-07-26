@@ -12,7 +12,6 @@
   "nav_settings": "SETTINGS",
   "nav_about": "ABOUT",
   "nav_more": "MORE",
-
   "hero_tag": "OFFICIAL BUNNIES FAN UNIVERSE",
   "hero_title": "BUNNIES WORLD",
   "hero_subtitle": "The Official Interactive World for NewJeans & Bunnies",
@@ -26,7 +25,6 @@
   "home_wallpaper": "WALLPAPER OF THE DAY",
   "home_top_audio": "TOP AUDIO PREVIEWS",
   "home_all_songs": "All Songs",
-
   "members_title": "NEWJEANS MEMBERS",
   "members_sub": "Discover the shining stars of NewJeans",
   "members_search_ph": "Search member by name or MBTI...",
@@ -34,13 +32,10 @@
   "former_members": "Former Members",
   "former_member_badge": "ARCHIVE",
   "members_details": "Details",
-
   "discography_title": "DISCOGRAPHY & MUSIC",
   "discography_sub": "Listen to official previews & explore vinyl records",
-
   "timeline_title": "NEWJEANS TIMELINE",
   "timeline_sub": "A nostalgic journey from NewJeans' surprise debut in 2022 to their latest triumphs.",
-
   "gallery_tag": "POLAROID MASONRY STASH",
   "gallery_title": "BUNNIES GALLERY",
   "gallery_sub": "A Y2K digital scrapbook featuring photocards, concept photos, and fan artwork.",
@@ -50,12 +45,10 @@
   "gallery_reset": "Reset Filters",
   "gallery_download": "Download",
   "gallery_cat_all": "All",
-
   "news_tag": "OFFICIAL PRESS & ANNOUNCEMENTS",
   "news_title": "LATEST NEWS",
   "news_sub": "Stay updated with official awards, comeback news, and Bunnies World updates.",
   "news_search_ph": "Search news...",
-
   "search_tag": "REALTIME DISCOVERY",
   "search_title": "GLOBAL UNIVERSE SEARCH",
   "search_sub": "Search members, albums, tracks, photocards & gallery instantly.",
@@ -66,7 +59,6 @@
   "search_empty_sub": "Try searching for 'Ditto', 'Minji', 'Super Shy', or 'Attention'.",
   "search_start_title": "Start Searching Universe",
   "search_start_sub": "Type any keyword above to search through members, albums, and songs in real time.",
-
   "fav_tag": "MY STASH",
   "fav_title": "MY FAVORITES",
   "fav_sub": "Your bookmarked members, albums, songs & photocards.",
@@ -74,7 +66,6 @@
   "fav_songs": "FAVORITE SONGS",
   "fav_empty_title": "No Favorites Yet",
   "fav_empty_sub": "Click the heart icon on members, songs, or photocards to bookmark them here.",
-
   "community_tag": "BUNNIES COMMUNITY",
   "community_title": "BUNNIES FAN WALL",
   "community_sub": "Share your love for NewJeans worldwide. Multi-language profanity filtered & synced live.",
@@ -90,10 +81,8 @@
   "community_pinned": "Pinned",
   "community_admin_protected": "Admin Protected",
   "community_censored": "Toxic words will be censored as ***",
-
   "affinity_title": "BUNNY AFFINITY CALCULATOR",
   "affinity_sub": "Calculate your mathematical attraction force using physics equations",
-
   "settings_title": "SETTINGS",
   "settings_sub": "Customize your Bunnies World experience",
   "theme_mode": "Theme Mode",
@@ -104,7 +93,6 @@
   "reduced_motion_sub": "Disable particle background FX for reduced motion preferences.",
   "reset_data": "Reset All Data",
   "reset_data_sub": "Reset all stored settings and local fan notes to factory defaults.",
-
   "about_tag": "ENCYCLOPEDIA & DIGITAL SANCTUARY",
   "about_title": "NEWJEANS (NJZ) ENCYCLOPEDIA",
   "about_sub": "Official history, group naming philosophy, active membership, former member archives, and complete career milestones.",
@@ -117,7 +105,6 @@
   "about_portal_sub": "Updated regularly from official press releases & global encyclopedia data.",
   "about_official_web": "Official Website (newjeans.kr)",
   "about_weverse": "Official Weverse Community",
-
   "member_back": "Back to Members",
   "member_archive_notice": "OFFICIAL ARCHIVE NOTICE: This profile represents Danielle as a former member of NewJeans. Content is preserved as a historical fandom archive.",
   "member_prev": "PREVIOUS MEMBER",
@@ -126,6 +113,9 @@
   "member_birth": "Birth Date",
   "member_nationality": "Nationality",
   "member_fav_songs": "Favorite Songs",
-
-  "footer_text": "© 2026 BUNNIES WORLD - Designed with Love for NewJeans"
+  "footer_text": "© 2026 BUNNIES WORLD - Designed with Love for NewJeans",
+  "community_comments": "Comments",
+  "community_add_comment": "Add a comment...",
+  "community_reply_btn": "Reply",
+  "community_no_comments": "No comments yet. Be the first to reply!"
 }

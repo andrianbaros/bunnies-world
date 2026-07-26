@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { MessageSquare, Send, Heart, Shield, Lock, Pin, Filter, AlertTriangle, RefreshCw } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { MessageSquare, Send, Heart, Shield, Lock, Pin, Filter, RefreshCw, MessageCircle, CornerDownRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { supabase, isSupabaseConfigured } from '../services/supabase';
 import { storageService } from '../services/storageService';
@@ -18,12 +18,19 @@ export default function Community() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [profanityWarning, setProfanityWarning] = useState(false);
 
+  // Comment section state
+  const [openComments, setOpenComments] = useState({});
+  const [commentInputs, setCommentInputs] = useState({});
+  const [commentAuthors, setCommentAuthors] = useState({});
+  const [commentWarnings, setCommentWarnings] = useState({});
+
   useEffect(() => {
     fetchPosts();
   }, []);
 
   const fetchPosts = async () => {
     setLoading(true);
+    let fetchedPosts = [];
     if (isSupabaseConfigured()) {
       try {
         const { data, error } = await supabase
@@ -33,25 +40,37 @@ export default function Community() {
           .order('created_at', { ascending: false });
 
         if (error) throw error;
-        setPosts(data || []);
+        fetchedPosts = data || [];
       } catch (err) {
         console.warn('Supabase fetch failed, falling back to local storage:', err.message);
-        setPosts(storageService.getSettings().communityPosts || []);
+        fetchedPosts = storageService.getSettings().communityPosts || [];
       }
     } else {
-      setPosts(storageService.getSettings().communityPosts || []);
+      fetchedPosts = storageService.getSettings().communityPosts || [];
     }
+
+    // Merge comments from local storage if any
+    const localPosts = storageService.getSettings().communityPosts || [];
+    const localCommentsMap = {};
+    localPosts.forEach((lp) => {
+      if (lp.comments && lp.comments.length > 0) {
+        localCommentsMap[lp.id] = lp.comments;
+      }
+    });
+
+    const postsWithComments = fetchedPosts.map((p) => ({
+      ...p,
+      comments: p.comments || localCommentsMap[p.id] || []
+    }));
+
+    setPosts(postsWithComments);
     setLoading(false);
   };
 
   const handleContentChange = (e) => {
     const val = e.target.value;
     setContent(val);
-    if (hasProfanity(val)) {
-      setProfanityWarning(true);
-    } else {
-      setProfanityWarning(false);
-    }
+    setProfanityWarning(hasProfanity(val));
   };
 
   const handleAddPost = async (e) => {
@@ -68,6 +87,7 @@ export default function Community() {
       content: sanitizedContent,
       likes: 0,
       is_pinned: false,
+      comments: [],
       created_at: new Date().toISOString()
     };
 
@@ -75,7 +95,7 @@ export default function Community() {
       try {
         const { data, error } = await supabase.from('community_posts').insert([newPost]).select();
         if (error) throw error;
-        if (data) setPosts([data[0], ...posts]);
+        if (data) setPosts([{ ...data[0], comments: [] }, ...posts]);
         showToast('info', 'Post published successfully!');
       } catch (err) {
         console.error('Supabase insert error:', err.message);
@@ -109,6 +129,57 @@ export default function Community() {
         console.error('Error updating likes:', err.message);
       }
     }
+  };
+
+  // Toggle Comment Section for a post
+  const toggleComments = (postId) => {
+    setOpenComments((prev) => ({ ...prev, [postId]: !prev[postId] }));
+  };
+
+  // Handle Comment Input Change
+  const handleCommentTextChange = (postId, val) => {
+    setCommentInputs((prev) => ({ ...prev, [postId]: val }));
+    setCommentWarnings((prev) => ({ ...prev, [postId]: hasProfanity(val) }));
+  };
+
+  const handleCommentAuthorChange = (postId, val) => {
+    setCommentAuthors((prev) => ({ ...prev, [postId]: val }));
+  };
+
+  // Submit Comment
+  const handleAddComment = (e, postId) => {
+    e.preventDefault();
+    const text = (commentInputs[postId] || '').trim();
+    if (!text) return;
+
+    const sanitized = cleanText(text);
+    const author = (commentAuthors[postId] || '').trim() || 'Anonymous Bunny';
+
+    const newComment = {
+      id: `comment-${Date.now()}`,
+      author_name: author,
+      content: sanitized,
+      created_at: new Date().toISOString()
+    };
+
+    // Save locally
+    storageService.addCommunityComment(postId, newComment);
+
+    // Update state
+    setPosts((prevPosts) =>
+      prevPosts.map((p) => {
+        if (p.id === postId) {
+          const existing = p.comments || [];
+          return { ...p, comments: [newComment, ...existing] };
+        }
+        return p;
+      })
+    );
+
+    // Reset comment form
+    setCommentInputs((prev) => ({ ...prev, [postId]: '' }));
+    setCommentWarnings((prev) => ({ ...prev, [postId]: false }));
+    showToast('success', 'Komentar terkirim!');
   };
 
   return (
@@ -209,6 +280,9 @@ export default function Community() {
             const postLikes = post.likes || 0;
             const postDate = post.created_at || post.date || new Date().toISOString();
             const postTag = post.member_tag || 'NewJeans';
+            const commentsList = post.comments || [];
+            const isCommentsOpen = !!openComments[post.id];
+
             return (
               <motion.div
                 key={post.id}
@@ -246,15 +320,102 @@ export default function Community() {
 
                 <p className="text-xs text-[var(--text-primary)] leading-relaxed font-sans">{postContent}</p>
 
-                <div className="flex items-center justify-between pt-2 border-t border-[var(--border-color)] dark:border-[var(--border-color)] text-xs">
-                  <button
-                    onClick={() => handleLike(post.id, postLikes)}
-                    className="flex items-center gap-1.5 text-xs text-[var(--text-muted)] hover:text-pink-500 transition-colors"
-                  >
-                    <Heart className="w-4 h-4 text-pink-500 hover:fill-current" />
-                    <span>{postLikes} {t('community_likes')}</span>
-                  </button>
+                {/* Post Footer Action Bar */}
+                <div className="flex items-center justify-between pt-2 border-t border-[var(--border-color)] text-xs">
+                  <div className="flex items-center gap-4">
+                    <button
+                      onClick={() => handleLike(post.id, postLikes)}
+                      className="flex items-center gap-1.5 text-xs text-[var(--text-muted)] hover:text-pink-500 transition-colors"
+                    >
+                      <Heart className="w-4 h-4 text-pink-500 hover:fill-current" />
+                      <span>{postLikes} {t('community_likes')}</span>
+                    </button>
+
+                    <button
+                      onClick={() => toggleComments(post.id)}
+                      className={`flex items-center gap-1.5 text-xs transition-colors ${
+                        isCommentsOpen ? 'text-pink-500 font-bold' : 'text-[var(--text-muted)] hover:text-[var(--text-heading)]'
+                      }`}
+                    >
+                      <MessageCircle className="w-4 h-4" />
+                      <span>{commentsList.length} {t('community_comments', { defaultValue: 'Comments' })}</span>
+                    </button>
+                  </div>
                 </div>
+
+                {/* Comment Section (Expandable Drawer) */}
+                <AnimatePresence>
+                  {isCommentsOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{ duration: 0.2 }}
+                      className="flex flex-col gap-3 pt-3 border-t border-[var(--border-color)] overflow-hidden"
+                    >
+                      {/* Add Comment Form */}
+                      <form onSubmit={(e) => handleAddComment(e, post.id)} className="flex flex-col gap-2 bg-[var(--bg-subtle)] p-3 rounded-xl border border-[var(--border-color)]">
+                        <div className="flex items-center gap-2">
+                          <input
+                            type="text"
+                            placeholder={t('community_nickname_ph', { defaultValue: 'Nickname...' })}
+                            value={commentAuthors[post.id] || ''}
+                            onChange={(e) => handleCommentAuthorChange(post.id, e.target.value)}
+                            className="w-1/3 bg-[var(--bg-input)] border border-[var(--border-color)] rounded-lg px-3 py-1.5 text-[11px] text-[var(--text-heading)] placeholder-[var(--text-muted)] outline-none focus:border-pink-500"
+                          />
+                          <input
+                            type="text"
+                            placeholder={t('community_add_comment', { defaultValue: 'Tulis komentar...' })}
+                            value={commentInputs[post.id] || ''}
+                            onChange={(e) => handleCommentTextChange(post.id, e.target.value)}
+                            required
+                            className="flex-grow bg-[var(--bg-input)] border border-[var(--border-color)] rounded-lg px-3 py-1.5 text-[11px] text-[var(--text-heading)] placeholder-[var(--text-muted)] outline-none focus:border-pink-500"
+                          />
+                          <button
+                            type="submit"
+                            className="px-3.5 py-1.5 rounded-full bg-pink-500 text-white font-bold text-[11px] hover:bg-pink-600 transition-colors flex items-center gap-1 flex-shrink-0"
+                          >
+                            <span>{t('community_reply_btn', { defaultValue: 'Kirim' })}</span>
+                            <CornerDownRight className="w-3 h-3" />
+                          </button>
+                        </div>
+                        {commentWarnings[post.id] && (
+                          <span className="text-[10px] text-pink-600 dark:text-pink-400 font-semibold flex items-center gap-1">
+                            <Filter className="w-3 h-3" />
+                            <span>{t('community_censored')}</span>
+                          </span>
+                        )}
+                      </form>
+
+                      {/* Comments List */}
+                      <div className="flex flex-col gap-2">
+                        {commentsList.length > 0 ? (
+                          commentsList.map((c) => (
+                            <div
+                              key={c.id || c.created_at}
+                              className="flex items-start gap-2.5 bg-[var(--bg-card)] p-3 rounded-xl border border-[var(--border-color)]"
+                            >
+                              <div className="w-6 h-6 rounded-full bg-pink-500/20 text-pink-600 dark:text-pink-400 font-bold text-[10px] flex items-center justify-center flex-shrink-0 mt-0.5 border border-pink-500/30">
+                                {(c.author_name || 'B')[0].toUpperCase()}
+                              </div>
+                              <div className="flex flex-col text-left gap-0.5 flex-grow">
+                                <div className="flex items-center justify-between">
+                                  <span className="font-bold text-[11px] text-[var(--text-heading)]">{c.author_name || 'Anonymous Bunny'}</span>
+                                  <span className="text-[9px] text-[var(--text-muted)]">{new Date(c.created_at || Date.now()).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                                </div>
+                                <p className="text-[11px] text-[var(--text-primary)] leading-relaxed">{c.content}</p>
+                              </div>
+                            </div>
+                          ))
+                        ) : (
+                          <div className="text-center py-3 text-[11px] text-[var(--text-muted)] italic">
+                            {t('community_no_comments', { defaultValue: 'Belum ada komentar. Jadilah yang pertama membalas!' })}
+                          </div>
+                        )}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </motion.div>
             );
           })

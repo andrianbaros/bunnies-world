@@ -184,6 +184,26 @@ export const storageService = {
     return current.communityPosts;
   },
 
+  addCommunityComment(postId, commentObj) {
+    const current = this.getSettings();
+    current.communityPosts = (current.communityPosts || []).map((p) => {
+      if (p.id === postId) {
+        const comments = p.comments || [];
+        const newComment = {
+          id: `comment-${Date.now()}`,
+          author_name: commentObj.author_name || 'Bunny',
+          content: commentObj.content,
+          created_at: new Date().toISOString()
+        };
+        return { ...p, comments: [newComment, ...comments] };
+      }
+      return p;
+    });
+    this.saveSettings(current);
+    return current.communityPosts;
+  },
+
+
   resetAll() {
     this.saveSettings(DEFAULT_SETTINGS);
     return DEFAULT_SETTINGS;
