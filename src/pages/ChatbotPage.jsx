@@ -241,7 +241,7 @@ export default function ChatbotPage() {
                       : 'bg-[var(--bg-subtle)] text-[var(--text-heading)] border border-[var(--border-color)] rounded-bl-none'
                   }`}
                 >
-                  {renderFormattedMessage(msg.content)}
+                  {renderFormattedMessage(msg.id === 'welcome' ? t('chatbot_welcome') : msg.content)}
                 </div>
               </motion.div>
             );

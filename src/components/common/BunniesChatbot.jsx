@@ -225,7 +225,7 @@ export default function BunniesChatbot() {
                           : 'bg-slate-100 dark:bg-zinc-800 text-slate-950 dark:text-white border border-pink-500/20 rounded-bl-xs'
                       }`}
                     >
-                      {parseLinksInText(m.content)}
+                      {parseLinksInText(m.id === 'welcome' ? t('chatbot_welcome') : m.content)}
                     </div>
                     <span className="text-[9px] text-slate-500 dark:text-zinc-500 mt-1 px-1 font-medium">
                       {new Date(m.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}

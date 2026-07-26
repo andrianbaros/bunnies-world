@@ -63,7 +63,24 @@ export default function Gallery() {
         const photoWidth = cardWidth - photoMargin * 2;
         const photoHeight = 960;
 
-        ctx.drawImage(img, photoMargin, photoMargin, photoWidth, photoHeight);
+        // Calculate aspect ratio crop to mimic object-fit: cover and prevent image stretching
+        const imgRatio = img.width / img.height;
+        const targetRatio = photoWidth / photoHeight;
+
+        let srcX = 0;
+        let srcY = 0;
+        let srcWidth = img.width;
+        let srcHeight = img.height;
+
+        if (imgRatio > targetRatio) {
+          srcWidth = img.height * targetRatio;
+          srcX = (img.width - srcWidth) / 2;
+        } else {
+          srcHeight = img.width / targetRatio;
+          srcY = (img.height - srcHeight) / 2;
+        }
+
+        ctx.drawImage(img, srcX, srcY, srcWidth, srcHeight, photoMargin, photoMargin, photoWidth, photoHeight);
 
         ctx.fillStyle = '#ec4899';
         ctx.font = 'bold 30px sans-serif';
