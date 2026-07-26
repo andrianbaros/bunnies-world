@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Users, Disc, MessageSquare, Info, MoreHorizontal, Search, Bookmark, Calendar, Newspaper, Settings, Sun, Moon, LayoutGrid } from 'lucide-react';
+import { Users, Disc, MessageSquare, Info, MoreHorizontal, Search, Bookmark, Calendar, Newspaper, Settings, Sun, Moon, LayoutGrid, Sparkles } from 'lucide-react';
 import { useSettings } from '../../contexts/SettingsContext';
 
 export default function Navbar() {
@@ -25,6 +25,7 @@ export default function Navbar() {
   ];
 
   const moreNavItems = [
+    { path: '/chat', label: 'BUNNY AI', icon: Sparkles },
     { path: '/about', label: t('nav_about'), icon: Info },
     { path: '/timeline', label: t('nav_timeline'), icon: Calendar },
     { path: '/gallery', label: t('nav_gallery'), icon: LayoutGrid },
@@ -33,6 +34,7 @@ export default function Navbar() {
     { path: '/favorites', label: t('nav_favorites'), icon: Bookmark },
     { path: '/settings', label: t('nav_settings'), icon: Settings }
   ];
+
 
   const toggleTheme = () => {
     const nextTheme = settings.theme === 'light' ? 'dark' : 'light';

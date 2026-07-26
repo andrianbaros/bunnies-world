@@ -128,5 +128,15 @@
   "dev_modal_toast_success": "Developer Tag Verified!",
   "dev_modal_toast_error": "Incorrect Admin Passcode!",
   "community_profanity_blocked": "Post/Comment or Nickname contains toxic language & cannot be sent!",
-  "community_comment_sent": "Comment posted successfully!"
+  "community_comment_sent": "Comment posted successfully!",
+  "chatbot_title": "BUNNY AI ASSISTANT",
+  "chatbot_subtitle": "Ask anything about NewJeans!",
+  "chatbot_placeholder": "Ask Bunny AI something...",
+  "chatbot_send": "Send",
+  "chatbot_clear": "Clear Chat",
+  "chatbot_thinking": "Bunny AI is thinking... 🐰✨",
+  "chatbot_suggestion_1": "Who are NewJeans members?",
+  "chatbot_suggestion_2": "What are NewJeans latest songs?",
+  "chatbot_suggestion_3": "Tell me about Hanni",
+  "chatbot_welcome": "Hello Bunny! 🐰✨ I am Bunny AI, your assistant for Bunnies World. Ask me anything about NewJeans!"
 }

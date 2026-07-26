@@ -48,7 +48,10 @@ const Favorites = lazyWithRetry(() => import('./pages/Favorites'));
 const Settings = lazyWithRetry(() => import('./pages/Settings'));
 const About = lazyWithRetry(() => import('./pages/About'));
 const Admin = lazyWithRetry(() => import('./pages/Admin'));
+const ChatbotPage = lazyWithRetry(() => import('./pages/ChatbotPage'));
 const NotFound = lazyWithRetry(() => import('./pages/NotFound'));
+
+import BunniesChatbot from './components/common/BunniesChatbot';
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -120,6 +123,7 @@ export default function App() {
                   <Route path="/settings" element={<Settings />} />
                   <Route path="/about" element={<About />} />
                   <Route path="/admin" element={<Admin />} />
+                  <Route path="/chat" element={<ChatbotPage />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </Suspense>
@@ -129,6 +133,9 @@ export default function App() {
           {/* Footer */}
           <Footer />
 
+          {/* Floating Bunnies AI Chatbot (Always present like Floating Music Player) */}
+          <BunniesChatbot />
+
           {/* Global iPod / CD Player */}
           <FloatingAudioPlayer />
         </div>
@@ -136,3 +143,4 @@ export default function App() {
     </>
   );
 }
+

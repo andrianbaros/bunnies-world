@@ -128,5 +128,15 @@
   "dev_modal_toast_success": "開発者タグが認証されました！",
   "dev_modal_toast_error": "管理者パスコードが正しくありません！",
   "community_profanity_blocked": "投稿/コメントまたはニックネームに不適切な言葉が含まれているため送信できません！",
-  "community_comment_sent": "コメントを投稿しました！"
+  "community_comment_sent": "コメントを投稿しました！",
+  "chatbot_title": "BUNNY AI アシスタント",
+  "chatbot_subtitle": "NewJeansについて何でも質問してください！",
+  "chatbot_placeholder": "Bunny AIに質問する...",
+  "chatbot_send": "送信",
+  "chatbot_clear": "チャット消去",
+  "chatbot_thinking": "Bunny AIが考え中... 🐰✨",
+  "chatbot_suggestion_1": "NewJeansのメンバーは誰？",
+  "chatbot_suggestion_2": "NewJeansの最新曲は？",
+  "chatbot_suggestion_3": "ハニについて教えて",
+  "chatbot_welcome": "こんにちはBunny！🐰✨ Bunnies WorldのBunny AIです。NewJeansについて何でも聞いてください！"
 }

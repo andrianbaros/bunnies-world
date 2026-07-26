@@ -219,7 +219,17 @@
     "dev_modal_toast_success": "Developer Tag Verified!",
     "dev_modal_toast_error": "Incorrect Admin Passcode!",
     "community_profanity_blocked": "Post/Comment or Nickname contains toxic language & cannot be sent!",
-    "community_comment_sent": "Comment posted successfully!"
+    "community_comment_sent": "Comment posted successfully!",
+    "chatbot_title": "BUNNY AI ASSISTANT",
+    "chatbot_subtitle": "Ask anything about NewJeans!",
+    "chatbot_placeholder": "Ask Bunny AI something...",
+    "chatbot_send": "Send",
+    "chatbot_clear": "Clear Chat",
+    "chatbot_thinking": "Bunny AI is thinking... 🐰✨",
+    "chatbot_suggestion_1": "Who are NewJeans members?",
+    "chatbot_suggestion_2": "What are NewJeans latest songs?",
+    "chatbot_suggestion_3": "Tell me about Hanni",
+    "chatbot_welcome": "Hello Bunny! 🐰✨ I am Bunny AI, your assistant for Bunnies World. Ask me anything about NewJeans!"
   },
   "id": {
     "nav_home": "BERANDA",
@@ -441,7 +451,17 @@
     "dev_modal_toast_success": "Verifikasi Developer Berhasil!",
     "dev_modal_toast_error": "Passcode Admin Salah!",
     "community_profanity_blocked": "Postingan/Komentar atau Nickname mengandung kata kasar & tidak dapat terkirim!",
-    "community_comment_sent": "Komentar berhasil terkirim!"
+    "community_comment_sent": "Komentar berhasil terkirim!",
+    "chatbot_title": "BUNNY AI ASSISTANT",
+    "chatbot_subtitle": "Tanya apa saja tentang NewJeans!",
+    "chatbot_placeholder": "Tanya Bunny AI sesuatu...",
+    "chatbot_send": "Kirim",
+    "chatbot_clear": "Hapus Chat",
+    "chatbot_thinking": "Bunny AI sedang berpikir... 🐰✨",
+    "chatbot_suggestion_1": "Siapa saja member NewJeans?",
+    "chatbot_suggestion_2": "Apa lagu terbaru NewJeans?",
+    "chatbot_suggestion_3": "Ceritakan tentang Hanni",
+    "chatbot_welcome": "Halo Bunny! 🐰✨ Saya Bunny AI, asistenmu di Bunnies World. Tanya saya apa saja tentang NewJeans!"
   },
   "ko": {
     "nav_home": "홈",
@@ -663,7 +683,17 @@
     "dev_modal_toast_success": "개발자 태그가 인증되었습니다!",
     "dev_modal_toast_error": "잘못된 관리자 암호입니다!",
     "community_profanity_blocked": "게시물/댓글 또는 닉네임에 부적절한 언어가 포함되어 전송할 수 없습니다!",
-    "community_comment_sent": "댓글이 성공적으로 등록되었습니다!"
+    "community_comment_sent": "댓글이 성공적으로 등록되었습니다!",
+    "chatbot_title": "BUNNY AI 아시스턴트",
+    "chatbot_subtitle": "뉴진스에 대해 무엇이든 물어보세요!",
+    "chatbot_placeholder": "Bunny AI에게 물어보세요...",
+    "chatbot_send": "전송",
+    "chatbot_clear": "대화 삭제",
+    "chatbot_thinking": "Bunny AI가 생각 중입니다... 🐰✨",
+    "chatbot_suggestion_1": "뉴진스 멤버는 누구인가요?",
+    "chatbot_suggestion_2": "뉴진스의 최신곡은 무엇인가요?",
+    "chatbot_suggestion_3": "하니에 대해 알려주세요",
+    "chatbot_welcome": "안녕하세요 버니! 🐰✨ 저는 버니즈 월드의 버니 AI입니다. 뉴진스에 대해 무엇이든 물어보세요!"
   },
   "ja": {
     "nav_home": "ホーム",
@@ -885,6 +915,16 @@
     "dev_modal_toast_success": "開発者タグが認証されました！",
     "dev_modal_toast_error": "管理者パスコードが正しくありません！",
     "community_profanity_blocked": "投稿/コメントまたはニックネームに不適切な言葉が含まれているため送信できません！",
-    "community_comment_sent": "コメントを投稿しました！"
+    "community_comment_sent": "コメントを投稿しました！",
+    "chatbot_title": "BUNNY AI アシスタント",
+    "chatbot_subtitle": "NewJeansについて何でも質問してください！",
+    "chatbot_placeholder": "Bunny AIに質問する...",
+    "chatbot_send": "送信",
+    "chatbot_clear": "チャット消去",
+    "chatbot_thinking": "Bunny AIが考え中... 🐰✨",
+    "chatbot_suggestion_1": "NewJeansのメンバーは誰？",
+    "chatbot_suggestion_2": "NewJeansの最新曲は？",
+    "chatbot_suggestion_3": "ハニについて教えて",
+    "chatbot_welcome": "こんにちはBunny！🐰✨ Bunnies WorldのBunny AIです。NewJeansについて何でも聞いてください！"
   }
 }

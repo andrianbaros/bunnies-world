@@ -128,5 +128,15 @@
   "dev_modal_toast_success": "Verifikasi Developer Berhasil!",
   "dev_modal_toast_error": "Passcode Admin Salah!",
   "community_profanity_blocked": "Postingan/Komentar atau Nickname mengandung kata kasar & tidak dapat terkirim!",
-  "community_comment_sent": "Komentar berhasil terkirim!"
+  "community_comment_sent": "Komentar berhasil terkirim!",
+  "chatbot_title": "BUNNY AI ASSISTANT",
+  "chatbot_subtitle": "Tanya apa saja tentang NewJeans!",
+  "chatbot_placeholder": "Tanya Bunny AI sesuatu...",
+  "chatbot_send": "Kirim",
+  "chatbot_clear": "Hapus Chat",
+  "chatbot_thinking": "Bunny AI sedang berpikir... 🐰✨",
+  "chatbot_suggestion_1": "Siapa saja member NewJeans?",
+  "chatbot_suggestion_2": "Apa lagu terbaru NewJeans?",
+  "chatbot_suggestion_3": "Ceritakan tentang Hanni",
+  "chatbot_welcome": "Halo Bunny! 🐰✨ Saya Bunny AI, asistenmu di Bunnies World. Tanya saya apa saja tentang NewJeans!"
 }
