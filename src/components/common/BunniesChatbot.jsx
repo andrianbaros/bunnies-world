@@ -106,14 +106,14 @@ export default function BunniesChatbot() {
 
   const chatbotContent = (
     <>
-      {/* Floating Collapsed Button (Positioned cleanly above mobile bottom bar & music player) */}
+      {/* Floating Collapsed Button (Positioned on the RIGHT side, directly ABOVE music player) */}
       <AnimatePresence>
         {!isOpen && (
           <motion.div
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0, opacity: 0 }}
-            className="fixed bottom-36 sm:bottom-6 left-4 sm:left-6 z-[99999]"
+            className="fixed bottom-36 sm:bottom-28 right-4 sm:right-6 z-[99999]"
           >
             <button
               onClick={() => setIsOpen(true)}
@@ -135,7 +135,7 @@ export default function BunniesChatbot() {
         )}
       </AnimatePresence>
 
-      {/* Expanded Chat Window */}
+      {/* Expanded Chat Window (Positioned on the RIGHT side, directly ABOVE music player) */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -143,7 +143,7 @@ export default function BunniesChatbot() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 40, scale: 0.95 }}
             transition={{ duration: 0.25 }}
-            className="fixed bottom-20 sm:bottom-6 left-3 sm:left-6 z-[99999] w-[calc(100%-1.5rem)] max-w-[380px] sm:w-[380px] h-[500px] max-h-[70vh] rounded-3xl border border-[var(--border-color)] bg-[var(--bg-card)] shadow-2xl flex flex-col overflow-hidden backdrop-blur-xl"
+            className="fixed bottom-36 sm:bottom-28 right-3 sm:right-6 z-[99999] w-[calc(100%-1.5rem)] max-w-[380px] sm:w-[380px] h-[480px] max-h-[65vh] rounded-3xl border border-[var(--border-color)] bg-[var(--bg-card)] shadow-2xl flex flex-col overflow-hidden backdrop-blur-xl"
           >
             {/* Header Bar */}
             <div className="p-4 bg-[var(--bg-subtle)] border-b border-[var(--border-color)] flex items-center justify-between">
