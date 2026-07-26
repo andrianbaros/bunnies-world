@@ -198,7 +198,7 @@ export default function ChatbotPage() {
         {/* Chat Control Header */}
         <div className="p-4 bg-[var(--bg-subtle)] border-b border-[var(--border-color)] flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 flex items-center justify-center text-white text-lg shadow-md">
+            <div className="w-10 h-10 rounded-full bg-pink-500 flex items-center justify-center text-white text-lg shadow-md">
               🐰
             </div>
             <div>

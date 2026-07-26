@@ -17,8 +17,13 @@ export default function Home() {
     { src: '/assets/Ditto era.jpg', title: 'Ditto Era' },
     { src: '/assets/getup.jpg', title: 'Get Up EP' },
     { src: '/assets/how sweet shoot.jpg', title: 'How Sweet Single' },
-    { src: '/assets/fanart collage.png', title: 'Bunnies Fanart Collage' },
-    { src: '/assets/supershy power puff.jpg', title: 'Super Shy Powerpuff Girls' }
+    { src: '/assets/fanart collage.png', title: 'Bunnies Fanart Collage' }
+  ];
+
+  const quotes = [
+    { text: "Jeans are a timeless fashion item you never get tired of wearing. We want NewJeans to be just like that.", author: "Minji" },
+    { text: "We want to bring music that feels like a comfortable breeze on a warm summer afternoon.", author: "Hanni" },
+    { text: "Bunnies give us so much love and inspiration every single day.", author: "Haerin" }
   ];
 
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -30,20 +35,14 @@ export default function Home() {
     return () => clearInterval(timer);
   }, [heroImages.length]);
 
-  const activeMembers = membersData.filter((m) => m.status === 'active');
-  const featuredAlbum = albumsData[2] || albumsData[0];
-  const wallpaperOfDay = galleryData.find((g) => g.image.includes('supershy')) || galleryData[0];
-
-  const quotes = [
-    { text: "I want NewJeans to be like a pair of classic jeans that you never get tired of wearing.", author: "Minji" },
-    { text: "Music is our way of telling honest stories that stay with people forever.", author: "Hanni" },
-    { text: "Every melody we sing is a gift filled with all our heart for our Bunnies.", author: "Hyein" }
-  ];
+  const activeMembers = membersData.filter((m) => m.status === 'Active');
+  const featuredAlbum = albumsData[0] || {};
+  const wallpaperOfDay = galleryData[0] || { image: '/assets/Ditto era.jpg', title: 'Group Concept Photo' };
 
   return (
-    <div className="flex flex-col gap-12 py-6 px-4 max-w-6xl mx-auto z-10 relative">
-      {/* 1. Hero Slideshow Banner */}
-      <section className="min-h-[60vh] sm:min-h-[65vh] flex flex-col items-center justify-center text-center gap-6 relative rounded-3xl p-6 sm:p-10 overflow-hidden glass-surface border border-[var(--border-color)] group">
+    <div className="flex flex-col gap-8 sm:gap-12 py-4 px-4 max-w-6xl mx-auto z-10 relative">
+      {/* 1. Hero Carousel */}
+      <section className="glass-surface p-6 sm:p-12 rounded-3xl text-center flex flex-col items-center gap-4 sm:gap-5 border border-[var(--border-color)] relative overflow-hidden min-h-[340px] sm:min-h-[420px] justify-center group">
         <div className="absolute inset-0 z-0">
           <AnimatePresence mode="wait">
             <motion.img
@@ -57,7 +56,7 @@ export default function Home() {
               className="w-full h-full object-cover filter contrast-105"
             />
           </AnimatePresence>
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 via-transparent to-transparent dark:from-zinc-950/90" />
+          <div className="absolute inset-0 bg-slate-900/40 dark:bg-zinc-950/80" />
         </div>
 
         <button
@@ -139,7 +138,7 @@ export default function Home() {
       </section>
 
       {/* 2. Quote of the Day */}
-      <section className="glass-surface p-6 sm:p-8 rounded-2xl text-center flex flex-col items-center gap-3 border">
+      <section className="glass-surface p-6 sm:p-8 rounded-2xl text-center flex flex-col items-center gap-3 border border-[var(--border-color)]">
         <Quote className="w-6 h-6 text-pink-500 opacity-80" />
         <p className="text-sm sm:text-base italic text-[var(--text-heading)] dark:text-gray-200 font-serif max-w-2xl leading-relaxed">
           "{quotes[0].text}"
@@ -164,7 +163,7 @@ export default function Home() {
             <Link
               key={member.id}
               to={`/members/${member.id}`}
-              className="glass-surface p-5 rounded-2xl flex flex-col items-center text-center gap-3 border hover:border-pink-500/40 transition-all hover:-translate-y-1 group"
+              className="glass-surface p-5 rounded-2xl flex flex-col items-center text-center gap-3 border border-[var(--border-color)] hover:border-pink-500/40 transition-all hover:-translate-y-1 group"
             >
               <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-pink-500/20 p-1 group-hover:border-pink-500 transition-colors shadow-sm">
                 <img src={member.image} alt={member.name} className="w-full h-full object-cover rounded-full group-hover:scale-105 transition-transform duration-300" />
@@ -180,8 +179,8 @@ export default function Home() {
       </section>
 
       {/* 4. Featured Album */}
-      <section className="glass-surface p-6 sm:p-8 rounded-2xl flex flex-col sm:flex-row items-center gap-6 sm:gap-8 border">
-        <div className="w-40 h-40 sm:w-48 sm:h-48 rounded-xl overflow-hidden shadow-md flex-shrink-0 border">
+      <section className="glass-surface p-6 sm:p-8 rounded-2xl flex flex-col sm:flex-row items-center gap-6 sm:gap-8 border border-[var(--border-color)]">
+        <div className="w-40 h-40 sm:w-48 sm:h-48 rounded-xl overflow-hidden shadow-md flex-shrink-0 border border-[var(--border-color)]">
           <img src={featuredAlbum.cover} alt={featuredAlbum.title} className="w-full h-full object-cover" />
         </div>
         <div className="flex flex-col gap-2.5 text-center sm:text-left">
@@ -205,7 +204,7 @@ export default function Home() {
 
       {/* 5. Wallpaper + Audio */}
       <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="glass-surface p-5 sm:p-6 rounded-2xl flex flex-col gap-4 border">
+        <div className="glass-surface p-5 sm:p-6 rounded-2xl flex flex-col gap-4 border border-[var(--border-color)]">
           <div className="flex items-center justify-between">
             <h3 className="font-bold text-xs uppercase tracking-wider text-[var(--text-heading)] flex items-center gap-2">
               <ImageIcon className="w-4 h-4 text-pink-500" />
@@ -213,15 +212,15 @@ export default function Home() {
             </h3>
             <Link to="/gallery" className="text-xs font-semibold text-pink-600 dark:text-pink-400 hover:underline">{t('nav_gallery')} →</Link>
           </div>
-          <div className="relative aspect-video rounded-xl overflow-hidden shadow-sm border">
+          <div className="relative aspect-video rounded-xl overflow-hidden shadow-sm border border-[var(--border-color)]">
             <img src={wallpaperOfDay.image} alt={wallpaperOfDay.title} className="w-full h-full object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex items-end p-3.5">
+            <div className="absolute inset-0 bg-black/50 flex items-end p-3.5">
               <span className="text-xs font-semibold text-white">{wallpaperOfDay.title}</span>
             </div>
           </div>
         </div>
 
-        <div className="glass-surface p-5 sm:p-6 rounded-2xl flex flex-col gap-4 border">
+        <div className="glass-surface p-5 sm:p-6 rounded-2xl flex flex-col gap-4 border border-[var(--border-color)]">
           <div className="flex items-center justify-between">
             <h3 className="font-bold text-xs uppercase tracking-wider text-[var(--text-heading)] flex items-center gap-2">
               <Music className="w-4 h-4 text-pink-500" />
@@ -234,7 +233,7 @@ export default function Home() {
               <div
                 key={track.id}
                 onClick={() => playSongById(track.id)}
-                className="flex items-center justify-between p-3 rounded-xl bg-[var(--bg-subtle)] hover:bg-[var(--bg-subtle-hover)] transition-all cursor-pointer border border-transparent hover:border-[var(--border-color)] dark:hover:border-[var(--border-color)]"
+                className="flex items-center justify-between p-3 rounded-xl bg-[var(--bg-subtle)] hover:bg-[var(--bg-subtle-hover)] transition-all cursor-pointer border border-transparent hover:border-[var(--border-color)]"
               >
                 <div className="flex items-center gap-3">
                   <img src={track.cover} alt={track.title} className="w-9 h-9 rounded-lg object-cover" />

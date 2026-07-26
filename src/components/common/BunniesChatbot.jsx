@@ -187,7 +187,7 @@ export default function BunniesChatbot() {
 
   const chatbotContent = (
     <>
-      {/* Floating Collapsed Button (Sleek ultra-compact 44px circle icon on mobile bottom-left, full pill on desktop) */}
+      {/* Floating Collapsed Button (Solid pink theme without gradients) */}
       <AnimatePresence>
         {!isOpen && (
           <motion.div
@@ -198,7 +198,7 @@ export default function BunniesChatbot() {
           >
             <button
               onClick={() => setIsOpen(true)}
-              className="group relative flex items-center justify-center gap-2 w-11 h-11 sm:w-auto sm:h-auto sm:px-4 sm:py-2.5 rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 text-white shadow-2xl hover:scale-105 transition-all duration-300 border-2 border-white/20 active:scale-95 cursor-pointer"
+              className="group relative flex items-center justify-center gap-2 w-11 h-11 sm:w-auto sm:h-auto sm:px-4 sm:py-2.5 rounded-full bg-pink-500 hover:bg-pink-600 text-white shadow-2xl hover:scale-105 transition-all duration-300 border-2 border-white/20 active:scale-95 cursor-pointer"
               title="Bunny AI Assistant"
             >
               <div className="relative flex items-center justify-center">
@@ -230,7 +230,7 @@ export default function BunniesChatbot() {
             <div className="p-4 bg-[var(--bg-subtle)] border-b border-[var(--border-color)] flex items-center justify-between">
               <div className="flex items-center gap-2.5">
                 <div className="relative">
-                  <div className="w-9 h-9 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 flex items-center justify-center text-white font-bold text-sm shadow-xs">
+                  <div className="w-9 h-9 rounded-full bg-pink-500 flex items-center justify-center text-white font-bold text-sm shadow-xs">
                     🐰
                   </div>
                   <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-emerald-500 rounded-full border-2 border-[var(--bg-card)]" title="Online" />
