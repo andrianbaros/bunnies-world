@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { HelpCircle, RotateCcw, Trophy, Award, Sparkles } from 'lucide-react';
 import quizData from '../data/json/quiz.json';
@@ -32,7 +32,7 @@ export default function Universe() {
   ];
 
   const handleQuizAnswer = (optionIdx) => {
-    if (selectedOption !== null) return; // Prevent double clicks
+    if (selectedOption !== null) return;
     setSelectedOption(optionIdx);
 
     const isCorrect = optionIdx === sessionQuestions[currentQuizIdx].answer;
@@ -75,14 +75,14 @@ export default function Universe() {
   return (
     <div className="flex flex-col gap-8 py-6 px-4 max-w-4xl mx-auto z-10 relative">
       <div className="text-center flex flex-col items-center gap-3">
-        <span className="px-3.5 py-1 rounded-full bg-pink-500/10 border border-pink-500/20 text-pink-600 dark:text-pink-400 text-xs font-bold tracking-widest uppercase flex items-center gap-1.5">
+        <span className="px-3.5 py-1 rounded-full bg-pink-500/20 border border-pink-500/40 text-pink-700 dark:text-pink-300 text-xs font-black tracking-widest uppercase flex items-center gap-1.5 shadow-2xs">
           <Sparkles className="w-3.5 h-3.5" />
           <span>KNOWLEDGE & TRIVIA</span>
         </span>
-        <h1 className="text-hero">
+        <h1 className="text-hero font-black text-slate-900 dark:text-white">
           BUNNIES TRIVIA & QUIZ
         </h1>
-        <p className="text-sm text-[var(--text-secondary)] max-w-md">
+        <p className="text-sm text-slate-700 dark:text-[var(--text-secondary)] max-w-md font-medium">
           Test your NewJeans knowledge and discover your fandom affinity result! (5 randomized questions per session)
         </p>
       </div>
@@ -91,14 +91,14 @@ export default function Universe() {
       <motion.div
         initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
-        className="glass-surface rounded-3xl p-6 sm:p-8 flex flex-col gap-6 border border-[var(--border-color)] shadow-sm bg-white/80 dark:bg-[var(--bg-card)]"
+        className="glass-surface rounded-3xl p-6 sm:p-8 flex flex-col gap-6 border border-slate-200 dark:border-[var(--border-color)] shadow-md bg-white dark:bg-[var(--bg-card)]"
       >
-        <div className="flex items-center justify-between border-b border-[var(--border-color)] pb-3">
+        <div className="flex items-center justify-between border-b border-slate-200 dark:border-[var(--border-color)] pb-3">
           <div className="flex items-center gap-2">
             <HelpCircle className="w-5 h-5 text-pink-500" />
-            <h2 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider">TRIVIA CHALLENGE</h2>
+            <h2 className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-wider">TRIVIA CHALLENGE</h2>
           </div>
-          <span className="text-xs font-bold text-pink-600 dark:text-pink-400">
+          <span className="text-xs font-black text-pink-600 dark:text-pink-400">
             Question {currentQuizIdx + 1} of {sessionQuestions.length}
           </span>
         </div>
@@ -106,29 +106,29 @@ export default function Universe() {
         {!isQuizCompleted && currentQ ? (
           <div className="flex flex-col gap-5">
             {/* Progress Bar */}
-            <div className="w-full bg-slate-200 dark:bg-[var(--bg-subtle)] h-2 rounded-full overflow-hidden">
+            <div className="w-full bg-slate-200 dark:bg-[var(--bg-subtle)] h-2.5 rounded-full overflow-hidden">
               <div
                 className="bg-pink-500 h-full transition-all duration-300 rounded-full"
                 style={{ width: `${((currentQuizIdx + 1) / sessionQuestions.length) * 100}%` }}
               />
             </div>
 
-            <h3 className="text-base sm:text-lg font-extrabold text-slate-900 dark:text-white leading-snug">
+            <h3 className="text-base sm:text-lg font-black text-slate-900 dark:text-white leading-snug">
               {currentQ.question}
             </h3>
 
-            {/* High-contrast options grid visible in Day & Night mode */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+            {/* High-contrast solid options grid 100% visible in Day & Night mode */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-1">
               {currentQ.options.map((opt, idx) => {
-                let btnStyle = 'bg-slate-100 dark:bg-[var(--bg-subtle)] border-slate-300 dark:border-[var(--border-color)] text-slate-900 dark:text-white hover:border-pink-500 hover:bg-pink-50 dark:hover:bg-pink-500/10';
+                let btnStyle = 'bg-white dark:bg-zinc-800 text-slate-900 dark:text-white border-2 border-slate-300 dark:border-zinc-700 hover:border-pink-500 hover:bg-pink-50 dark:hover:bg-pink-500/20';
 
                 if (selectedOption !== null) {
                   if (idx === currentQ.answer) {
-                    btnStyle = 'bg-emerald-500 text-white border-emerald-600 font-extrabold shadow-sm';
+                    btnStyle = 'bg-emerald-600 text-white border-2 border-emerald-700 font-black shadow-sm';
                   } else if (selectedOption === idx) {
-                    btnStyle = 'bg-rose-500 text-white border-rose-600 font-extrabold shadow-sm';
+                    btnStyle = 'bg-rose-600 text-white border-2 border-rose-700 font-black shadow-sm';
                   } else {
-                    btnStyle = 'opacity-40 bg-slate-100 dark:bg-[var(--bg-subtle)] border-slate-200 dark:border-[var(--border-color)] text-slate-700 dark:text-gray-300';
+                    btnStyle = 'opacity-40 bg-slate-100 dark:bg-zinc-800 text-slate-600 dark:text-gray-400 border-2 border-slate-200 dark:border-zinc-800';
                   }
                 }
 
@@ -137,7 +137,7 @@ export default function Universe() {
                     key={idx}
                     disabled={selectedOption !== null}
                     onClick={() => handleQuizAnswer(idx)}
-                    className={`p-4 rounded-xl text-xs sm:text-sm font-bold text-left transition-all border shadow-2xs leading-snug ${btnStyle}`}
+                    className={`p-4 sm:p-5 rounded-2xl text-xs sm:text-sm font-extrabold text-left transition-all shadow-2xs leading-snug cursor-pointer ${btnStyle}`}
                   >
                     {opt}
                   </button>
@@ -150,21 +150,21 @@ export default function Universe() {
           <div className="flex flex-col items-center text-center gap-4 py-4">
             <Trophy className="w-12 h-12 text-pink-500 animate-bounce" />
             <h3 className="text-xl font-black text-slate-900 dark:text-white">Quiz Completed!</h3>
-            <p className="text-xs sm:text-sm text-slate-700 dark:text-[var(--text-secondary)] font-medium">
-              You scored <span className="font-extrabold text-pink-600 dark:text-pink-400 text-base">{score}</span> out of {sessionQuestions.length}!
+            <p className="text-xs sm:text-sm text-slate-800 dark:text-[var(--text-secondary)] font-bold">
+              You scored <span className="font-black text-pink-600 dark:text-pink-400 text-base">{score}</span> out of {sessionQuestions.length}!
             </p>
 
             {soulBunny && (
-              <div className="bg-slate-100 dark:bg-[var(--bg-subtle)] p-5 rounded-2xl border border-slate-300 dark:border-[var(--border-color)] max-w-md text-center flex flex-col gap-1.5 shadow-2xs">
-                <span className="text-[10px] font-bold text-pink-600 dark:text-pink-400 uppercase tracking-widest">Fandom Result</span>
-                <h4 className="text-base font-extrabold text-slate-900 dark:text-white">{soulBunny.title}</h4>
-                <p className="text-xs text-slate-700 dark:text-[var(--text-secondary)] leading-relaxed font-medium">{soulBunny.desc}</p>
+              <div className="bg-slate-100 dark:bg-[var(--bg-subtle)] p-5 rounded-2xl border-2 border-slate-300 dark:border-[var(--border-color)] max-w-md text-center flex flex-col gap-1.5 shadow-2xs">
+                <span className="text-[10px] font-black text-pink-600 dark:text-pink-400 uppercase tracking-widest">Fandom Result</span>
+                <h4 className="text-base font-black text-slate-900 dark:text-white">{soulBunny.title}</h4>
+                <p className="text-xs text-slate-800 dark:text-[var(--text-secondary)] leading-relaxed font-semibold">{soulBunny.desc}</p>
               </div>
             )}
 
             <button
               onClick={resetQuiz}
-              className="px-6 py-3 rounded-full bg-pink-500 text-white font-bold text-xs flex items-center gap-2 hover:bg-pink-600 transition-colors shadow-sm mt-2"
+              className="px-6 py-3 rounded-full bg-pink-500 text-white font-extrabold text-xs flex items-center gap-2 hover:bg-pink-600 transition-colors shadow-sm mt-2 cursor-pointer"
             >
               <RotateCcw className="w-4 h-4" />
               <span>Retry Quiz (5 New Questions)</span>
@@ -174,11 +174,11 @@ export default function Universe() {
       </motion.div>
 
       {/* Highscore Leaderboard */}
-      <div className="glass-surface p-5 rounded-2xl flex items-center justify-between border border-[var(--border-color)] bg-white/70 dark:bg-[var(--bg-card)]">
+      <div className="glass-surface p-5 rounded-2xl flex items-center justify-between border border-slate-200 dark:border-[var(--border-color)] bg-white dark:bg-[var(--bg-card)] shadow-xs">
         <div className="flex items-center gap-3">
           <Award className="w-5 h-5 text-pink-500" />
           <div>
-            <h4 className="font-bold text-xs uppercase tracking-wider text-slate-900 dark:text-white">Your High Score</h4>
+            <h4 className="font-black text-xs uppercase tracking-wider text-slate-900 dark:text-white">Your High Score</h4>
             <p className="text-xs text-slate-600 dark:text-[var(--text-muted)] mt-0.5 font-medium">Saved in LocalStorage.</p>
           </div>
         </div>
