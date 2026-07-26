@@ -1,10 +1,76 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { HelpCircle, Globe, BookOpen, Scale, ExternalLink, Code, Sparkles } from 'lucide-react';
+import { HelpCircle, Globe, BookOpen, Scale, ExternalLink, Code, Sparkles, Share2 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 export default function About() {
   const { t } = useTranslation();
+
+  const officialSNSLinks = [
+    {
+      name: 'Weverse Highlight',
+      url: 'https://weverse.io/newjeansofficial/highlight',
+      handle: 'Official Community',
+      color: 'from-emerald-500/15 to-teal-500/5 border-emerald-500/30 text-emerald-500 dark:text-emerald-400',
+      icon: '✨'
+    },
+    {
+      name: 'Instagram',
+      url: 'https://www.instagram.com/newjeans_official/',
+      handle: '@newjeans_official',
+      color: 'from-pink-500/15 to-rose-500/5 border-pink-500/30 text-pink-500 dark:text-pink-400',
+      icon: '📸'
+    },
+    {
+      name: 'X (Twitter)',
+      url: 'https://x.com/NewJeans_ADOR',
+      handle: '@NewJeans_ADOR',
+      color: 'from-sky-500/15 to-blue-500/5 border-sky-500/30 text-sky-500 dark:text-sky-400',
+      icon: '🐦'
+    },
+    {
+      name: 'Facebook',
+      url: 'https://www.facebook.com/official.newjeans',
+      handle: '@official.newjeans',
+      color: 'from-blue-600/15 to-indigo-600/5 border-blue-500/30 text-blue-500 dark:text-blue-400',
+      icon: '📘'
+    },
+    {
+      name: 'TikTok',
+      url: 'https://www.tiktok.com/@newjeans_official',
+      handle: '@newjeans_official',
+      color: 'from-purple-500/15 to-pink-500/5 border-purple-500/30 text-purple-500 dark:text-purple-400',
+      icon: '🎵'
+    },
+    {
+      name: 'YouTube',
+      url: 'https://www.youtube.com/c/NewJeans_official',
+      handle: '@NewJeans_official',
+      color: 'from-red-500/15 to-rose-600/5 border-red-500/30 text-red-500 dark:text-red-400',
+      icon: '▶️'
+    },
+    {
+      name: 'Spotify',
+      url: 'https://open.spotify.com/artist/6HvZYsbFfjnjFrWF950C9d',
+      handle: 'NewJeans Official',
+      color: 'from-green-500/15 to-emerald-600/5 border-green-500/30 text-green-500 dark:text-green-400',
+      icon: '🎧'
+    },
+    {
+      name: 'Apple Music',
+      url: 'https://music.apple.com/id/artist/newjeans/1635469693?l=id',
+      handle: 'NewJeans on Apple',
+      color: 'from-rose-500/15 to-red-500/5 border-rose-500/30 text-rose-500 dark:text-rose-400',
+      icon: '🍎'
+    },
+    {
+      name: 'Official Website',
+      url: 'https://newjeans.kr',
+      handle: 'newjeans.kr',
+      color: 'from-indigo-500/15 to-purple-500/5 border-indigo-500/30 text-indigo-500 dark:text-indigo-400',
+      icon: '🌐'
+    }
+  ];
 
   const historyMilestones = [
     {
@@ -96,6 +162,36 @@ export default function About() {
               Supabase Realtime
             </span>
           </div>
+        </div>
+      </section>
+
+      {/* Official NewJeans SNS & Streaming Platforms */}
+      <section className="glass-surface p-6 rounded-2xl border flex flex-col gap-5">
+        <div className="flex items-center gap-2 border-b border-[var(--border-color)] pb-2">
+          <Share2 className="w-4 h-4 text-pink-500" />
+          <h2 className="text-base font-bold text-[var(--text-heading)] uppercase tracking-wider">
+            OFFICIAL NEWJEANS MEDIA & STREAMING
+          </h2>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+          {officialSNSLinks.map((item, idx) => (
+            <a
+              key={idx}
+              href={item.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`p-3.5 rounded-xl border bg-gradient-to-r ${item.color} flex items-center justify-between hover:scale-[1.02] transition-all group shadow-2xs`}
+            >
+              <div className="flex items-center gap-3">
+                <span className="text-lg">{item.icon}</span>
+                <div className="flex flex-col text-left">
+                  <span className="text-xs font-extrabold text-[var(--text-heading)]">{item.name}</span>
+                  <span className="text-[10px] text-[var(--text-secondary)]">{item.handle}</span>
+                </div>
+              </div>
+              <ExternalLink className="w-3.5 h-3.5 text-[var(--text-muted)] group-hover:text-[var(--text-heading)] transition-colors" />
+            </a>
+          ))}
         </div>
       </section>
 
@@ -234,12 +330,12 @@ export default function About() {
             <ExternalLink className="w-3.5 h-3.5" />
           </a>
           <a
-            href="https://weverse.io/newjeans"
+            href="https://weverse.io/newjeansofficial/highlight"
             target="_blank"
             rel="noopener noreferrer"
             className="px-5 py-2.5 rounded-full bg-[var(--bg-subtle)] border border-[var(--border-color)] text-[var(--text-heading)] font-semibold text-xs hover:bg-[var(--bg-subtle-hover)] transition-colors flex items-center gap-1.5"
           >
-            <span>{t('about_weverse')}</span>
+            <span>Weverse Official</span>
             <ExternalLink className="w-3.5 h-3.5" />
           </a>
         </div>
