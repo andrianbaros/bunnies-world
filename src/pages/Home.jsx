@@ -41,8 +41,8 @@ export default function Home() {
 
   return (
     <div className="flex flex-col gap-8 sm:gap-12 py-4 px-4 max-w-6xl mx-auto z-10 relative">
-      {/* 1. Hero Carousel */}
-      <section className="glass-surface p-6 sm:p-12 rounded-3xl text-center flex flex-col items-center gap-4 sm:gap-5 border border-[var(--border-color)] relative overflow-hidden min-h-[340px] sm:min-h-[420px] justify-center group">
+      {/* 1. Hero Carousel (Bright in Day Mode, Elegant in Dark Mode) */}
+      <section className="glass-surface p-6 sm:p-12 rounded-3xl text-center flex flex-col items-center gap-4 sm:gap-5 border border-[var(--border-color)] relative overflow-hidden min-h-[340px] sm:min-h-[420px] justify-center group bg-white/70 dark:bg-[var(--bg-card)] shadow-sm">
         <div className="absolute inset-0 z-0">
           <AnimatePresence mode="wait">
             <motion.img
@@ -50,18 +50,18 @@ export default function Home() {
               src={heroImages[currentSlide].src}
               alt={heroImages[currentSlide].title}
               initial={{ opacity: 0, scale: 1.03 }}
-              animate={{ opacity: 0.25, scale: 1 }}
+              animate={{ opacity: 0.65, scale: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.8 }}
-              className="w-full h-full object-cover filter contrast-105"
+              className="w-full h-full object-cover"
             />
           </AnimatePresence>
-          <div className="absolute inset-0 bg-slate-900/40 dark:bg-zinc-950/80" />
+          <div className="absolute inset-0 bg-white/45 dark:bg-zinc-950/75 backdrop-blur-[2px]" />
         </div>
 
         <button
           onClick={() => setCurrentSlide((prev) => (prev - 1 + heroImages.length) % heroImages.length)}
-          className="absolute left-4 top-1/2 -translate-y-1/2 z-20 p-2.5 rounded-full bg-black/30 dark:bg-white/10 text-white border border-[var(--border-color)] opacity-0 group-hover:opacity-100 transition-all duration-200"
+          className="absolute left-4 top-1/2 -translate-y-1/2 z-20 p-2.5 rounded-full bg-white/80 dark:bg-black/50 text-slate-800 dark:text-white border border-[var(--border-color)] opacity-0 group-hover:opacity-100 transition-all duration-200 shadow-sm"
           title="Previous Slide"
         >
           <ChevronLeft className="w-5 h-5" />
@@ -69,13 +69,13 @@ export default function Home() {
 
         <button
           onClick={() => setCurrentSlide((prev) => (prev + 1) % heroImages.length)}
-          className="absolute right-4 top-1/2 -translate-y-1/2 z-20 p-2.5 rounded-full bg-black/30 dark:bg-white/10 text-white border border-[var(--border-color)] opacity-0 group-hover:opacity-100 transition-all duration-200"
+          className="absolute right-4 top-1/2 -translate-y-1/2 z-20 p-2.5 rounded-full bg-white/80 dark:bg-black/50 text-slate-800 dark:text-white border border-[var(--border-color)] opacity-0 group-hover:opacity-100 transition-all duration-200 shadow-sm"
           title="Next Slide"
         >
           <ChevronRight className="w-5 h-5" />
         </button>
 
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex items-center gap-1.5 bg-black/40 px-3 py-1.5 rounded-full border border-[var(--border-color)]">
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex items-center gap-1.5 bg-slate-900/60 dark:bg-black/60 px-3 py-1.5 rounded-full border border-white/20 backdrop-blur-xs">
           {heroImages.map((_, idx) => (
             <button
               key={idx}
@@ -100,7 +100,7 @@ export default function Home() {
           initial={{ opacity: 0, scale: 0.96 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="text-hero font-black tracking-tight text-[var(--text-heading)] z-10"
+          className="text-hero font-black tracking-tight text-slate-900 dark:text-white z-10 drop-shadow-2xs"
         >
           {t('hero_title')}
         </motion.h1>
@@ -109,7 +109,7 @@ export default function Home() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="text-sm sm:text-base text-[var(--text-secondary)] max-w-xl leading-relaxed z-10 font-normal"
+          className="text-sm sm:text-base text-slate-700 dark:text-zinc-300 max-w-xl leading-relaxed z-10 font-medium"
         >
           {t('hero_subtitle')}
         </motion.p>
@@ -130,7 +130,7 @@ export default function Home() {
 
           <Link
             to="/universe"
-            className="px-6 py-3 rounded-full bg-[var(--bg-subtle)] text-[var(--text-heading)] font-bold text-xs tracking-wider border border-[var(--border-color)] hover:bg-[var(--bg-subtle-hover)] transition-colors flex items-center gap-2"
+            className="px-6 py-3 rounded-full bg-white dark:bg-[var(--bg-subtle)] text-slate-900 dark:text-white font-bold text-xs tracking-wider border border-slate-300 dark:border-[var(--border-color)] hover:bg-slate-100 dark:hover:bg-[var(--bg-subtle-hover)] transition-colors flex items-center gap-2 shadow-xs"
           >
             <span>{t('btn_calc_affinity')}</span>
           </Link>
@@ -214,7 +214,7 @@ export default function Home() {
           </div>
           <div className="relative aspect-video rounded-xl overflow-hidden shadow-sm border border-[var(--border-color)]">
             <img src={wallpaperOfDay.image} alt={wallpaperOfDay.title} className="w-full h-full object-cover" />
-            <div className="absolute inset-0 bg-black/50 flex items-end p-3.5">
+            <div className="absolute inset-0 bg-slate-900/30 dark:bg-black/50 flex items-end p-3.5">
               <span className="text-xs font-semibold text-white">{wallpaperOfDay.title}</span>
             </div>
           </div>
