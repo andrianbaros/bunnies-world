@@ -187,7 +187,7 @@ export default function BunniesChatbot() {
 
   const chatbotContent = (
     <>
-      {/* Floating Collapsed Button (Positioned at bottom-left on mobile to sit opposite of music player) */}
+      {/* Floating Collapsed Button (Sleek ultra-compact 44px circle icon on mobile bottom-left, full pill on desktop) */}
       <AnimatePresence>
         {!isOpen && (
           <motion.div
@@ -198,18 +198,18 @@ export default function BunniesChatbot() {
           >
             <button
               onClick={() => setIsOpen(true)}
-              className="group relative flex items-center gap-1.5 px-3 py-2 sm:px-4 sm:py-3 rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 text-white shadow-2xl hover:scale-105 transition-all duration-300 border-2 border-white/20 active:scale-95 cursor-pointer"
+              className="group relative flex items-center justify-center gap-2 w-11 h-11 sm:w-auto sm:h-auto sm:px-4 sm:py-2.5 rounded-full bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 text-white shadow-2xl hover:scale-105 transition-all duration-300 border-2 border-white/20 active:scale-95 cursor-pointer"
               title="Bunny AI Assistant"
             >
               <div className="relative flex items-center justify-center">
-                <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 animate-pulse text-white" />
+                <Sparkles className="w-5 h-5 animate-pulse text-white" />
               </div>
-              <span className="font-extrabold text-[11px] sm:text-xs tracking-wider uppercase pr-0.5">Bunny AI</span>
+              <span className="hidden sm:inline font-extrabold text-xs tracking-wider uppercase pr-1">Bunny AI</span>
 
               {/* Pulsing indicator ring */}
-              <span className="absolute -top-1 -right-1 flex h-2.5 w-2.5 sm:h-3 sm:w-3">
+              <span className="absolute -top-1 -right-1 flex h-3 w-3">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-pink-400 opacity-75" />
-                <span className="relative inline-flex rounded-full h-2.5 w-2.5 sm:h-3 sm:w-3 bg-pink-500" />
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-pink-500" />
               </span>
             </button>
           </motion.div>
