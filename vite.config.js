@@ -14,27 +14,56 @@ export default defineConfig({
       includeAssets: ['favicon.ico', 'assets/logo-192.png', 'assets/logo-512.png', 'robots.txt'],
       manifest: {
         id: '/',
-        name: 'BUNNIES WORLD',
-        short_name: 'BUNNIES',
+        name: 'BUNNIES WORLD | NewJeans Fan Portal',
+        short_name: 'BUNNIES WORLD',
         description: 'Interactive fan portal for NewJeans and Bunnies.',
         start_url: '/',
         scope: '/',
         display: 'standalone',
         background_color: '#0d0b14',
         theme_color: '#0d0b14',
-        orientation: 'portrait-primary',
+        orientation: 'any',
+        categories: ['entertainment', 'music', 'lifestyle'],
         icons: [
           {
             src: '/assets/logo-192.png',
             sizes: '192x192',
             type: 'image/png',
-            purpose: 'any maskable'
+            purpose: 'any'
+          },
+          {
+            src: '/assets/logo-192.png',
+            sizes: '192x192',
+            type: 'image/png',
+            purpose: 'maskable'
           },
           {
             src: '/assets/logo-512.png',
             sizes: '512x512',
             type: 'image/png',
-            purpose: 'any maskable'
+            purpose: 'any'
+          },
+          {
+            src: '/assets/logo-512.png',
+            sizes: '512x512',
+            type: 'image/png',
+            purpose: 'maskable'
+          }
+        ],
+        shortcuts: [
+          {
+            name: 'Community',
+            short_name: 'Community',
+            description: 'Join Bunnies global community',
+            url: '/community',
+            icons: [{ src: '/assets/logo-192.png', sizes: '192x192' }]
+          },
+          {
+            name: 'Discography',
+            short_name: 'Discography',
+            description: 'Listen to NewJeans tracks',
+            url: '/discography',
+            icons: [{ src: '/assets/logo-192.png', sizes: '192x192' }]
           }
         ]
       },

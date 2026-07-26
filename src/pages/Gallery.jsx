@@ -44,62 +44,90 @@ export default function Gallery() {
       img.crossOrigin = 'anonymous';
       img.src = item.image;
       img.onload = () => {
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
+        const logo = new Image();
+        logo.crossOrigin = 'anonymous';
+        logo.src = '/assets/logo.png';
 
-        const cardWidth = 1000;
-        const cardHeight = 1350;
-        canvas.width = cardWidth;
-        canvas.height = cardHeight;
+        const renderCanvas = () => {
+          const canvas = document.createElement('canvas');
+          const ctx = canvas.getContext('2d');
 
-        ctx.fillStyle = '#FFFFFF';
-        ctx.fillRect(0, 0, cardWidth, cardHeight);
+          const cardWidth = 1000;
+          const cardHeight = 1350;
+          canvas.width = cardWidth;
+          canvas.height = cardHeight;
 
-        ctx.strokeStyle = 'rgba(236, 72, 153, 0.3)';
-        ctx.lineWidth = 10;
-        ctx.strokeRect(5, 5, cardWidth - 10, cardHeight - 10);
+          // White Card Background
+          ctx.fillStyle = '#FFFFFF';
+          ctx.fillRect(0, 0, cardWidth, cardHeight);
 
-        const photoMargin = 60;
-        const photoWidth = cardWidth - photoMargin * 2;
-        const photoHeight = 960;
+          // Pink Border Accent
+          ctx.strokeStyle = 'rgba(236, 72, 153, 0.4)';
+          ctx.lineWidth = 10;
+          ctx.strokeRect(5, 5, cardWidth - 10, cardHeight - 10);
 
-        // Calculate aspect ratio crop to mimic object-fit: cover and prevent image stretching
-        const imgRatio = img.width / img.height;
-        const targetRatio = photoWidth / photoHeight;
+          const photoMargin = 60;
+          const maxPhotoWidth = cardWidth - photoMargin * 2;
+          const maxPhotoHeight = 960;
 
-        let srcX = 0;
-        let srcY = 0;
-        let srcWidth = img.width;
-        let srcHeight = img.height;
+          // Aspect ratio fit (object-fit: contain) so full image is shown
+          const imgRatio = img.width / img.height;
+          let drawWidth = maxPhotoWidth;
+          let drawHeight = drawWidth / imgRatio;
 
-        if (imgRatio > targetRatio) {
-          srcWidth = img.height * targetRatio;
-          srcX = (img.width - srcWidth) / 2;
-        } else {
-          srcHeight = img.width / targetRatio;
-          srcY = (img.height - srcHeight) / 2;
-        }
+          if (drawHeight > maxPhotoHeight) {
+            drawHeight = maxPhotoHeight;
+            drawWidth = drawHeight * imgRatio;
+          }
 
-        ctx.drawImage(img, srcX, srcY, srcWidth, srcHeight, photoMargin, photoMargin, photoWidth, photoHeight);
+          const drawX = photoMargin + (maxPhotoWidth - drawWidth) / 2;
+          const drawY = photoMargin + (maxPhotoHeight - drawHeight) / 2;
 
-        ctx.fillStyle = '#ec4899';
-        ctx.font = 'bold 30px sans-serif';
-        ctx.fillText((item.category || 'NEWJEANS').toUpperCase(), photoMargin, 1100);
+          // Soft background fill for letterboxed frame area
+          ctx.fillStyle = '#f8fafc';
+          ctx.fillRect(photoMargin, photoMargin, maxPhotoWidth, maxPhotoHeight);
 
-        ctx.fillStyle = '#0f172a';
-        ctx.font = 'bold 44px sans-serif';
-        ctx.fillText(item.title, photoMargin, 1160);
+          ctx.drawImage(img, 0, 0, img.width, img.height, drawX, drawY, drawWidth, drawHeight);
 
-        ctx.fillStyle = '#64748b';
-        ctx.font = '500 28px sans-serif';
-        ctx.fillText(item.date || 'NewJeans Era', photoMargin, 1210);
+          // Left Details: Category, Title
+          ctx.fillStyle = '#ec4899';
+          ctx.font = 'bold 26px sans-serif';
+          ctx.textAlign = 'left';
+          ctx.fillText((item.category || 'NEWJEANS').toUpperCase(), photoMargin, 1060);
 
-        ctx.fillStyle = '#ec4899';
-        ctx.font = 'bold 26px sans-serif';
-        ctx.textAlign = 'right';
-        ctx.fillText('BUNNIES WORLD OFFICIAL', cardWidth - photoMargin, 1210);
+          ctx.fillStyle = '#0f172a';
+          ctx.font = 'bold 36px sans-serif';
+          ctx.fillText(item.title, photoMargin, 1115);
 
-        resolve(canvas.toDataURL('image/png'));
+          // Footer Row: Date on Left, Logo + BUNNIES WORLD + URL on Right
+          ctx.fillStyle = '#64748b';
+          ctx.font = '500 24px sans-serif';
+          ctx.fillText(item.date || 'NewJeans Era', photoMargin, 1205);
+
+          // Right Branding: Logo + BUNNIES WORLD + www.bunniesworld.my.id
+          const rightX = cardWidth - photoMargin;
+
+          ctx.fillStyle = '#ec4899';
+          ctx.font = 'bold 26px sans-serif';
+          ctx.textAlign = 'right';
+          ctx.fillText('BUNNIES WORLD', rightX, 1180);
+
+          ctx.fillStyle = '#64748b';
+          ctx.font = 'bold 20px sans-serif';
+          ctx.fillText('www.bunniesworld.my.id', rightX, 1215);
+
+          if (logo.complete && logo.naturalWidth > 0) {
+            const logoSize = 44;
+            const logoX = rightX - 290;
+            ctx.drawImage(logo, logoX, 1150, logoSize, logoSize);
+          }
+
+          resolve(canvas.toDataURL('image/png'));
+        };
+
+        logo.onload = renderCanvas;
+        logo.onerror = renderCanvas;
+        if (logo.complete) renderCanvas();
       };
       img.onerror = (err) => reject(err);
     });
@@ -273,14 +301,24 @@ export default function Gallery() {
                     className="w-full h-full object-contain max-h-[55vh] rounded-2xl"
                   />
                 </div>
-                <div className="flex items-center justify-between pt-1">
+                <div className="flex flex-col gap-2 pt-2 border-t border-slate-200">
                   <div>
-                    <span className="text-[11px] font-black text-pink-600 uppercase tracking-wider">{selectedImage.category}</span>
+                    <span className="text-[11px] font-black text-pink-600 uppercase tracking-wider block">{selectedImage.category}</span>
                     <h3 className="text-lg font-black text-gray-900 leading-snug">{selectedImage.title}</h3>
-                    <span className="text-xs text-gray-500 font-bold">{selectedImage.date}</span>
                   </div>
-                  <div className="text-right">
-                    <span className="text-[10px] font-black text-pink-500 tracking-widest block uppercase">BUNNIES WORLD</span>
+                  <div className="flex items-center justify-between pt-1 border-t border-slate-100">
+                    <span className="text-xs text-gray-500 font-extrabold">{selectedImage.date}</span>
+                    <div className="flex items-center gap-2">
+                      <img src="/assets/logo.png" alt="Bunnies World" className="w-7 h-7 rounded-full object-cover border border-pink-500/30 shadow-2xs" />
+                      <div className="text-right">
+                        <span className="text-xs font-black text-pink-600 tracking-tight block uppercase leading-none">
+                          BUNNIES WORLD
+                        </span>
+                        <span className="text-[9px] text-slate-500 font-bold block leading-tight mt-0.5">
+                          www.bunniesworld.my.id
+                        </span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>

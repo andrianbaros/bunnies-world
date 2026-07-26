@@ -1,21 +1,63 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Users, Disc, MessageSquare, Info, MoreHorizontal, Search, Bookmark, Calendar, Newspaper, Settings, Sun, Moon, LayoutGrid, Sparkles } from 'lucide-react';
+import { Users, Disc, MessageSquare, Info, MoreHorizontal, Search, Bookmark, Calendar, Newspaper, Settings, Sun, Moon, LayoutGrid, Sparkles, Download } from 'lucide-react';
 import { useSettings } from '../../contexts/SettingsContext';
 
 export default function Navbar() {
   const { t } = useTranslation();
-  const { settings, updateSetting } = useSettings();
+  const { settings, updateSetting, showToast } = useSettings();
   const location = useLocation();
   const [isMoreOpen, setIsMoreOpen] = useState(false);
   const [isMobileMoreOpen, setIsMobileMoreOpen] = useState(false);
+  const [deferredPrompt, setDeferredPrompt] = useState(null);
+  const [isAppInstalled, setIsAppInstalled] = useState(false);
 
   useEffect(() => {
     updateSetting('lastRoute', location.pathname);
     setIsMoreOpen(false);
     setIsMobileMoreOpen(false);
   }, [location.pathname]);
+
+  useEffect(() => {
+    const handleBeforeInstall = (e) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+    };
+
+    const handleAppInstalled = () => {
+      setIsAppInstalled(true);
+      setDeferredPrompt(null);
+    };
+
+    if (window.matchMedia('(display-mode: standalone)').matches) {
+      setIsAppInstalled(true);
+    }
+
+    window.addEventListener('beforeinstallprompt', handleBeforeInstall);
+    window.addEventListener('appinstalled', handleAppInstalled);
+
+    return () => {
+      window.removeEventListener('beforeinstallprompt', handleBeforeInstall);
+      window.removeEventListener('appinstalled', handleAppInstalled);
+    };
+  }, []);
+
+  const handleInstallClick = async () => {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      if (outcome === 'accepted') {
+        showToast('success', 'Thank you for installing BUNNIES WORLD!');
+        setDeferredPrompt(null);
+        setIsAppInstalled(true);
+      }
+    } else if (isAppInstalled) {
+      showToast('info', 'BUNNIES WORLD is already installed on your device!');
+    } else {
+      showToast('info', 'To install on Desktop: Click the Install icon (⊕) in your browser address bar or menu -> "Install BUNNIES WORLD"');
+    }
+  };
 
   const primaryNavItems = [
     { path: '/', label: t('nav_home'), icon: LayoutGrid },
@@ -116,8 +158,16 @@ export default function Navbar() {
             </div>
           </div>
 
-          {/* Controls: Search, Theme & Language Switcher (Responsive for iPad, Surface Pro & Mobile) */}
+          {/* Controls: Search, Theme & Language Switcher & PWA Install */}
           <div className="flex items-center gap-1 sm:gap-1.5 flex-shrink-0">
+            <button
+              onClick={handleInstallClick}
+              className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-pink-500/20 text-pink-700 dark:text-pink-300 hover:bg-pink-500 hover:text-white border border-pink-500/40 text-xs font-black transition-all cursor-pointer shadow-2xs"
+              title="Install Desktop / Mobile App"
+            >
+              <Download className="w-3.5 h-3.5" />
+              <span>{isAppInstalled ? 'Installed ✓' : 'Install App'}</span>
+            </button>
             <NavLink
               to="/search"
               className="p-1.5 sm:p-2 rounded-full text-slate-700 dark:text-zinc-300 hover:text-pink-500 hover:bg-pink-50 dark:hover:bg-pink-500/10 transition-colors"
