@@ -38,13 +38,16 @@ export default function FloatingAudioPlayer() {
   const progressPercent = (currentTime / duration) * 100 || 0;
   const youtubeUrl = currentTrack.youtubeUrl || "https://www.youtube.com/results?search_query=" + encodeURIComponent(`NewJeans ${currentTrack.title} official MV`);
 
+  const isDark = document.documentElement.classList.contains('dark');
+
   return (
     <div
-      className={`fixed right-3 sm:right-6 z-50 glass-surface rounded-2xl transition-all duration-300 shadow-lg border border-[var(--border-color)] ${
+      className={`fixed right-3 sm:right-6 z-50 rounded-2xl transition-all duration-300 shadow-xl border border-[var(--border-color)] ${
         isMinimized
           ? 'bottom-20 sm:bottom-6 w-[calc(100%-1.5rem)] max-w-[280px] p-3'
           : 'bottom-20 sm:bottom-6 w-[calc(100%-1.5rem)] max-w-sm sm:w-96 p-4 sm:p-5'
       }`}
+      style={{ background: isDark ? 'rgb(14, 10, 22)' : 'rgb(255, 255, 255)' }}
     >
       {/* Header Bar */}
       <div className="flex items-center justify-between gap-3">
