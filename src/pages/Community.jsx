@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MessageSquare, Send, Heart, Shield, Lock, Pin, Filter, RefreshCw, MessageCircle, CornerDownRight, Code } from 'lucide-react';
+import { MessageSquare, Send, Heart, Shield, Lock, Pin, Filter, RefreshCw, MessageCircle, CornerDownRight, Code, X } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { supabase, isSupabaseConfigured } from '../services/supabase';
 import { storageService } from '../services/storageService';
@@ -24,14 +24,30 @@ export default function Community() {
   const [commentAuthors, setCommentAuthors] = useState({});
   const [commentWarnings, setCommentWarnings] = useState({});
 
+  // Dev Passcode Verification Modal state
+  const [showDevModal, setShowDevModal] = useState(false);
+  const [devPasscode, setDevPasscode] = useState('');
+  const [devPasscodeError, setDevPasscodeError] = useState(false);
+  const [pendingSubmit, setPendingSubmit] = useState(null); // { type: 'post' | 'comment', payload: ... }
+
   const ADMIN_PASSCODE = import.meta.env.VITE_ADMIN_PASSCODE || 'bunnies2026';
 
-  // Exact (dev) tag check with parentheses to prevent filtering names like Devi or Devon
-  const hasDevTag = (name) => /\(dev\)/i.test(name);
+  // Smart Dev Nickname Detection:
+  // Catches (dev), [dev], _dev, -dev, .dev, " dev", or ending with "dev"
+  // But EXCLUDES real names starting with Dev (Devi, Devon, Devin, Devan, Deva)
+  const isDevNickname = (name) => {
+    if (!name) return false;
+    const trimmed = name.trim();
 
-  const verifyAdminPasscode = () => {
-    const entered = window.prompt('Restricted Developer Tag Detected!\nMasukkan Passcode Admin untuk menggunakan badge (dev):');
-    return entered === ADMIN_PASSCODE;
+    // Ignore legitimate real names starting with Dev
+    if (/^(dev[iaon]|devin|devan|devon|devi|deva|device)$/i.test(trimmed)) {
+      return false;
+    }
+
+    return /[\(\[\{\-_.\s]dev[\)\]\}]?$/i.test(trimmed) ||
+           /\(dev\)/i.test(trimmed) ||
+           /dev$/i.test(trimmed) ||
+           /^dev$/i.test(trimmed);
   };
 
   useEffect(() => {
@@ -52,7 +68,6 @@ export default function Community() {
 
         if (postsError) throw postsError;
 
-        // Try fetching separate comments table if available
         let commentsData = [];
         try {
           const { data: cData, error: cErr } = await supabase
@@ -91,7 +106,6 @@ export default function Community() {
       fetchedPosts = storageService.getSettings().communityPosts || [];
     }
 
-    // Merge comments from local storage if any
     const localPosts = storageService.getSettings().communityPosts || [];
     const localCommentsMap = {};
     localPosts.forEach((lp) => {
@@ -128,22 +142,25 @@ export default function Community() {
 
     const finalAuthor = authorName.trim() || 'Anonymous Bunny';
 
-    // Verify Admin passcode if name contains (dev)
-    if (hasDevTag(finalAuthor)) {
-      const isVerified = verifyAdminPasscode();
-      if (!isVerified) {
-        showToast('info', 'Passcode Admin salah. Kamu tidak bisa menggunakan tag (dev).');
-        return;
-      }
-    }
-
-    setIsSubmitting(true);
-    const sanitizedContent = cleanText(content);
-
-    const newPost = {
+    const postPayload = {
       author_name: finalAuthor,
       member_tag: memberTag,
-      content: sanitizedContent,
+      content: cleanText(content)
+    };
+
+    if (isDevNickname(finalAuthor)) {
+      setPendingSubmit({ type: 'post', payload: postPayload });
+      setShowDevModal(true);
+      return;
+    }
+
+    await executeAddPost(postPayload);
+  };
+
+  const executeAddPost = async (payload) => {
+    setIsSubmitting(true);
+    const newPost = {
+      ...payload,
       likes: 0,
       is_pinned: false,
       comments: [],
@@ -190,12 +207,10 @@ export default function Community() {
     }
   };
 
-  // Toggle Comment Section for a post
   const toggleComments = (postId) => {
     setOpenComments((prev) => ({ ...prev, [postId]: !prev[postId] }));
   };
 
-  // Handle Comment Input Change
   const handleCommentTextChange = (postId, val) => {
     setCommentInputs((prev) => ({ ...prev, [postId]: val }));
     setCommentWarnings((prev) => ({ ...prev, [postId]: hasProfanity(val) }));
@@ -205,7 +220,6 @@ export default function Community() {
     setCommentAuthors((prev) => ({ ...prev, [postId]: val }));
   };
 
-  // Submit Comment
   const handleAddComment = async (e, postId) => {
     e.preventDefault();
     const text = (commentInputs[postId] || '').trim();
@@ -213,17 +227,23 @@ export default function Community() {
 
     const author = (commentAuthors[postId] || '').trim() || 'Anonymous Bunny';
 
-    // Verify Admin passcode if comment nickname contains (dev)
-    if (hasDevTag(author)) {
-      const isVerified = verifyAdminPasscode();
-      if (!isVerified) {
-        showToast('info', 'Passcode Admin salah. Kamu tidak bisa menggunakan tag (dev).');
-        return;
-      }
+    const commentPayload = {
+      postId,
+      author,
+      content: cleanText(text)
+    };
+
+    if (isDevNickname(author)) {
+      setPendingSubmit({ type: 'comment', payload: commentPayload });
+      setShowDevModal(true);
+      return;
     }
 
-    const sanitized = cleanText(text);
+    await executeAddComment(commentPayload);
+  };
 
+  const executeAddComment = async (payload) => {
+    const { postId, author, content: sanitized } = payload;
     const newComment = {
       id: `comment-${Date.now()}`,
       post_id: postId,
@@ -236,7 +256,6 @@ export default function Community() {
     const existingComments = targetPost?.comments || [];
     const updatedComments = [newComment, ...existingComments];
 
-    // 1. Update React State immediately
     setPosts((prevPosts) =>
       prevPosts.map((p) => {
         if (p.id === postId) {
@@ -246,10 +265,8 @@ export default function Community() {
       })
     );
 
-    // 2. LocalStorage Persistence
     storageService.addCommunityComment(postId, newComment);
 
-    // 3. Supabase Sync
     if (isSupabaseConfigured() && typeof postId === 'string' && !postId.startsWith('local-')) {
       try {
         const { error: updateErr } = await supabase
@@ -271,10 +288,30 @@ export default function Community() {
       }
     }
 
-    // Reset inputs
     setCommentInputs((prev) => ({ ...prev, [postId]: '' }));
     setCommentWarnings((prev) => ({ ...prev, [postId]: false }));
     showToast('success', 'Komentar terkirim!');
+  };
+
+  const handleDevModalSubmit = async (e) => {
+    e.preventDefault();
+    if (devPasscode === ADMIN_PASSCODE) {
+      setDevPasscodeError(false);
+      setShowDevModal(false);
+      const task = pendingSubmit;
+      setPendingSubmit(null);
+      setDevPasscode('');
+
+      if (task?.type === 'post') {
+        await executeAddPost(task.payload);
+      } else if (task?.type === 'comment') {
+        await executeAddComment(task.payload);
+      }
+      showToast('success', 'Verifikasi Developer Berhasil!');
+    } else {
+      setDevPasscodeError(true);
+      showToast('info', 'Passcode Admin Salah!');
+    }
   };
 
   return (
@@ -371,7 +408,7 @@ export default function Community() {
         ) : (
           posts.map((post) => {
             const authorName = post.author_name || post.author || 'Anonymous Bunny';
-            const isDev = hasDevTag(authorName);
+            const isDev = isDevNickname(authorName);
             const postContent = post.content || '';
             const postLikes = post.likes || 0;
             const postDate = post.created_at || post.date || new Date().toISOString();
@@ -494,7 +531,7 @@ export default function Community() {
                       <div className="flex flex-col gap-2">
                         {commentsList.length > 0 ? (
                           commentsList.map((c) => {
-                            const isCommentDev = hasDevTag(c.author_name || '');
+                            const isCommentDev = isDevNickname(c.author_name || '');
                             return (
                               <div
                                 key={c.id || c.created_at}
@@ -534,6 +571,72 @@ export default function Community() {
           })
         )}
       </div>
+
+      {/* Dev Passcode Verification Modal */}
+      {showDevModal && (
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs">
+          <motion.div
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            className="glass-surface p-6 sm:p-8 rounded-2xl border border-pink-500/40 max-w-md w-full flex flex-col gap-4 shadow-2xl relative bg-[var(--bg-card)]"
+          >
+            <button
+              onClick={() => { setShowDevModal(false); setPendingSubmit(null); setDevPasscode(''); setDevPasscodeError(false); }}
+              className="absolute top-4 right-4 text-[var(--text-muted)] hover:text-[var(--text-heading)]"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            <div className="flex items-center gap-3 text-pink-500">
+              <div className="w-10 h-10 rounded-full bg-pink-500/10 flex items-center justify-center border border-pink-500/20">
+                <Lock className="w-5 h-5" />
+              </div>
+              <div>
+                <h3 className="font-bold text-sm text-[var(--text-heading)] uppercase tracking-wider">VERIFIKASI TAG DEVELOPER</h3>
+                <span className="text-[10px] text-pink-500 font-bold">Restricted Name Filter</span>
+              </div>
+            </div>
+
+            <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
+              Kamu menggunakan tag/kata <span className="font-bold text-pink-500">"dev"</span> pada Nickname-mu. Masukkan <strong>Admin Passcode</strong> untuk memverifikasi identitas developer.
+            </p>
+
+            <form onSubmit={handleDevModalSubmit} className="flex flex-col gap-3">
+              <input
+                type="password"
+                placeholder="Masukkan Admin Passcode..."
+                value={devPasscode}
+                onChange={(e) => setDevPasscode(e.target.value)}
+                autoFocus
+                required
+                className="w-full bg-[var(--bg-subtle)] border border-[var(--border-color)] rounded-xl px-4 py-2.5 text-xs text-[var(--text-heading)] placeholder-[var(--text-muted)] outline-none focus:border-pink-500 text-center font-medium"
+              />
+
+              {devPasscodeError && (
+                <span className="text-[11px] text-red-500 font-bold text-center">
+                  ❌ Passcode Admin Salah! Kamu tidak bisa menggunakan tag (dev).
+                </span>
+              )}
+
+              <div className="flex items-center justify-end gap-2 pt-2">
+                <button
+                  type="button"
+                  onClick={() => { setShowDevModal(false); setPendingSubmit(null); setDevPasscode(''); setDevPasscodeError(false); }}
+                  className="px-4 py-2 rounded-full bg-[var(--bg-subtle)] text-xs text-[var(--text-secondary)] hover:text-[var(--text-heading)] font-semibold"
+                >
+                  Batal
+                </button>
+                <button
+                  type="submit"
+                  className="px-6 py-2 rounded-full bg-pink-500 text-white text-xs font-bold hover:bg-pink-600 transition-colors shadow-sm"
+                >
+                  Verifikasi & Kirim
+                </button>
+              </div>
+            </form>
+          </motion.div>
+        </div>
+      )}
     </div>
   );
 }
