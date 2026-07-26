@@ -41,8 +41,8 @@ export default function Home() {
 
   return (
     <div className="flex flex-col gap-8 sm:gap-12 py-4 px-4 max-w-6xl mx-auto z-10 relative">
-      {/* 1. Hero Carousel (100% Bright Images in Day Mode & Night Mode) */}
-      <section className="p-6 sm:p-12 rounded-3xl text-center flex flex-col items-center gap-4 sm:gap-5 border border-slate-200 dark:border-[var(--border-color)] relative overflow-hidden min-h-[360px] sm:min-h-[440px] justify-center group bg-white dark:bg-[var(--bg-card)] shadow-md">
+      {/* 1. Hero Carousel (100% Bright, Vivid Image without dark box) */}
+      <section className="p-6 sm:p-12 rounded-3xl text-center flex flex-col items-center gap-4 sm:gap-5 border border-slate-200 dark:border-zinc-800 relative overflow-hidden min-h-[360px] sm:min-h-[440px] justify-center group bg-white dark:bg-zinc-900 shadow-md">
         <div className="absolute inset-0 z-0">
           <AnimatePresence mode="wait">
             <motion.img
@@ -50,19 +50,19 @@ export default function Home() {
               src={heroImages[currentSlide].src}
               alt={heroImages[currentSlide].title}
               initial={{ opacity: 0, scale: 1.03 }}
-              animate={{ opacity: 0.9, scale: 1 }}
+              animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.8 }}
               className="w-full h-full object-cover"
             />
           </AnimatePresence>
-          {/* Subtle bottom gradient tint to keep text highly legible */}
-          <div className="absolute inset-0 bg-gradient-to-t from-white/90 via-white/40 to-transparent dark:from-zinc-950/90 dark:via-zinc-950/50 dark:to-zinc-950/20" />
+          {/* Gentle backdrop tint for high legibility */}
+          <div className="absolute inset-0 bg-white/40 dark:bg-black/60 backdrop-blur-[1px]" />
         </div>
 
         <button
           onClick={() => setCurrentSlide((prev) => (prev - 1 + heroImages.length) % heroImages.length)}
-          className="absolute left-4 top-1/2 -translate-y-1/2 z-20 p-2.5 rounded-full bg-white/90 dark:bg-black/60 text-slate-800 dark:text-white border border-slate-300 dark:border-zinc-700 opacity-0 group-hover:opacity-100 transition-all duration-200 shadow-sm"
+          className="absolute left-4 top-1/2 -translate-y-1/2 z-20 p-2.5 rounded-full bg-white/90 dark:bg-black/60 text-slate-800 dark:text-white border border-slate-300 dark:border-zinc-700 opacity-0 group-hover:opacity-100 transition-all duration-200 shadow-sm cursor-pointer"
           title="Previous Slide"
         >
           <ChevronLeft className="w-5 h-5" />
@@ -70,19 +70,19 @@ export default function Home() {
 
         <button
           onClick={() => setCurrentSlide((prev) => (prev + 1) % heroImages.length)}
-          className="absolute right-4 top-1/2 -translate-y-1/2 z-20 p-2.5 rounded-full bg-white/90 dark:bg-black/60 text-slate-800 dark:text-white border border-slate-300 dark:border-zinc-700 opacity-0 group-hover:opacity-100 transition-all duration-200 shadow-sm"
+          className="absolute right-4 top-1/2 -translate-y-1/2 z-20 p-2.5 rounded-full bg-white/90 dark:bg-black/60 text-slate-800 dark:text-white border border-slate-300 dark:border-zinc-700 opacity-0 group-hover:opacity-100 transition-all duration-200 shadow-sm cursor-pointer"
           title="Next Slide"
         >
           <ChevronRight className="w-5 h-5" />
         </button>
 
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex items-center gap-1.5 bg-slate-900/70 dark:bg-black/70 px-3 py-1.5 rounded-full border border-white/20 backdrop-blur-xs">
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex items-center gap-1.5 bg-slate-900/80 dark:bg-black/80 px-3 py-1.5 rounded-full border border-white/20">
           {heroImages.map((_, idx) => (
             <button
               key={idx}
               onClick={() => setCurrentSlide(idx)}
               className={`h-1.5 rounded-full transition-all duration-300 ${
-                currentSlide === idx ? 'w-5 bg-pink-500' : 'w-1.5 bg-white/40 hover:bg-white/70'
+                currentSlide === idx ? 'w-5 bg-pink-500' : 'w-1.5 bg-white/50 hover:bg-white/90'
               }`}
             />
           ))}
@@ -92,7 +92,7 @@ export default function Home() {
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="inline-flex items-center px-3.5 py-1 rounded-full bg-pink-500/20 border border-pink-500/40 text-pink-700 dark:text-pink-300 text-xs font-black tracking-widest uppercase z-10 backdrop-blur-xs"
+          className="inline-flex items-center px-3.5 py-1 rounded-full bg-pink-500/20 border border-pink-500/40 text-pink-700 dark:text-pink-300 text-xs font-black tracking-widest uppercase z-10 backdrop-blur-xs shadow-2xs"
         >
           <span>{t('hero_tag')}</span>
         </motion.div>
@@ -101,7 +101,7 @@ export default function Home() {
           initial={{ opacity: 0, scale: 0.96 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="text-hero font-black tracking-tight text-slate-900 dark:text-white z-10 drop-shadow-sm"
+          className="text-hero font-black tracking-tight text-slate-950 dark:text-white z-10 drop-shadow-sm"
         >
           {t('hero_title')}
         </motion.h1>
@@ -110,7 +110,7 @@ export default function Home() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="text-sm sm:text-base text-slate-800 dark:text-zinc-200 max-w-xl leading-relaxed z-10 font-bold drop-shadow-2xs"
+          className="text-sm sm:text-base text-slate-900 dark:text-zinc-100 max-w-xl leading-relaxed z-10 font-bold drop-shadow-2xs"
         >
           {t('hero_subtitle')}
         </motion.p>
@@ -131,7 +131,7 @@ export default function Home() {
 
           <Link
             to="/universe"
-            className="px-6 py-3 rounded-full bg-white dark:bg-[var(--bg-subtle)] text-slate-900 dark:text-white font-extrabold text-xs tracking-wider border-2 border-slate-300 dark:border-[var(--border-color)] hover:bg-slate-100 dark:hover:bg-[var(--bg-subtle-hover)] transition-colors flex items-center gap-2 shadow-xs"
+            className="px-6 py-3 rounded-full bg-white dark:bg-zinc-800 text-slate-900 dark:text-white font-extrabold text-xs tracking-wider border-2 border-slate-300 dark:border-zinc-700 hover:bg-slate-100 dark:hover:bg-zinc-700 transition-colors flex items-center gap-2 shadow-xs"
           >
             <span>{t('btn_calc_affinity')}</span>
           </Link>
@@ -139,9 +139,9 @@ export default function Home() {
       </section>
 
       {/* 2. Quote of the Day */}
-      <section className="glass-surface p-6 sm:p-8 rounded-2xl text-center flex flex-col items-center gap-3 border border-[var(--border-color)] bg-white dark:bg-[var(--bg-card)]">
+      <section className="p-6 sm:p-8 rounded-2xl text-center flex flex-col items-center gap-3 border border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-sm">
         <Quote className="w-6 h-6 text-pink-500 opacity-90" />
-        <p className="text-sm sm:text-base italic text-slate-900 dark:text-gray-100 font-serif max-w-2xl leading-relaxed font-medium">
+        <p className="text-sm sm:text-base italic text-slate-900 dark:text-gray-100 font-serif max-w-2xl leading-relaxed font-bold">
           "{quotes[0].text}"
         </p>
         <span className="text-xs font-black text-pink-600 dark:text-pink-400 tracking-wider uppercase">— {quotes[0].author} (NewJeans)</span>
@@ -164,7 +164,7 @@ export default function Home() {
             <Link
               key={member.id}
               to={`/members/${member.id}`}
-              className="glass-surface p-5 rounded-2xl flex flex-col items-center text-center gap-3 border border-[var(--border-color)] hover:border-pink-500 transition-all hover:-translate-y-1 group bg-white dark:bg-[var(--bg-card)]"
+              className="p-5 rounded-2xl flex flex-col items-center text-center gap-3 border border-slate-200 dark:border-zinc-800 hover:border-pink-500 transition-all hover:-translate-y-1 group bg-white dark:bg-zinc-900 shadow-xs"
             >
               <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-pink-500/30 p-1 group-hover:border-pink-500 transition-colors shadow-xs">
                 <img src={member.image} alt={member.name} className="w-full h-full object-cover rounded-full group-hover:scale-105 transition-transform duration-300" />
@@ -173,15 +173,15 @@ export default function Home() {
                 <h3 className="font-extrabold text-sm text-slate-900 dark:text-white">{member.name}</h3>
                 <span className="text-[11px] text-pink-600 dark:text-pink-400 font-extrabold">{member.koreanName}</span>
               </div>
-              <p className="text-xs text-slate-600 dark:text-[var(--text-muted)] line-clamp-1 font-medium">{member.position}</p>
+              <p className="text-xs text-slate-600 dark:text-zinc-400 line-clamp-1 font-medium">{member.position}</p>
             </Link>
           ))}
         </div>
       </section>
 
       {/* 4. Featured Album */}
-      <section className="glass-surface p-6 sm:p-8 rounded-2xl flex flex-col sm:flex-row items-center gap-6 sm:gap-8 border border-[var(--border-color)] bg-white dark:bg-[var(--bg-card)]">
-        <div className="w-40 h-40 sm:w-48 sm:h-48 rounded-xl overflow-hidden shadow-md flex-shrink-0 border border-[var(--border-color)]">
+      <section className="p-6 sm:p-8 rounded-2xl flex flex-col sm:flex-row items-center gap-6 sm:gap-8 border border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-sm">
+        <div className="w-40 h-40 sm:w-48 sm:h-48 rounded-xl overflow-hidden shadow-md flex-shrink-0 border border-slate-200 dark:border-zinc-700">
           <img src={featuredAlbum.cover} alt={featuredAlbum.title} className="w-full h-full object-cover" />
         </div>
         <div className="flex flex-col gap-2.5 text-center sm:text-left">
@@ -189,7 +189,7 @@ export default function Home() {
             {t('home_featured_disc')}
           </span>
           <h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white">{featuredAlbum.title}</h2>
-          <p className="text-xs text-slate-700 dark:text-[var(--text-secondary)] leading-relaxed max-w-lg font-medium">
+          <p className="text-xs text-slate-700 dark:text-zinc-300 leading-relaxed max-w-lg font-medium">
             {featuredAlbum.concept} — Released {featuredAlbum.releaseDate}
           </p>
           <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3 mt-2">
@@ -205,7 +205,7 @@ export default function Home() {
 
       {/* 5. Wallpaper + Audio */}
       <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="glass-surface p-5 sm:p-6 rounded-2xl flex flex-col gap-4 border border-[var(--border-color)] bg-white dark:bg-[var(--bg-card)]">
+        <div className="p-5 sm:p-6 rounded-2xl flex flex-col gap-4 border border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-xs">
           <div className="flex items-center justify-between">
             <h3 className="font-extrabold text-xs uppercase tracking-wider text-slate-900 dark:text-white flex items-center gap-2">
               <ImageIcon className="w-4 h-4 text-pink-500" />
@@ -213,7 +213,7 @@ export default function Home() {
             </h3>
             <Link to="/gallery" className="text-xs font-bold text-pink-600 dark:text-pink-400 hover:underline">{t('nav_gallery')} →</Link>
           </div>
-          <div className="relative aspect-video rounded-xl overflow-hidden shadow-xs border border-[var(--border-color)]">
+          <div className="relative aspect-video rounded-xl overflow-hidden shadow-xs border border-slate-200 dark:border-zinc-800">
             <img src={wallpaperOfDay.image} alt={wallpaperOfDay.title} className="w-full h-full object-cover" />
             <div className="absolute inset-0 bg-slate-900/30 dark:bg-black/50 flex items-end p-3.5">
               <span className="text-xs font-bold text-white">{wallpaperOfDay.title}</span>
@@ -221,7 +221,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="glass-surface p-5 sm:p-6 rounded-2xl flex flex-col gap-4 border border-[var(--border-color)] bg-white dark:bg-[var(--bg-card)]">
+        <div className="p-5 sm:p-6 rounded-2xl flex flex-col gap-4 border border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-xs">
           <div className="flex items-center justify-between">
             <h3 className="font-extrabold text-xs uppercase tracking-wider text-slate-900 dark:text-white flex items-center gap-2">
               <Music className="w-4 h-4 text-pink-500" />
@@ -234,13 +234,13 @@ export default function Home() {
               <div
                 key={track.id}
                 onClick={() => playSongById(track.id)}
-                className="flex items-center justify-between p-3 rounded-xl bg-slate-100 dark:bg-[var(--bg-subtle)] hover:bg-slate-200 dark:hover:bg-[var(--bg-subtle-hover)] transition-all cursor-pointer border border-slate-200 dark:border-[var(--border-color)]"
+                className="flex items-center justify-between p-3 rounded-xl bg-slate-100 dark:bg-zinc-800 hover:bg-slate-200 dark:hover:bg-zinc-700 transition-all cursor-pointer border border-slate-200 dark:border-zinc-700"
               >
                 <div className="flex items-center gap-3">
                   <img src={track.cover} alt={track.title} className="w-9 h-9 rounded-lg object-cover" />
                   <div>
                     <h4 className="font-bold text-xs text-slate-900 dark:text-white">{track.title}</h4>
-                    <span className="text-[10px] text-slate-600 dark:text-[var(--text-muted)] font-medium">{track.album}</span>
+                    <span className="text-[10px] text-slate-600 dark:text-zinc-400 font-medium">{track.album}</span>
                   </div>
                 </div>
                 <button className="p-1.5 rounded-full bg-pink-500 text-white hover:bg-pink-600 transition-colors shadow-xs">

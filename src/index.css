@@ -2,12 +2,19 @@
 @import "tailwindcss";
 
 /* 
+  Configure Tailwind v4 dark variant to respond strictly to .dark class on html
+  instead of OS prefers-color-scheme setting
+*/
+@variant dark (&:where(.dark, .dark *));
+
+/* 
   ==========================================================================
   SEMANTIC DESIGN TOKEN SYSTEM (APPLE / VERCEL / LINEAR CLASS DESIGN)
   ==========================================================================
 */
 @layer base {
   :root,
+  .dark,
   [data-theme='dark'] {
     color-scheme: dark;
     --bg-main: #09090b;
@@ -94,90 +101,4 @@
     font-family: 'Outfit', sans-serif;
     color: var(--text-heading);
   }
-}
-
-/* 
-  ==========================================================================
-  SEMANTIC UTILITIES & GLASS SURFACES
-  ==========================================================================
-*/
-.glass-surface {
-  background: var(--bg-surface);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--border-color);
-  box-shadow: var(--card-shadow);
-  border-radius: 20px;
-  transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.glass-surface:hover {
-  border-color: var(--border-hover);
-}
-
-.glass-card {
-  background-color: var(--bg-card);
-  border: 1px solid var(--border-color);
-  box-shadow: var(--card-shadow);
-  border-radius: 16px;
-  transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
-}
-
-.glass-card:hover {
-  background-color: var(--bg-card-hover);
-  border-color: var(--border-hover);
-}
-
-.glass-input {
-  background-color: var(--bg-input);
-  color: var(--text-primary);
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  outline: none;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.glass-input::placeholder {
-  color: var(--text-muted);
-}
-
-.glass-input:focus {
-  border-color: var(--border-focus);
-  box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.15);
-}
-
-/* Typography scale */
-.text-hero {
-  font-size: clamp(2rem, 4vw + 1rem, 3.5rem);
-  line-height: 1.15;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  color: var(--text-heading);
-}
-
-.text-section {
-  font-size: clamp(1.5rem, 2.5vw + 1rem, 2.25rem);
-  line-height: 1.25;
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  color: var(--text-heading);
-}
-
-/* Custom Scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--border-color);
-  border-radius: 9999px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--text-muted);
 }
