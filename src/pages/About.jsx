@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { HelpCircle, Globe, BookOpen, Scale, ExternalLink } from 'lucide-react';
+import { HelpCircle, Globe, BookOpen, Scale, ExternalLink, Code, Sparkles } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 export default function About() {
@@ -96,6 +96,44 @@ export default function About() {
               Supabase Realtime
             </span>
           </div>
+        </div>
+      </section>
+
+      {/* Developer & HavenGPT AI Project Section */}
+      <section className="glass-surface p-6 rounded-2xl border flex flex-col md:flex-row items-center justify-between gap-6 bg-gradient-to-r from-pink-500/5 via-purple-500/5 to-indigo-500/5">
+        <div className="flex items-center gap-4 text-center md:text-left">
+          <div className="w-12 h-12 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 flex items-center justify-center text-white font-bold text-lg shadow-md flex-shrink-0">
+            👨‍💻
+          </div>
+          <div>
+            <h3 className="text-sm font-extrabold text-[var(--text-heading)] uppercase tracking-wider">DEVELOPER & AI CHATBOT PORTAL</h3>
+            <p className="text-xs text-[var(--text-secondary)] mt-1">
+              Developed by <strong className="text-[var(--text-heading)]">Andrian Baros</strong>. For general AI Chatbot inquiries, visit HavenGPT!
+            </p>
+          </div>
+        </div>
+
+        <div className="flex flex-wrap items-center justify-center gap-3 flex-shrink-0">
+          <a
+            href="https://github.com/andrianbaros"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-4 py-2.5 rounded-full bg-[var(--bg-card)] border border-[var(--border-color)] text-[var(--text-heading)] text-xs font-bold hover:border-pink-500 transition-colors flex items-center gap-2 shadow-xs"
+          >
+            <Code className="w-4 h-4 text-pink-500" />
+            <span>GitHub (@andrianbaros)</span>
+            <ExternalLink className="w-3.5 h-3.5" />
+          </a>
+          <a
+            href="https://havengpt.vercel.app/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-4 py-2.5 rounded-full bg-gradient-to-r from-pink-500 to-purple-600 text-white text-xs font-bold hover:opacity-90 transition-opacity flex items-center gap-2 shadow-sm"
+          >
+            <Sparkles className="w-4 h-4" />
+            <span>HavenGPT Chatbot</span>
+            <ExternalLink className="w-3.5 h-3.5" />
+          </a>
         </div>
       </section>
 
