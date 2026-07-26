@@ -120,8 +120,15 @@ export default function Community() {
     if (!content.trim() || isSubmitting) return;
 
     const name = authorName.trim() || 'Anonymous Bunny';
-    const sanitized = cleanText(content);
 
+    // STRICT PROFANITY CHECK: Block upload if Nickname OR Message contains profanity!
+    if (hasProfanity(name) || hasProfanity(content)) {
+      showToast('error', t('community_profanity_blocked', { defaultValue: 'Post/Comment or Nickname contains toxic language & cannot be sent!' }));
+      setProfanityWarning(true);
+      return;
+    }
+
+    const sanitized = cleanText(content);
     const postPayload = { author: name, memberTag, content: sanitized };
 
     if (isDevNickname(name)) {
@@ -210,8 +217,14 @@ export default function Community() {
     if (!rawComment.trim()) return;
 
     const name = (commentAuthors[postId] || authorName || 'Anonymous Bunny').trim();
-    const sanitized = cleanText(rawComment);
 
+    // STRICT PROFANITY CHECK: Block upload if Nickname OR Comment contains profanity!
+    if (hasProfanity(name) || hasProfanity(rawComment)) {
+      showToast('error', t('community_profanity_blocked', { defaultValue: 'Post/Comment or Nickname contains toxic language & cannot be sent!' }));
+      return;
+    }
+
+    const sanitized = cleanText(rawComment);
     const commentPayload = { postId, author: name, content: sanitized };
 
     if (isDevNickname(name)) {
@@ -389,9 +402,10 @@ export default function Community() {
           <div className="text-center py-10 text-xs font-bold text-slate-600 dark:text-zinc-400 glass-surface rounded-3xl border border-pink-500/25">{t('community_no_posts')}</div>
         ) : (
           posts.map((post) => {
-            const name = post.author_name || post.author || 'Anonymous Bunny';
-            const isDev = isDevNickname(name);
-            const postContent = post.content || '';
+            const rawName = post.author_name || post.author || 'Anonymous Bunny';
+            const name = hasProfanity(rawName) ? cleanText(rawName) : rawName;
+            const isDev = isDevNickname(rawName);
+            const postContent = cleanText(post.content || '');
             const postLikes = post.likes || 0;
             const postDate = post.created_at || post.date || new Date().toISOString();
             const postTag = post.member_tag || 'NewJeans';
@@ -496,20 +510,25 @@ export default function Community() {
 
                     {/* Comments List */}
                     <div className="flex flex-col gap-2 max-h-60 overflow-y-auto pt-1">
-                      {commentsList.map((c) => (
-                        <div
-                          key={c.id}
-                          className="p-3 rounded-2xl bg-slate-100/90 dark:bg-zinc-800/90 border border-pink-500/20 flex flex-col gap-1 text-xs"
-                        >
-                          <div className="flex items-center justify-between font-black text-slate-950 dark:text-white">
-                            <span>{c.author_name || c.author || 'Bunny'}</span>
-                            <span className="text-[10px] text-slate-500 dark:text-zinc-400 font-medium">
-                              {new Date(c.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                            </span>
+                      {commentsList.map((c) => {
+                        const rawCAuthor = c.author_name || c.author || 'Bunny';
+                        const cAuthor = hasProfanity(rawCAuthor) ? cleanText(rawCAuthor) : rawCAuthor;
+                        const cContent = cleanText(c.content || '');
+                        return (
+                          <div
+                            key={c.id}
+                            className="p-3 rounded-2xl bg-slate-100/90 dark:bg-zinc-800/90 border border-pink-500/20 flex flex-col gap-1 text-xs"
+                          >
+                            <div className="flex items-center justify-between font-black text-slate-950 dark:text-white">
+                              <span>{cAuthor}</span>
+                              <span className="text-[10px] text-slate-500 dark:text-zinc-400 font-medium">
+                                {new Date(c.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                              </span>
+                            </div>
+                            <p className="text-slate-800 dark:text-zinc-200 font-bold leading-relaxed">{cContent}</p>
                           </div>
-                          <p className="text-slate-800 dark:text-zinc-200 font-bold leading-relaxed">{c.content}</p>
-                        </div>
-                      ))}
+                        );
+                      })}
                     </div>
                   </div>
                 )}

@@ -3,7 +3,8 @@
 const BAD_WORDS = [
   // Indonesian
   'anjing', 'babi', 'monyet', 'kuntul', 'kontol', 'memek', 'jancok', 'pantek', 'bangsat', 'bajingan',
-  'kampang', 'itil', 'perek', 'goblok', 'tolol', 'bego', 'idiot', 'asu', 'bajingul', 'peler',
+  'kampang', 'itil', 'perek', 'goblok', 'tolol', 'bego', 'idiot', 'asu', 'bajingul', 'peler', 'pepek',
+  'ngentot', 'tetek', 'puki', 'kimak', 'memek', 'kintil', 'colli', 'coli',
   
   // English
   'fuck', 'shit', 'asshole', 'bitch', 'bastard', 'cunt', 'dick', 'pussy', 'whore', 'slut',
@@ -21,14 +22,20 @@ export const cleanText = (text) => {
   let cleaned = text;
 
   BAD_WORDS.forEach((word) => {
-    // Create regex matching whole words case-insensitively
-    const regex = new RegExp(`\\b${escapeRegExp(word)}\\b`, 'gi');
-    cleaned = cleaned.replace(regex, '***');
-    
-    // Also match Asian non-space characters
-    if (isAsianText(word)) {
-      const asianRegex = new RegExp(escapeRegExp(word), 'gi');
+    const cleanWord = word.toLowerCase().trim();
+    if (!cleanWord) return;
+
+    if (isAsianText(cleanWord)) {
+      const asianRegex = new RegExp(escapeRegExp(cleanWord), 'gi');
       cleaned = cleaned.replace(asianRegex, '***');
+    } else {
+      const regex = new RegExp(`\\b${escapeRegExp(cleanWord)}\\b`, 'gi');
+      cleaned = cleaned.replace(regex, '***');
+
+      if (cleanWord.length >= 4) {
+        const subRegex = new RegExp(escapeRegExp(cleanWord), 'gi');
+        cleaned = cleaned.replace(subRegex, '***');
+      }
     }
   });
 
@@ -37,12 +44,23 @@ export const cleanText = (text) => {
 
 export const hasProfanity = (text) => {
   if (!text) return false;
+  const lower = text.toLowerCase().trim();
+  if (!lower) return false;
+
   return BAD_WORDS.some((word) => {
-    if (isAsianText(word)) {
-      return text.includes(word);
+    const cleanWord = word.toLowerCase().trim();
+    if (!cleanWord) return false;
+
+    if (isAsianText(cleanWord)) {
+      return lower.includes(cleanWord);
     }
-    const regex = new RegExp(`\\b${escapeRegExp(word)}\\b`, 'i');
-    return regex.test(text);
+
+    const regex = new RegExp(`\\b${escapeRegExp(cleanWord)}\\b`, 'i');
+    if (regex.test(lower)) return true;
+
+    if (cleanWord.length >= 3 && lower.includes(cleanWord)) return true;
+
+    return false;
   });
 };
 
