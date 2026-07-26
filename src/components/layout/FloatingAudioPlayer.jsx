@@ -40,7 +40,7 @@ export default function FloatingAudioPlayer() {
 
   return (
     <div
-      className={`fixed right-3 sm:right-6 z-50 glass-surface rounded-2xl transition-all duration-300 shadow-lg border border-[var(--border-color)] ${
+      className={`fixed right-3 sm:right-6 z-50 bg-[rgba(255,255,255,0.80)] dark:bg-[rgba(15,10,25,0.80)] backdrop-blur-2xl rounded-2xl transition-all duration-300 shadow-xl border border-pink-500/30 ${
         isMinimized
           ? 'bottom-20 sm:bottom-6 w-[calc(100%-1.5rem)] max-w-[280px] p-3'
           : 'bottom-20 sm:bottom-6 w-[calc(100%-1.5rem)] max-w-sm sm:w-96 p-4 sm:p-5'
